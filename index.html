@@ -1,0 +1,978 @@
+<title>Quantum Path - A Field Guide to Quantum Analysis</title>
+<meta name="description" content="A self-paced field guide to quantum analysis, from your first qubit to the frontier of fault tolerance.">
+
+<style>
+  :root {
+    --bg: #F7F5FC;
+    --bg-raised: #FFFFFF;
+    --bg-sunken: #ECE6FA;
+    --text: #1B1730;
+    --text-soft: #514B78;
+    --border: rgba(27, 23, 48, 0.13);
+    --violet: #5B34B8;
+    --violet-strong: #3E2286;
+    --gold: #B9822A;
+    --gold-bright: #F6C445;
+    --sky: #2373A8;
+    --sky-bright: #4CC9F0;
+    --focus: #1B1730;
+    --shadow-lg: 0 24px 48px -24px rgba(27, 23, 48, 0.32);
+    --shadow-sm: 0 2px 10px -4px rgba(27, 23, 48, 0.22);
+
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #100C33;
+      --bg-raised: #191349;
+      --bg-sunken: #0B0826;
+      --text: #F1EEFB;
+      --text-soft: #B9B2E0;
+      --border: rgba(241, 238, 251, 0.14);
+      --gold: var(--gold-bright);
+      --sky: var(--sky-bright);
+      --focus: #F6C445;
+      --shadow-lg: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+      --shadow-sm: 0 2px 10px -4px rgba(0, 0, 0, 0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #100C33;
+    --bg-raised: #191349;
+    --bg-sunken: #0B0826;
+    --text: #F1EEFB;
+    --text-soft: #B9B2E0;
+    --border: rgba(241, 238, 251, 0.14);
+    --gold: var(--gold-bright);
+    --sky: var(--sky-bright);
+    --focus: #F6C445;
+    --shadow-lg: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+    --shadow-sm: 0 2px 10px -4px rgba(0, 0, 0, 0.5);
+  }
+  :root[data-theme="light"] {
+    --bg: #F7F5FC;
+    --bg-raised: #FFFFFF;
+    --bg-sunken: #ECE6FA;
+    --text: #1B1730;
+    --text-soft: #514B78;
+    --border: rgba(27, 23, 48, 0.13);
+    --gold: #B9822A;
+    --sky: #2373A8;
+    --focus: #1B1730;
+    --shadow-lg: 0 24px 48px -24px rgba(27, 23, 48, 0.32);
+    --shadow-sm: 0 2px 10px -4px rgba(27, 23, 48, 0.22);
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: light dark; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, canvas { max-width: 100%; display: block; }
+
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    background: var(--gold-bright);
+    color: #1B1730;
+    padding: 0.75rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    z-index: 100;
+    border-radius: 0 0 6px 0;
+  }
+  .skip-link:focus { left: 0; }
+
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .wrap {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+
+  h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; }
+
+  /* ---------- Header ---------- */
+  header.site {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.85rem;
+    flex-wrap: wrap;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .brand-mark {
+    width: 1.6rem;
+    height: 1.6rem;
+    flex: none;
+  }
+  nav.levels-nav {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  nav.levels-nav a {
+    font-size: 0.85rem;
+    color: var(--text-soft);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+  nav.levels-nav a:hover { color: var(--text); border-color: var(--border); }
+
+  .progress-pill {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    background: var(--bg-sunken);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    color: var(--text-soft);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.85;
+  }
+  .hero-inner {
+    position: relative;
+    padding-block: clamp(3.5rem, 10vw, 7rem);
+    max-width: 44rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 2rem + 3vw, 4.4rem);
+    line-height: 1.03;
+    font-style: italic;
+    letter-spacing: -0.01em;
+    margin-block: 0.9rem 1.1rem;
+  }
+  .hero p.lede {
+    font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem);
+    color: var(--text-soft);
+    max-width: 38rem;
+  }
+
+  /* ---------- Mission log banner ---------- */
+  .mission-log {
+    background: var(--violet-strong);
+    color: #F4EFFF;
+  }
+  .mission-log .wrap {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem 2rem;
+    align-items: center;
+    padding-block: 1.1rem;
+  }
+  .mission-log .ml-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #D8C7FF;
+    margin-bottom: 0.35rem;
+  }
+  .mission-log .ml-text {
+    font-size: 0.95rem;
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+  .mission-log .ml-text strong { font-variant-numeric: tabular-nums; }
+  .ml-bar-track {
+    width: 100%;
+    max-width: 22rem;
+    height: 6px;
+    background: rgba(255,255,255,0.22);
+    border-radius: 999px;
+    margin-top: 0.55rem;
+    overflow: hidden;
+  }
+  .ml-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--gold-bright);
+    border-radius: 999px;
+    transition: width 0.5s ease;
+  }
+  .ml-resume {
+    background: var(--gold-bright);
+    color: #1B1730;
+    border: none;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.65rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: var(--shadow-sm);
+  }
+  .ml-resume:hover { filter: brightness(1.05); }
+
+  /* ---------- Level sections ---------- */
+  .level {
+    padding-block: clamp(3rem, 7vw, 5rem);
+    border-bottom: 1px solid var(--border);
+  }
+  .level-head {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    margin-bottom: 2.25rem;
+    position: relative;
+    padding-left: 2.1rem;
+  }
+  .level-node {
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    background: var(--bg-sunken);
+    border: 2px solid var(--border);
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .level-node::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 3.4rem;
+    background: var(--border);
+  }
+  .level:last-of-type .level-node::after { display: none; }
+  .level-node.is-active {
+    background: var(--accent, var(--violet));
+    border-color: var(--accent, var(--violet));
+  }
+  .level-copy { max-width: 42rem; }
+  .level-copy h2 { font-size: clamp(1.7rem, 1.4rem + 1.3vw, 2.5rem); margin-bottom: 0.6rem; }
+  .level-copy p { color: var(--text-soft); margin: 0; }
+  .level-progress {
+    margin-top: 0.85rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+    gap: 1.1rem;
+    align-items: start;
+  }
+  .lesson-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .lesson-card h3 { font-family: var(--font-body); font-size: 1.05rem; font-weight: 650; }
+  .lesson-card .teaser { color: var(--text-soft); font-size: 0.92rem; margin: 0; }
+  .lesson-details { margin: 0; }
+  .lesson-details summary {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent, var(--violet));
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.15rem 0;
+  }
+  .lesson-details summary::-webkit-details-marker { display: none; }
+  .lesson-details summary::before {
+    content: "+";
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1;
+  }
+  .lesson-details[open] summary::before { content: "\2212"; }
+  .lesson-details .lesson-body {
+    margin-top: 0.6rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .lesson-details .lesson-body p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text);
+    max-width: 34rem;
+  }
+  .mark-btn {
+    align-self: flex-start;
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: transparent;
+    border: 1px solid var(--accent, var(--violet));
+    color: var(--accent, var(--violet));
+    padding: 0.45rem 0.85rem;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .mark-btn:hover { background: var(--accent, var(--violet)); color: var(--bg-raised); }
+  .mark-btn[aria-pressed="true"] {
+    background: var(--accent, var(--violet));
+    color: var(--bg-raised);
+  }
+  .mark-btn[aria-pressed="true"]::before { content: "\2713  "; }
+
+  #foundations { --accent: var(--sky); }
+  #wavelab { --accent: var(--violet); background: var(--bg-sunken); }
+  #frontier {
+    --accent: var(--gold);
+    background: var(--text);
+    color: var(--bg);
+  }
+  #frontier .level-copy p,
+  #frontier .level-progress,
+  #frontier .eyebrow { color: color-mix(in srgb, var(--bg) 70%, transparent); }
+  #frontier .lesson-card {
+    background: color-mix(in srgb, var(--text) 88%, var(--bg) 12%);
+    border-color: rgba(247,245,251,0.18);
+  }
+  #frontier .lesson-card h3 { color: var(--bg); }
+  #frontier .lesson-card .teaser { color: color-mix(in srgb, var(--bg) 68%, transparent); }
+  #frontier .lesson-details .lesson-body { border-color: rgba(247,245,251,0.22); }
+  #frontier .lesson-details .lesson-body p { color: color-mix(in srgb, var(--bg) 82%, transparent); }
+  #frontier .mark-btn:hover,
+  #frontier .mark-btn[aria-pressed="true"] { color: var(--text); }
+
+  .wave-divider { height: 46px; width: 100%; opacity: 0.75; margin-bottom: 1.75rem; }
+
+  /* ---------- Footer ---------- */
+  footer.site {
+    padding-block: 3rem;
+    border-top: 1px solid var(--border);
+  }
+  footer.site .wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 40rem;
+  }
+  footer.site p { margin: 0; color: var(--text-soft); font-size: 0.88rem; }
+  footer.site .fine {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    opacity: 0.8;
+  }
+
+  @media (max-width: 40rem) {
+    .mission-log .wrap { grid-template-columns: 1fr; }
+    .level-head { padding-left: 1.6rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap nav-row">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <ellipse cx="16" cy="16" rx="14" ry="5.5" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.55"/>
+        <ellipse cx="16" cy="16" rx="14" ry="5.5" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.55" transform="rotate(60 16 16)"/>
+        <ellipse cx="16" cy="16" rx="14" ry="5.5" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.55" transform="rotate(120 16 16)"/>
+        <circle cx="16" cy="16" r="2.6" fill="currentColor"/>
+      </svg>
+      Quantum Path
+    </a>
+    <nav class="levels-nav" aria-label="Levels">
+      <a href="#foundations">Foundations Deck</a>
+      <a href="#wavelab">Wave Lab</a>
+      <a href="#frontier">Frontier Chamber</a>
+    </nav>
+    <span class="progress-pill" id="nav-progress-pill">0 / 18 complete</span>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <canvas class="hero-canvas" id="hero-canvas" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="hero-inner">
+        <p class="eyebrow">A self-paced field guide</p>
+        <h1>Quantum, from zero to frontier.</h1>
+        <p class="lede">No physics degree required to start. Work through three decks, one short lesson at a time - your progress is saved right here, on this device, so you can pick up tomorrow exactly where you stopped today.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mission-log" aria-label="Your progress">
+    <div class="wrap">
+      <div>
+        <p class="ml-label">Mission log</p>
+        <div class="ml-text">
+          <span><strong id="ml-count">0</strong> of 18 lessons complete</span>
+          <span>Day streak: <strong id="ml-streak">1</strong></span>
+        </div>
+        <div class="ml-bar-track" role="progressbar" aria-label="Overall progress" aria-valuemin="0" aria-valuemax="18" aria-valuenow="0" id="ml-bar-track">
+          <div class="ml-bar-fill" id="ml-bar-fill"></div>
+        </div>
+      </div>
+      <button class="ml-resume" id="ml-resume-btn" type="button">Resume Foundations Deck</button>
+    </div>
+  </section>
+
+  <!-- ===================== LEVEL 01 - FOUNDATIONS ===================== -->
+  <section class="level" id="foundations" data-level="foundations" data-accent-name="sky">
+    <div class="wrap">
+      <div class="level-head">
+        <span class="level-node" data-node="foundations"></span>
+        <div class="level-copy">
+          <p class="eyebrow">Level 01 - Foundations Deck</p>
+          <h2>Start here, with zero assumptions.</h2>
+          <p>The vocabulary and intuition you need before anything else makes sense - qubits, superposition, and why the classical bit stops being enough.</p>
+          <p class="level-progress"><span data-level-count="foundations">0</span> / 6 lessons complete</p>
+        </div>
+      </div>
+      <canvas class="wave-divider" data-wave="sky" aria-hidden="true"></canvas>
+      <div class="lesson-grid">
+        <article class="lesson-card" data-id="f1">
+          <h3>What Is a Qubit?</h3>
+          <p class="teaser">The strange two-state object that replaces the classical bit - and why it can be more than one thing at once.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>A classical bit is a switch: it is either 0 or 1, full stop. A qubit is a quantum system, built from things like a trapped ion, a superconducting loop, or a photon, that can be prepared, nudged with operations, and finally measured. Before that final measurement, its state is not simply "0" or "1" - it is described by a combination of both, with each one carrying a certain weight.</p>
+          <p>A useful (if imperfect) picture: a coin spinning in the air is not yet heads or tails - it only becomes one or the other the instant it lands and you look. A qubit works something like that spinning coin. The next few lessons build up exactly what "combination of both" means, and why it is not just a fancy way of saying "we don't know yet."</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="f1" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="f2">
+          <h3>Superposition, Plainly</h3>
+          <p class="teaser">A working mental model for "both at once" that doesn't require a physics degree to hold onto.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Superposition is the precise term for that "combination of both" state. A qubit's state is described by two numbers, called amplitudes, one attached to the possibility of measuring 0 and one attached to measuring 1. Squaring the size of an amplitude gives the probability of seeing that outcome when you finally measure.</p>
+          <p>It's tempting to think superposition just means "the answer is secretly already decided, we just don't know which" - like a coin under a cup. It's genuinely stranger than that: those two amplitudes can reinforce or cancel each other out in ways a hidden, already-decided value never could. That extra behavior, called interference, is what later lessons in the Wave Lab build real algorithms out of.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="f2" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="f3">
+          <h3>Bits vs. Qubits</h3>
+          <p class="teaser">Where classical computing ends and quantum computing begins, laid out side by side.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>A classical bit is deterministic and copyable: read it as many times as you like, it always says the same thing, and you can duplicate it freely. A qubit's measurement outcome is probabilistic, and a qubit generally cannot be copied exactly without disturbing it - a rule physicists call the no-cloning theorem.</p>
+          <p>The bigger difference shows up when you have many of them together. N classical bits are always in exactly one of 2 to the N possible patterns at a time. N qubits can be placed into a state that involves all 2 to the N patterns at once. That richer space is the raw resource quantum algorithms use - though the moment you measure, you still only get N ordinary classical bits back out, which is why designing a good quantum algorithm is really about arranging for the right answer to be the one you're likely to see.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="f3" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="f4">
+          <h3>The Double-Slit Experiment</h3>
+          <p class="teaser">The century-old experiment that first hinted the universe runs on probability, not certainty.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Fire particles, one at a time, at a wall with two open slits, with a screen behind it to record where each one lands. Common sense says each particle goes through one slit or the other, landing in one of two clumps directly behind the slits. That is not what happens: over many particles, a striped interference pattern builds up on the screen, the same kind of pattern you'd get from overlapping water waves.</p>
+          <p>Even stranger: if you add a detector that tells you which slit each particle actually went through, the interference pattern vanishes, and you get the two plain clumps common sense expected. Simply having "which path" information available, even without a human checking it, is enough to destroy the pattern. This 100-year-old result is the clearest hint that quantum objects carry wave-like probability - and that watching too closely changes the outcome, a theme picked up again in the lesson on measurement and collapse.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="f4" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="f5">
+          <h3>Reading the Bloch Sphere</h3>
+          <p class="teaser">A simple picture for where a qubit's state "points" - no trigonometry required yet.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>The Bloch sphere is a globe used to draw a single qubit's state as a point on its surface. The north pole represents the definite state "0," the south pole represents the definite state "1," and every other point on the surface represents some superposition of the two. How close a point sits to a pole tells you the probability of measuring that outcome.</p>
+          <p>There's a second piece of information baked into the picture: how far around the sphere (its longitude, roughly) the point sits, called its phase. Phase doesn't change the measurement probabilities of that qubit on its own, but it is exactly what interference reaches for later - two states with the same probabilities but different phases behave very differently once you start combining qubits. On real hardware, applying a gate to a qubit means physically rotating this point to a new position on the sphere.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="f5" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="f6">
+          <h3>Why Quantum Computers Exist</h3>
+          <p class="teaser">The problems classical computers are structurally bad at - and why that gap matters.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Certain problems get dramatically harder as they grow: simulating how electrons behave in a new battery material, finding the true minimum of a complicated tangled optimization, or factoring a very large number. For problems like these, the resources a classical computer needs can grow so fast that even a modest increase in size makes them practically unsolvable, no matter how much classical hardware you throw at it.</p>
+          <p>Quantum computers exist because superposition, interference, and entanglement (introduced in the next deck) offer a fundamentally different way to represent and process information for exactly this narrow class of problems. It is worth being precise about what that means: a quantum computer is not a faster calculator for everything, including most of what a phone or laptop does every day - it is a specialized tool aimed at the handful of problem types where that different representation pays off, several of which are named and explained in the Frontier Chamber.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="f6" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LEVEL 02 - WAVE LAB ===================== -->
+  <section class="level" id="wavelab" data-level="wavelab" data-accent-name="violet">
+    <div class="wrap">
+      <div class="level-head">
+        <span class="level-node" data-node="wavelab"></span>
+        <div class="level-copy">
+          <p class="eyebrow">Level 02 - Wave Lab</p>
+          <h2>Where qubits start talking to each other.</h2>
+          <p>Gates, entanglement, and interference - the mechanics that turn a handful of qubits into an actual quantum circuit.</p>
+          <p class="level-progress"><span data-level-count="wavelab">0</span> / 6 lessons complete</p>
+        </div>
+      </div>
+      <canvas class="wave-divider" data-wave="violet" aria-hidden="true"></canvas>
+      <div class="lesson-grid">
+        <article class="lesson-card" data-id="w1">
+          <h3>Entanglement and Correlation</h3>
+          <p class="teaser">Two qubits, one shared fate - and why Einstein called it "spooky action at a distance."</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Entanglement is a shared state between two or more qubits where the outcome of measuring one is tied to the outcome of measuring the other, however far apart they are, in a way no classical shared setup can reproduce. A simple but limited analogy: if a pair of gloves is split into two boxes and mailed to opposite sides of the world, opening one box and finding a left glove instantly tells you the other box holds the right one. That much is just ordinary correlation, decided in advance.</p>
+          <p>What makes entanglement different is that the correlations show up even when you measure the qubits in different, freely-chosen ways - and the pattern of results is stronger than any "decided in advance" explanation, classical gloves included, could produce. This is precisely what physicists have tested directly (in what are called Bell tests), which is why Einstein's skeptical nickname for it, "spooky action at a distance," turned out to describe something real rather than a misunderstanding.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="w1" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="w2">
+          <h3>Quantum Gates: X, H, CNOT</h3>
+          <p class="teaser">The small toolkit of operations that every quantum circuit is built from.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>A gate is a small, reversible operation applied to one or more qubits - the quantum equivalent of AND, OR, and NOT in classical circuits, except every quantum gate must be reversible. The X gate is the simplest: it flips a qubit, turning a definite 0 into a definite 1 and back, exactly like a classical NOT.</p>
+          <p>The H gate (Hadamard) is the one that actually makes superposition: fed a definite 0 or 1, it outputs an even, evenly-weighted combination of both, becoming the go-to "start a superposition" move in almost every quantum circuit. CNOT is a two-qubit gate: it flips a target qubit only if a separate control qubit is currently 1. Applying H to one qubit and then CNOT from that qubit to a second is the standard, minimal recipe for creating entanglement - which is exactly the circuit built in the next lesson.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="w2" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="w3">
+          <h3>Interference and Amplitude</h3>
+          <p class="teaser">How quantum algorithms cancel out wrong answers before you ever take a measurement.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Recall from the Foundations Deck that a qubit's amplitudes can be positive or negative (in general, they're complex numbers, but sign is enough to build the intuition). When several paths through a circuit lead to the same final outcome, their amplitudes add together before you square them for a probability - and amplitudes with opposite signs can cancel each other out almost entirely. This cancellation, and its opposite (amplitudes reinforcing each other), is called interference, and it's the same phenomenon behind the double-slit experiment's stripes.</p>
+          <p>This is not a side effect - it is the actual mechanism every quantum algorithm relies on. A well-designed circuit is a carefully choreographed sequence of gates arranged so that the amplitude for every wrong answer interferes destructively toward zero, while the amplitude for the right answer interferes constructively and grows. Measure at the end, and the odds are stacked heavily toward walking away with the right answer.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="w3" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="w4">
+          <h3>Measurement and Collapse</h3>
+          <p class="teaser">What actually happens in the instant you look at a qubit's state.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Measuring a qubit forces it to commit to one definite outcome, 0 or 1, with a probability set by the squared size of its amplitude for that outcome. The instant this happens, the superposition is gone - the qubit is now simply in whichever state it was found in, and all the other amplitude information it was carrying is lost for good. This is called collapse, and unlike almost every other quantum operation, it cannot be undone.</p>
+          <p>This is exactly why interference has to do its work before that one irreversible measurement: once you look, the rich superposition that made the calculation possible is over. It's also why quantum programs are typically run many times - each run gives one probabilistic sample, and you build up confidence in the answer from the statistics across many shots, not from a single measurement.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="w4" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="w5">
+          <h3>Building Your First Circuit</h3>
+          <p class="teaser">Wiring gates together into a small, real, runnable quantum program.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Put the last few lessons together into an actual, if tiny, circuit. Start two qubits at a definite 0. Apply an H gate to the first qubit, putting it into superposition. Then apply a CNOT gate using that first qubit as the control and the second as the target. That's the whole circuit - and it produces what's called a Bell pair, the simplest entangled state there is.</p>
+          <p>Measure both qubits many times and a clear pattern appears in the results: you get "00" about half the time and "11" about half the time - never "01" or "10." Neither qubit's outcome is decided until you measure, but whichever way the first one falls, the second always matches it. In practice, a circuit like this is drawn as a small diagram of gates in order, run on real hardware or a simulator, and the results come back as counts of each outcome across many repetitions - the raw material every quantum algorithm is judged by.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="w5" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="w6">
+          <h3>Quantum Algorithms, an Overview</h3>
+          <p class="teaser">Deutsch-Jozsa and its relatives: the first proofs that quantum could outpace classical.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>The Deutsch-Jozsa algorithm, from 1992, is the historical first proof that a quantum computer could solve a problem with a single query where every classical approach needs many queries in the worst case. The problem it solves is somewhat artificial (deciding whether a hidden function always gives the same output, or gives each output equally often), but that's exactly what makes it valuable as a teaching example: the speed-up comes purely from the interference trick in the previous two lessons, with no extra machinery to distract from it.</p>
+          <p>Deutsch-Jozsa itself doesn't solve a problem anyone urgently needs solved. What it proved mattered: that the superposition-plus-interference toolkit could give a real, provable advantage over classical computing, not just a theoretical curiosity. The Frontier Chamber picks up from here with algorithms aimed at problems people actually care about - factoring numbers and searching data.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="w6" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LEVEL 03 - FRONTIER CHAMBER ===================== -->
+  <section class="level" id="frontier" data-level="frontier" data-accent-name="gold">
+    <div class="wrap">
+      <div class="level-head">
+        <span class="level-node" data-node="frontier"></span>
+        <div class="level-copy">
+          <p class="eyebrow">Level 03 - Frontier Chamber</p>
+          <h2>What the field is actually racing toward.</h2>
+          <p>The named algorithms, the noise problem, and the open questions that separate a lab demo from a useful machine.</p>
+          <p class="level-progress"><span data-level-count="frontier">0</span> / 6 lessons complete</p>
+        </div>
+      </div>
+      <canvas class="wave-divider" data-wave="gold" aria-hidden="true"></canvas>
+      <div class="lesson-grid">
+        <article class="lesson-card" data-id="a1">
+          <h3>Shor's Algorithm</h3>
+          <p class="teaser">The algorithm that threatens modern encryption by factoring large numbers exponentially faster.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Shor's algorithm finds the prime factors of a large number exponentially faster than the best classical methods known today. It works by reframing factoring as a period-finding problem, then using a quantum Fourier transform (a larger-scale version of the interference trick from the Wave Lab) to find that hidden period efficiently, something classical computers are believed to be structurally bad at.</p>
+          <p>This matters well beyond mathematics: much of today's public-key encryption, including the RSA scheme protecting a large share of internet traffic, is secure specifically because factoring large numbers is assumed to be hard for classical computers. A sufficiently large, fault-tolerant quantum computer running Shor's algorithm could in principle break it, which is exactly why "post-quantum cryptography" is already being standardized. Today's real quantum hardware, worth saying plainly, is nowhere near large or reliable enough to threaten real-world encryption keys yet.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="a1" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="a2">
+          <h3>Grover's Search</h3>
+          <p class="teaser">A quadratic speed-up for searching unsorted data - and exactly where that speed-up matters.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Grover's algorithm searches an unsorted list of N items for one that satisfies some checkable condition in roughly the square root of N steps, compared to checking about half the list, N over 2, on average classically. That's called a quadratic speed-up - real and provable, but far more modest than Shor's exponential one.</p>
+          <p>The practical reach of Grover's algorithm follows directly from that gap: it helps most on any problem that can be reframed as "find the input that passes a test," including some cryptographic brute-force search and certain optimization subproblems. Because the speed-up is only quadratic, doubling your problem size only requires roughly 40% more steps rather than doubling them - useful, but nowhere near as disruptive as an exponential speed-up would be.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="a2" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="a3">
+          <h3>Quantum Error Correction</h3>
+          <p class="teaser">Why real qubits are noisy, and the codes that keep information alive anyway.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Real qubits are fragile. Stray heat, electromagnetic noise, and unwanted interactions with their surroundings constantly nudge them, causing errors and a gradual loss of the delicate phase information (from the Bloch sphere lesson) that interference depends on - a process called decoherence. Left unchecked, this noise destroys a computation long before it finishes.</p>
+          <p>Quantum error correction spreads the information of one "logical," protected qubit across many physical qubits, arranged so that errors can be detected and fixed without ever directly measuring, and thereby destroying, the fragile quantum information itself. That constraint, correct errors without looking directly at the data, makes this a fundamentally harder problem than classical error correction, and it's the single biggest reason building a large, reliable ("fault-tolerant") quantum computer remains such a serious engineering challenge.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="a3" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="a4">
+          <h3>Variational Quantum Eigensolvers</h3>
+          <p class="teaser">Hybrid classical-quantum algorithms designed for today's imperfect hardware.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>A Variational Quantum Eigensolver, or VQE, is a hybrid algorithm split across two machines. A modest quantum circuit prepares a trial state, using a set of adjustable parameters, and measures a quantity of interest from it - commonly the energy of a molecule being simulated. A classical computer then reads that measurement, nudges the parameters to try to lower the value, and sends the new parameters back to the quantum circuit, repeating the loop until the value stops improving.</p>
+          <p>This back-and-forth design exists for a practical reason: it's built to squeeze useful results out of today's noisy, error-prone quantum hardware, often called NISQ (noisy intermediate-scale quantum), rather than requiring the large, fully fault-tolerant machine that Shor's algorithm would need and that doesn't exist yet. That's why VQE and algorithms like it, not factoring, are where most real quantum hardware is actually being put to work right now.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="a4" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="a5">
+          <h3>Quantum Supremacy Experiments</h3>
+          <p class="teaser">What Google and others actually claimed to prove in 2019 - and what they didn't.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>In 2019, Google's Sycamore processor ran a specific, deliberately contrived sampling task in a few minutes that the team estimated would take the best classical supercomputer of the time far longer to reproduce - a claim they called quantum supremacy (others have since run related experiments too). As a proof that quantum hardware can, on some task, genuinely outrun classical hardware, it held up.</p>
+          <p>What it did not show is worth being just as clear about: the task itself had no known practical use, chosen specifically because it favored quantum hardware, and later classical algorithm and hardware improvements have narrowed that original gap considerably. Read it for what it was - a scientific milestone proving the underlying physics works at scale - not as a sign that everyday, useful quantum advantage had arrived.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="a5" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+        <article class="lesson-card" data-id="a6">
+          <h3>The Road to Fault Tolerance</h3>
+          <p class="teaser">What has to be true before quantum computers become everyday, dependable tools.</p>
+          <details class="lesson-details">
+            <summary>Read lesson</summary>
+            <div class="lesson-body">
+          <p>Getting from today's noisy machines to dependable, everyday quantum computers means clearing several stacked hurdles at once: many more physical qubits for every protected logical qubit under current error-correction overhead, substantially lower error rates per operation, better connectivity between qubits, and an industry-wide bet on hardware that hasn't settled yet - superconducting circuits, trapped ions, photonics, and neutral atoms are all still genuinely in the running.</p>
+          <p>The honest, unglamorous summary: progress has been steady for two decades and shows no sign of stopping, but it is measured in years, not months. Today's practical value from quantum computing mostly comes from research and hybrid approaches like VQE, run on modest, imperfect hardware - not from fault-tolerant machines running Shor's or Grover's algorithms at meaningful scale. That machine is the actual frontier this deck is named for.</p>
+            </div>
+          </details>
+          <button class="mark-btn" data-id="a6" aria-pressed="false" type="button">Mark complete</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site">
+    <div class="wrap">
+      <p>Quantum Path is a living field guide - lessons will keep growing into deeper explanations, worked examples, and interactive demos over time. Come back tomorrow; it'll remember exactly where you left off.</p>
+      <p class="fine">Built to work with a keyboard and a screen reader. Motion is reduced automatically if your system prefers it. Progress is stored only in this browser, on this device.</p>
+    </div>
+  </footer>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "quantumPath.v1";
+  var LEVELS = [
+    { id: "foundations", label: "Foundations Deck", lessons: ["f1","f2","f3","f4","f5","f6"] },
+    { id: "wavelab", label: "Wave Lab", lessons: ["w1","w2","w3","w4","w5","w6"] },
+    { id: "frontier", label: "Frontier Chamber", lessons: ["a1","a2","a3","a4","a5","a6"] }
+  ];
+  var ALL_LESSON_IDS = LEVELS.reduce(function (acc, l) { return acc.concat(l.lessons); }, []);
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function todayStr() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function loadState() {
+    var raw;
+    try { raw = window.localStorage.getItem(STORAGE_KEY); } catch (e) { raw = null; }
+    var state = raw ? JSON.parse(raw) : { completed: [], lastVisit: null, streak: 0 };
+    var today = todayStr();
+    if (state.lastVisit !== today) {
+      var yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      var yStr = yesterday.getFullYear() + "-" + String(yesterday.getMonth() + 1).padStart(2, "0") + "-" + String(yesterday.getDate()).padStart(2, "0");
+      state.streak = state.lastVisit === yStr ? (state.streak || 0) + 1 : 1;
+      state.lastVisit = today;
+      saveState(state);
+    }
+    return state;
+  }
+
+  function saveState(state) {
+    try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { /* storage unavailable */ }
+  }
+
+  var state = loadState();
+
+  function isComplete(id) { return state.completed.indexOf(id) !== -1; }
+
+  function toggle(id) {
+    var idx = state.completed.indexOf(id);
+    if (idx === -1) { state.completed.push(id); } else { state.completed.splice(idx, 1); }
+    saveState(state);
+    render();
+  }
+
+  function firstIncomplete() {
+    for (var i = 0; i < LEVELS.length; i++) {
+      for (var j = 0; j < LEVELS[i].lessons.length; j++) {
+        var id = LEVELS[i].lessons[j];
+        if (!isComplete(id)) return { level: LEVELS[i], id: id };
+      }
+    }
+    return null;
+  }
+
+  function render() {
+    // per-lesson buttons
+    ALL_LESSON_IDS.forEach(function (id) {
+      var btn = document.querySelector('.mark-btn[data-id="' + id + '"]');
+      if (!btn) return;
+      var done = isComplete(id);
+      btn.setAttribute("aria-pressed", done ? "true" : "false");
+      btn.textContent = done ? "Completed" : "Mark complete";
+    });
+
+    // per-level counts + node state
+    LEVELS.forEach(function (level) {
+      var count = level.lessons.filter(isComplete).length;
+      var counter = document.querySelector('[data-level-count="' + level.id + '"]');
+      if (counter) counter.textContent = String(count);
+      var node = document.querySelector('.level-node[data-node="' + level.id + '"]');
+      if (node) node.classList.toggle("is-active", count > 0);
+    });
+
+    // overall
+    var totalDone = state.completed.length;
+    document.getElementById("ml-count").textContent = String(totalDone);
+    document.getElementById("nav-progress-pill").textContent = totalDone + " / " + ALL_LESSON_IDS.length + " complete";
+    document.getElementById("ml-streak").textContent = String(state.streak || 1);
+    var pct = Math.round((totalDone / ALL_LESSON_IDS.length) * 100);
+    document.getElementById("ml-bar-fill").style.width = pct + "%";
+    document.getElementById("ml-bar-track").setAttribute("aria-valuenow", String(totalDone));
+
+    var next = firstIncomplete();
+    var resumeBtn = document.getElementById("ml-resume-btn");
+    if (next) {
+      resumeBtn.textContent = "Resume " + next.level.label;
+      resumeBtn.onclick = function () {
+        var card = document.querySelector('.lesson-card[data-id="' + next.id + '"]');
+        if (card) card.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+      };
+    } else {
+      resumeBtn.textContent = "All lessons complete";
+      resumeBtn.onclick = function () {
+        document.getElementById("top").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+      };
+    }
+  }
+
+  document.querySelectorAll(".mark-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () { toggle(btn.getAttribute("data-id")); });
+  });
+
+  render();
+
+  /* ---------- Hero canvas: a quiet field of entangled points ---------- */
+  var canvas = document.getElementById("hero-canvas");
+  if (canvas && canvas.getContext) {
+    var ctx = canvas.getContext("2d");
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var points = [];
+    var COLORS = ["rgba(76,201,240,0.55)", "rgba(91,52,184,0.5)", "rgba(246,196,69,0.5)"];
+
+    function resize() {
+      var rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width = rect.width + "px";
+      canvas.style.height = rect.height + "px";
+      var count = Math.max(18, Math.round((rect.width * rect.height) / 26000));
+      points = [];
+      for (var i = 0; i < count; i++) {
+        points.push({
+          x: Math.random() * rect.width,
+          y: Math.random() * rect.height,
+          r: 1.2 + Math.random() * 1.8,
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.15 + Math.random() * 0.25,
+          color: COLORS[i % COLORS.length]
+        });
+      }
+    }
+
+    function frame(t) {
+      var w = canvas.width / dpr, h = canvas.height / dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      var time = reduceMotion ? 0 : (t || 0) / 1000;
+
+      for (var i = 0; i < points.length; i++) {
+        var p = points[i];
+        var py = p.y + Math.sin(time * p.speed + p.phase) * 14;
+        for (var j = i + 1; j < points.length; j++) {
+          var q = points[j];
+          var qy = q.y + Math.sin(time * q.speed + q.phase) * 14;
+          var dx = p.x - q.x, dy = py - qy;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 130) {
+            ctx.strokeStyle = "rgba(120,110,180," + (0.12 * (1 - dist / 130)) + ")";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p.x, py);
+            ctx.lineTo(q.x, qy);
+            ctx.stroke();
+          }
+        }
+      }
+      for (var k = 0; k < points.length; k++) {
+        var pt = points[k];
+        var y2 = pt.y + Math.sin(time * pt.speed + pt.phase) * 14;
+        ctx.beginPath();
+        ctx.fillStyle = pt.color;
+        ctx.arc(pt.x, y2, pt.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      if (!reduceMotion) requestAnimationFrame(frame);
+    }
+
+    resize();
+    frame(0);
+    if (!reduceMotion) requestAnimationFrame(frame);
+    window.addEventListener("resize", resize);
+  }
+
+  /* ---------- Level wave dividers: a single static waveform per deck ---------- */
+  var WAVE_COLORS = {
+    sky: "rgba(35,115,168,0.6)",
+    violet: "rgba(91,52,184,0.55)",
+    gold: "rgba(246,196,69,0.75)"
+  };
+  document.querySelectorAll("canvas[data-wave]").forEach(function (c) {
+    if (!c.getContext) return;
+    var wctx = c.getContext("2d");
+    var wdpr = Math.min(window.devicePixelRatio || 1, 2);
+    function draw() {
+      var rect = c.getBoundingClientRect();
+      c.width = rect.width * wdpr;
+      c.height = rect.height * wdpr;
+      wctx.setTransform(wdpr, 0, 0, wdpr, 0, 0);
+      wctx.clearRect(0, 0, rect.width, rect.height);
+      wctx.strokeStyle = WAVE_COLORS[c.getAttribute("data-wave")] || "rgba(0,0,0,0.4)";
+      wctx.lineWidth = 1.6;
+      wctx.beginPath();
+      var mid = rect.height / 2;
+      for (var x = 0; x <= rect.width; x += 2) {
+        var y = mid + Math.sin(x / 34) * (mid * 0.7) * Math.exp(-Math.abs(x - rect.width / 2) / (rect.width * 0.9));
+        if (x === 0) wctx.moveTo(x, y); else wctx.lineTo(x, y);
+      }
+      wctx.stroke();
+    }
+    draw();
+    window.addEventListener("resize", draw);
+  });
+})();
+</script>
