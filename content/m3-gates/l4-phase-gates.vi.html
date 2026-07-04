@@ -1,0 +1,50 @@
+<p>Cổng Pauli-\(Z\) lật pha của \(|1\rangle\) trọn \(180°\) (nhân nó với \(-1\)). Nhưng ta thường muốn kiểm soát pha <em>tinh</em> hơn. Các <strong>cổng pha</strong> \(S\) và \(T\) làm đúng điều đó: chúng thêm một pha tương đối nhỏ hơn, kiểm soát được, vào thành phần \(|1\rangle\). Chúng là công cụ cho phép ta chạm tới mọi cổng một qubit khả dĩ, không chỉ vài cổng đặc biệt.</p>
+
+<h2>Các ma trận</h2>
+
+\[ S = \begin{pmatrix} 1 & 0 \\ 0 & i \end{pmatrix}, \qquad T = \begin{pmatrix} 1 & 0 \\ 0 & e^{i\pi/4} \end{pmatrix}. \]
+
+<p>Cả hai đều là ma trận chéo, nên chúng giữ nguyên hoàn toàn \(|0\rangle\) và chỉ tác động lên \(|1\rangle\):</p>
+
+\[ S|1\rangle = i\,|1\rangle = e^{i\pi/2}|1\rangle, \qquad T|1\rangle = e^{i\pi/4}|1\rangle. \]
+
+<p>Cổng \(S\) thêm một pha tương đối \(90°\) (vì \(i = e^{i\pi/2}\)); cổng \(T\) thêm \(45°\) (vì \(e^{i\pi/4}\)). Cả hai đều không đổi <em>độ lớn</em> của biên độ nào, nên cả hai đều không đổi xác suất đo trong cơ sở chuẩn - chúng tác động thuần tuý lên pha. Trên mặt cầu Bloch, cả hai là phép quay quanh trục z: \(S\) quay \(90°\), \(T\) quay \(45°\).</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Áp dụng \(S\) lên \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle + |1\rangle)\):</p>
+  \[ S|+\rangle = \begin{pmatrix} 1 & 0 \\ 0 & i \end{pmatrix}\frac{1}{\sqrt2}\begin{pmatrix} 1 \\ 1 \end{pmatrix} = \frac{1}{\sqrt2}\begin{pmatrix} 1 \\ i \end{pmatrix} = \frac{1}{\sqrt2}(|0\rangle + i\,|1\rangle). \]
+  <p>Độ lớn không đổi (vẫn \(\tfrac{1}{\sqrt2}\) mỗi cái, nên đo vẫn 50/50), nhưng thành phần \(|1\rangle\) giờ mang pha \(i\). Trạng thái mới này nằm trên xích đạo mặt cầu Bloch, cách \(|+\rangle\) một phần tư vòng.</p>
+</div>
+
+<h2>Chúng lồng vào nhau</h2>
+
+<p>Hai cổng pha và \(Z\) tạo thành một tháp gọn gàng, mỗi cái là bình phương của cái nhỏ hơn kế tiếp:</p>
+
+\[ T^2 = S, \qquad S^2 = Z, \qquad \text{do đó } \; T^4 = Z. \]
+
+<p>Kiểm tra cái đầu: \(T^2\) nhân \(|1\rangle\) với \((e^{i\pi/4})^2 = e^{i\pi/2} = i\), đúng là \(S\). Kiểm tra cái sau: \(S^2\) nhân \(|1\rangle\) với \(i^2 = -1\), đúng là \(Z\). Mỗi cổng là một bước quay quanh trục z nhỏ hơn: \(T\) là \(45°\), \(S\) là \(90°\), \(Z\) là \(180°\).</p>
+
+<h2>Vì sao các cổng này quan trọng</h2>
+
+<p>Chỉ riêng các cổng Pauli và Hadamard chỉ chạm được tới một tập trạng thái hữu hạn - một khung cứng gồm những điểm đặc biệt. Để xây một cổng một qubit <em>tuỳ ý</em>, bạn cần chỉnh được pha ở bất kỳ góc nào, và \(S\), \(T\) là những viên gạch thực tế để làm việc đó. Cụ thể, tổ hợp của Hadamard và \(T\) có thể xấp xỉ bất kỳ phép quay một qubit nào tới độ chính xác mong muốn (một kết quả gọi là định lý Solovay-Kitaev).</p>
+
+<div class="callout warn">
+  <span class="callout-label">Cổng T đặc biệt (nói thẳng)</span>
+  <p>\(X, Y, Z, H, S\) đều là các cổng <strong>Clifford</strong> - một họ mà, tự thân, có thể mô phỏng hiệu quả bằng máy tính cổ điển và không cho lợi thế lượng tử nào. Cổng \(T\) là <strong>phi-Clifford</strong>. Thêm \(T\) vào các cổng Clifford tạo ra một tập cổng <em>phổ quát</em> (Clifford + T). Sức mạnh thêm vào có giá của nó: trên phần cứng có sửa lỗi thực tế, cổng \(T\) đắt hơn nhiều để thực hiện đáng tin cậy so với cổng Clifford, nên một mục tiêu lớn khi thiết kế mạch là dùng càng ít cổng \(T\) càng tốt.</p>
+</div>
+
+<div class="callout note">
+  <span class="callout-label">Ghi chú</span>
+  <p>\(S\) đôi khi được gọi là "cổng pha" và viết \(P(\pi/2)\); \(T\) là "cổng \(\pi/8\)", tên bắt nguồn từ một dạng tương đương trong đó pha \(e^{i\pi/4}\) được tách đối xứng thành \(e^{\pm i\pi/8}\) trên đường chéo.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>\(S = \bigl(\begin{smallmatrix}1&0\\0&i\end{smallmatrix}\bigr)\) thêm pha tương đối \(90°\) vào \(|1\rangle\); \(T = \bigl(\begin{smallmatrix}1&0\\0&e^{i\pi/4}\end{smallmatrix}\bigr)\) thêm \(45°\).</li>
+    <li>Cả hai giữ nguyên \(|0\rangle\) và chỉ đổi pha, nên xác suất đo không bị ảnh hưởng.</li>
+    <li>Chúng lồng nhau: \(T^2 = S\), \(S^2 = Z\), nên \(T^4 = Z\) - các phép quay quanh trục z nhỏ dần.</li>
+    <li>\(T\) là phi-Clifford; Clifford + T là một tập phổ quát, nhưng \(T\) là cổng tốn kém trên phần cứng thật.</li>
+  </ul>
+</div>

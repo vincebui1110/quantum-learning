@@ -1,0 +1,66 @@
+<p>Ba <strong>cổng Pauli</strong> - đặt theo tên nhà vật lý Wolfgang Pauli - là những cổng một qubit cơ bản nhất. Mọi cổng một qubit khác đều có thể xây từ chúng, và chúng là những "bước đơn vị" tự nhiên trên mặt cầu Bloch. Có ba cổng: \(X\), \(Y\), và \(Z\).</p>
+
+<h2>Ba ma trận</h2>
+
+\[ X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \qquad Y = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \qquad Z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}. \]
+
+<p>Mỗi ma trận đều unita (bạn có thể kiểm tra \(X^{\dagger}X = I\) và tương tự với \(Y,Z\)), nên mỗi cái là một cổng hợp lệ. Hãy xem từng cái làm gì.</p>
+
+<h2>X: lật bit (NOT lượng tử)</h2>
+
+<p>Cổng \(X\) hoán đổi hai biên độ, nên nó tráo \(|0\rangle\) và \(|1\rangle\):</p>
+
+\[ X|0\rangle = |1\rangle, \qquad X|1\rangle = |0\rangle. \]
+
+<p>Đây là phiên bản lượng tử trực tiếp của cổng <code>NOT</code> cổ điển, nên \(X\) thường được gọi luôn là <strong>NOT</strong>. Trên một chồng chập, nó tráo vai trò của hai biên độ: \(X(\alpha|0\rangle + \beta|1\rangle) = \beta|0\rangle + \alpha|1\rangle\).</p>
+
+<h2>Z: lật pha</h2>
+
+<p>Cổng \(Z\) giữ nguyên \(|0\rangle\) nhưng nhân \(|1\rangle\) với \(-1\):</p>
+
+\[ Z|0\rangle = |0\rangle, \qquad Z|1\rangle = -|1\rangle. \]
+
+<p>Điều này không gây ra thay đổi nào thấy được khi đo \(|0\rangle\) hay \(|1\rangle\) thuần, nhưng nó không hề tầm thường: nó lật <em>pha tương đối</em>. Áp dụng lên các trạng thái trên xích đạo, \(Z|+\rangle = |-\rangle\) và \(Z|-\rangle = |+\rangle\). Nơi \(X\) lật bit thì \(Z\) lật pha - một tính đối ngẫu bạn sẽ gặp đi gặp lại.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Áp dụng \(Z\) lên \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle + |1\rangle) = \tfrac{1}{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix}\):</p>
+  \[ Z|+\rangle = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}\frac{1}{\sqrt2}\begin{pmatrix} 1 \\ 1 \end{pmatrix} = \frac{1}{\sqrt2}\begin{pmatrix} 1 \\ -1 \end{pmatrix} = \frac{1}{\sqrt2}(|0\rangle - |1\rangle) = |-\rangle. \]
+  <p>Thống kê đo trong cơ sở chuẩn không đổi (vẫn 50/50), nhưng trạng thái thực sự đã dịch từ \(|+\rangle\) sang \(|-\rangle\). Dấu tương đối là vật lý thật.</p>
+</div>
+
+<h2>Y: cả hai cùng lúc</h2>
+
+<p>Cổng \(Y\) kết hợp lật bit và lật pha. Tính tác động của nó lên các trạng thái cơ sở:</p>
+
+\[ Y|0\rangle = i|1\rangle, \qquad Y|1\rangle = -i|0\rangle. \]
+
+<p>Vậy \(Y\) đưa \(|0\rangle\) thành \(|1\rangle\) (lật bit) nhưng gắn thêm một hệ số \(i\), và đưa \(|1\rangle\) thành \(|0\rangle\) với hệ số \(-i\). Thực ra \(Y = iXZ\): nó là một phép lật và một phép lật pha gộp lại, kèm một hệ số \(i\) chung.</p>
+
+<h2>Mỗi Pauli là nghịch đảo của chính nó</h2>
+
+<p>Một tính chất đáng chú ý: bình phương bất kỳ Pauli nào cũng cho ma trận đơn vị,</p>
+
+\[ X^2 = Y^2 = Z^2 = I. \]
+
+<p>Với \(X\) điều này chỉ nói lật bit hai lần thì khôi phục nó. Với \(Z\), lật pha của \(|1\rangle\) hai lần cho \((-1)^2 = 1\). Về hình học, mỗi Pauli là một <strong>phép quay 180° của mặt cầu Bloch</strong> quanh một trục: \(X\) quanh trục x, \(Y\) quanh trục y, \(Z\) quanh trục z. Quay nửa vòng hai lần là một vòng trọn - trở về điểm xuất phát.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>\(X\) = lật bit (NOT lượng tử). \(Z\) = lật pha. \(Y\) = cả hai gộp lại (sai khác \(i\)). Mỗi cái là một phép quay 180° quanh trục của nó, và mỗi cái tự nghịch đảo: \(X^2 = Y^2 = Z^2 = I\).</p>
+</div>
+
+<div class="callout history">
+  <span class="callout-label">Lịch sử</span>
+  <p>Các ma trận này được Wolfgang Pauli đưa ra năm 1927 để mô tả spin của electron - từ rất lâu trước khi có điện toán lượng tử. Ba ma trận từng mô hình hoá một electron đang quay nay trở thành các cổng cơ bản của máy tính lượng tử.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>\(X = \bigl(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\bigr)\) là phép lật bit: \(X|0\rangle=|1\rangle\), \(X|1\rangle=|0\rangle\) - NOT lượng tử.</li>
+    <li>\(Z = \bigl(\begin{smallmatrix}1&0\\0&-1\end{smallmatrix}\bigr)\) là phép lật pha: \(Z|1\rangle=-|1\rangle\), nên \(Z|+\rangle=|-\rangle\).</li>
+    <li>\(Y = \bigl(\begin{smallmatrix}0&-i\\i&0\end{smallmatrix}\bigr)\) làm cả hai: \(Y|0\rangle=i|1\rangle\), \(Y|1\rangle=-i|0\rangle\).</li>
+    <li>\(X^2 = Y^2 = Z^2 = I\): mỗi Pauli là một phép quay 180° của mặt cầu Bloch và là nghịch đảo của chính nó.</li>
+  </ul>
+</div>

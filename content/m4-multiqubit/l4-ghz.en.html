@@ -1,0 +1,50 @@
+<p>Entanglement is not limited to pairs. With three or more qubits it grows richer and more surprising. This lesson meets the GHZ state - a three-qubit entangled state - looks carefully at what happens when you measure just one qubit of an entangled register, and settles an important honest question: does entanglement let you signal faster than light? (No.)</p>
+
+<h2>The GHZ state</h2>
+
+<p>Named after Greenberger, Horne and Zeilinger, the <strong>GHZ state</strong> of three qubits is</p>
+
+\[ |\mathrm{GHZ}\rangle = \tfrac{1}{\sqrt2}\big(|000\rangle + |111\rangle\big). \]
+
+<p>It is the natural three-qubit cousin of \(|\Phi^+\rangle\): an equal superposition of "all zeros" and "all ones," with nothing in between. You build it by extending the Bell circuit - apply \(H\) to the first qubit, then CNOT from qubit 0 to qubit 1, then CNOT from qubit 0 to qubit 2. Each CNOT copies the control's value into a fresh qubit within the superposition:</p>
+
+\[ |000\rangle \xrightarrow{\,H\,} \tfrac{1}{\sqrt2}(|000\rangle+|100\rangle) \xrightarrow{\,\mathrm{CNOT}_{01}\,} \tfrac{1}{\sqrt2}(|000\rangle+|110\rangle) \xrightarrow{\,\mathrm{CNOT}_{02}\,} \tfrac{1}{\sqrt2}(|000\rangle+|111\rangle). \]
+
+<h2>Measuring one qubit of an entangled register</h2>
+
+<p>Suppose you measure only the first qubit of the GHZ state in the standard basis. Only two terms exist, \(|000\rangle\) and \(|111\rangle\), each with probability \(\left(\tfrac{1}{\sqrt2}\right)^2 = \tfrac12\). Whatever you find, it selects one branch and collapses the entire register:</p>
+
+\[ \text{outcome } 0 \ \Rightarrow\ |000\rangle, \qquad \text{outcome } 1 \ \Rightarrow\ |111\rangle. \]
+
+<div class="example">
+  <span class="example-label">Worked example: a single measurement fixes all three</span>
+  <p>You measure qubit 1 and read <strong>1</strong>. The \(|000\rangle\) branch is now impossible, so the state collapses to \(|111\rangle\). Qubits 2 and 3, which you never touched and which may be far away, are now both certainly \(1\). One local measurement determined all three qubits at once - the signature of genuine multi-qubit entanglement.</p>
+</div>
+
+<p>This is the general lesson about measuring a subsystem: touching one qubit of an entangled state acts on the whole state. The unmeasured qubits are updated to be consistent with what you saw. (For partial entanglement the leftover qubits may themselves be left in a superposition rather than a definite value - but in GHZ, one measurement pins down everything.)</p>
+
+<h2>Entanglement is a resource, not a telephone</h2>
+
+<p>The instant collapse of distant qubits invites a tempting conclusion: surely we can exploit it to communicate faster than light? We cannot, and it is worth being honest about exactly why.</p>
+
+<p>Consider two people, Alice and Bob, each holding one qubit of a shared \(|\Phi^+\rangle\). When Alice measures, <em>her</em> outcome is random - 50/50 - and she has no control over which result she gets. Bob, examining only his own qubit, also sees a perfectly random 50/50 result, and crucially his local statistics are <strong>exactly the same</strong> whether or not Alice has measured. There is no observable change on Bob's side that Alice could induce. The correlation between their results only becomes visible <em>after</em> they meet and compare notes over an ordinary (slower-than-light) classical channel.</p>
+
+<div class="callout warn">
+  <span class="callout-label">No-signalling, honestly stated</span>
+  <p>Entanglement produces correlations that are stronger than anything classical, but it transmits no controllable information on its own. This is the <strong>no-signalling principle</strong>, and it is why quantum mechanics and relativity coexist peacefully. Entanglement is a genuine <em>resource</em> - it powers teleportation, superdense coding, and quantum key distribution - but always in combination with a classical channel, never as a faster-than-light telephone.</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>\(|\mathrm{GHZ}\rangle=\tfrac{1}{\sqrt2}(|000\rangle+|111\rangle)\) extends Bell entanglement to three qubits. Measuring one qubit of an entangled register collapses the whole state, but the local randomness means no information travels faster than light.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>The GHZ state \(\tfrac{1}{\sqrt2}(|000\rangle+|111\rangle)\) is a three-qubit maximally entangled state, built with one \(H\) and two CNOTs.</li>
+    <li>Measuring one qubit of an entangled register collapses the whole state; in GHZ, one outcome fixes all three qubits.</li>
+    <li>Local measurement statistics never depend on what a distant party does - the no-signalling principle.</li>
+    <li>Entanglement is a resource for correlation, not faster-than-light communication.</li>
+  </ul>
+</div>

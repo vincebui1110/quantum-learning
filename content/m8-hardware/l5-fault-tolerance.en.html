@@ -1,0 +1,49 @@
+<p>We have arrived at the frontier. Lesson 3 showed how to protect one logical qubit; lesson 4 showed what noisy machines can do while we wait. This final lesson connects them with the single most important result in the theory of quantum computing - the <strong>threshold theorem</strong> - and then steps back for an honest look at the road from today's NISQ devices to a genuinely <strong>fault-tolerant</strong> machine.</p>
+
+<h2>The threshold theorem</h2>
+
+<p>There is an obvious worry about error correction: the extra qubits, gates, and syndrome measurements it requires are <em>themselves</em> noisy. If correcting errors introduces new errors, might the cure be worse than the disease? The <strong>threshold theorem</strong> answers this, and its answer is what makes large-scale quantum computing possible even in principle.</p>
+
+<div class="callout key">
+  <span class="callout-label">The threshold theorem</span>
+  <p>There exists a critical physical error rate \(p_{\text{th}}\), the <em>threshold</em>. If the physical error rate per operation \(p\) is <strong>below</strong> it, \(p &lt; p_{\text{th}}\), then by adding more physical qubits per logical qubit you can drive the logical error rate as low as you like - enabling <strong>arbitrarily long</strong> reliable computation. If \(p &gt; p_{\text{th}}\), adding more qubits only makes things worse.</p>
+</div>
+
+<p>The theorem describes a phase transition in reliability. Below threshold, growing the surface-code distance \(d\) suppresses the logical error rate roughly as</p>
+
+\[ p_L \;\sim\; \left(\frac{p}{p_{\text{th}}}\right)^{d/2}, \]
+
+<p>so each two-step increase in \(d\) multiplies the reliability, at the cost of more physical qubits. For the surface code the threshold is favourable - in the rough neighbourhood of a percent - which is a large part of why it is the leading candidate. The practical goal of the whole field can now be stated in one line: <em>get the physical error rate comfortably below threshold, then scale.</em></p>
+
+<div class="callout history">
+  <span class="callout-label">A milestone worth stating carefully</span>
+  <p>Recent experiments have demonstrated the below-threshold regime: as researchers increased the code distance on a superconducting processor, the logical error rate <em>fell</em> rather than rose, and a single logical qubit outlived its best constituent physical qubit. This is real evidence that error correction can win as it scales. It is a crucial proof of principle - not a finished fault-tolerant computer.</p>
+</div>
+
+<h2>The gap between NISQ and fault tolerance</h2>
+
+<p>Why isn't the problem simply solved, then? Because a useful fault-tolerant computer needs <em>many</em> logical qubits, each built from many physical qubits, all held below threshold at once, for long enough to finish a computation. The overhead is severe: on the order of hundreds to a thousand physical qubits per high-quality logical qubit. A machine running a large algorithm on, say, a few thousand logical qubits could therefore need on the order of a million physical qubits - far beyond today's largest devices. NISQ, with its handful of noisy uncorrected qubits, and fault tolerance, with its ocean of physical qubits protecting a modest number of logical ones, are separated by orders of magnitude in scale and quality.</p>
+
+<h2>The remaining engineering hurdles</h2>
+
+<p>Closing that gap is an engineering marathon on several fronts at once: pushing physical error rates further below threshold and keeping them there; manufacturing and wiring vastly more qubits without new noise (the classic <em>scaling</em> problem); building fast classical decoders that keep up with syndrome data in real time; and taming the sheer control-and-cooling infrastructure. None of these is known to be impossible, but none is close to solved.</p>
+
+<div class="callout warn">
+  <span class="callout-label">A measured outlook</span>
+  <p>Progress is real and, by any historical measure, fast. But honest sources avoid firm dates. You will hear confident predictions of "useful fault-tolerant machines by year X" from many directions; treat all of them with the same caution the "N" in NISQ taught you. The responsible summary is: the theory is sound, the below-threshold regime has been reached in the lab, and the remaining work is a formidable but not obviously impossible engineering scale-up.</p>
+</div>
+
+<h2>What you can now understand</h2>
+
+<p>End of module - and end of the course. Look back at how far the ideas reach. When you read that a company built a "100-qubit processor," you know those are noisy physical qubits, not logical ones, and you know why that distinction matters. When a headline claims a quantum computer "solved" something, you can ask the right questions: was it a fault-tolerant machine or a NISQ demo, and did it truly beat the best classical method? You understand why decoherence - the loss of the very phase that interference needs - is the enemy, why error correction must be cleverer than copying, and what the threshold theorem promises. The frontier is genuinely open, and you can now read it clearly, without hype and without dismissiveness.</p>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>The threshold theorem: if the physical error rate is below a critical threshold \(p_{\text{th}}\), scaling error correction enables arbitrarily long reliable computation.</li>
+    <li>Below threshold the surface-code logical error rate falls sharply with code distance, \(p_L \sim (p/p_{\text{th}})^{d/2}\); above threshold, more qubits make things worse.</li>
+    <li>The below-threshold regime has been demonstrated experimentally - a real proof of principle, not a finished machine.</li>
+    <li>The NISQ-to-fault-tolerant gap is huge: many logical qubits, each from hundreds-plus physical qubits, could total on the order of a million physical qubits.</li>
+    <li>Remaining hurdles are engineering - scaling, sustaining below-threshold rates, real-time decoding, control infrastructure - so keep a measured, non-hype outlook.</li>
+  </ul>
+</div>

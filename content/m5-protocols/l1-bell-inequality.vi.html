@@ -1,0 +1,67 @@
+<p>Module trước đã dựng các trạng thái rối như cặp Bell \(|\Phi^+\rangle = \tfrac{1}{\sqrt2}(|00\rangle + |11\rangle)\). Rối trông kỳ lạ trên giấy, nhưng một người hoài nghi luôn có thể hỏi: biết đâu hai hạt chỉ đơn giản thoả thuận câu trả lời từ trước, như cặp sinh đôi mặc đồ giống nhau trước khi ra khỏi nhà. Bài này giải thích cách một bất đẳng thức duy nhất, kiểm chứng được - do John Bell đưa ra - loại bỏ câu chuyện đó, và cách thí nghiệm thật đã xác nhận phán quyết của tự nhiên.</p>
+
+<h2>Ý tưởng biến ẩn cục bộ</h2>
+
+<p>Một lý thuyết <strong>biến ẩn cục bộ</strong> (local hidden variable, LHV) nói mọi kết quả đo đều được ấn định trước bởi thông tin chia sẻ \(\lambda\) mà các hạt mang theo. "Cục bộ" nghĩa là một phép đo ở đây không thể tức thời ảnh hưởng đến kết quả ở xa. Đây là thế giới quan theo lẽ thường: tương quan giữa các sự kiện ở xa đến từ một quá khứ chung, không phải liên kết ma quái. Einstein ủng hộ đúng hình dung này.</p>
+
+<p>Thiên tài của Bell là biến sự bất đồng thành <em>định lượng</em>. Nếu LHV đúng, một số tổ hợp tương quan nhất định phải tuân một trần cứng. Cơ học lượng tử tiên đoán một giá trị cao hơn. Vậy ta không cần cãi nhau về triết học - ta có thể đo.</p>
+
+<h2>Trò chơi CHSH</h2>
+
+<p>Phiên bản gọn nhất là trò chơi CHSH (Clauser-Horne-Shimony-Holt). Hai người chơi, Alice và Bob, được đặt cách xa nhau và không thể liên lạc khi trò chơi bắt đầu. Trọng tài gửi Alice một bit ngẫu nhiên \(x \in \{0,1\}\) và Bob một bit ngẫu nhiên \(y \in \{0,1\}\). Mỗi người phải trả lời bằng một bit - Alice trả về \(a\), Bob trả về \(b\). Họ <strong>thắng</strong> ván khi</p>
+
+\[ a \oplus b = x \cdot y, \]
+
+<p>với \(\oplus\) là XOR. Nói lời: họ phải trả lời giống nhau trừ khi cả hai nhận input \(1\), khi đó họ phải khác nhau.</p>
+
+<div class="callout note">
+  <span class="callout-label">Chiến lược được cố định từ trước</span>
+  <p>Alice và Bob có thể thống nhất bất kỳ kế hoạch nào và chia sẻ dữ liệu tuỳ ý từ trước - đó là tài nguyên LHV. Điều họ không được làm là truyền tín hiệu trong ván. Câu hỏi là kế hoạch tốt nhất thắng được bao nhiêu lần.</p>
+</div>
+
+<h3>Trần cổ điển</h3>
+
+<p>Xét bất kỳ chiến lược cổ điển tất định nào. Câu trả lời của mỗi người chỉ phụ thuộc input của chính họ. Ta có thể liệt kê hết mọi chiến lược như vậy; cái tốt nhất thắng nhiều nhất \(3\) trong \(4\) cặp input đồng khả năng, cho xác suất thành công \(75\%\). Ngẫu nhiên chia sẻ chỉ lấy trung bình các chiến lược chứ không bao giờ vượt cái tốt nhất. Biểu diễn dưới dạng tổng tương quan \(S\), đây là <strong>bất đẳng thức CHSH</strong>:</p>
+
+\[ S = \langle A_0 B_0\rangle + \langle A_0 B_1\rangle + \langle A_1 B_0\rangle - \langle A_1 B_1\rangle \le 2. \]
+
+<p>Mọi thế giới biến ẩn cục bộ - dù khôn khéo đến đâu - đều tuân \(|S| \le 2\). Đây không phải phát biểu về sự thiếu hiểu biết của ta; nó là một cận toán học cứng cho lớp lý thuyết đó.</p>
+
+<h2>Giá trị lượng tử: vượt trần</h2>
+
+<p>Giờ trao cho Alice và Bob một cặp Bell chia sẻ. Dựa vào input, mỗi người chọn một trong hai hướng đo để áp lên qubit của mình. Với các góc đo lệch nhau \(45^\circ\), mỗi tương quan có độ lớn bằng \(\tfrac{1}{\sqrt2}\), và bốn số hạng cộng lại thành</p>
+
+\[ S = 4 \cdot \frac{1}{\sqrt2} = 2\sqrt2 \approx 2.828. \]
+
+<p>Đây là <strong>giới hạn Tsirelson</strong> - giá trị lượng tử tối đa, cao hơn khoảng \(41\%\) so với trần cổ điển bằng \(2\). Xác suất thắng tăng lên \(\cos^2(22.5^\circ) \approx 85\%\). Không kịch bản cổ điển thoả thuận trước nào đạt tới đây; cặp rối thực sự làm tốt hơn.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Biến ẩn cục bộ ép \(|S| \le 2\). Rối lượng tử đạt \(2\sqrt2\). Vì hai con số khác nhau, cuộc tranh luận được phân định trong phòng thí nghiệm, không phải trên ghế bành.</p>
+</div>
+
+<div class="example">
+  <span class="example-label">Vì sao 45° đặc biệt</span>
+  <p>Với ba trong bốn cặp input, hai hướng đo lệch nhau \(45^\circ\), cho tương quan \(+\tfrac{1}{\sqrt2}\); với cặp thứ tư (trường hợp \(x=y=1\)) chúng được bố trí sao cho số hạng đóng góp \(+\tfrac{1}{\sqrt2}\) sau dấu trừ. Cộng bốn độ lớn bằng nhau \(\tfrac{1}{\sqrt2}\) ra \(2\sqrt2\). Đẩy góc xa hơn không giúp gì - Tsirelson đã chứng minh \(2\sqrt2\) là cực đại lượng tử tuyệt đối.</p>
+</div>
+
+<h2>Điều thí nghiệm đã xác lập</h2>
+
+<p>Các thí nghiệm của Alain Aspect đầu thập niên 1980 đo được \(S > 2\), nhưng còn "kẽ hở": biết đâu máy dò quá chậm, hoặc thiết lập không thực sự độc lập. Năm <strong>2015</strong>, các nhóm ở Delft, Vienna và tại NIST bịt <em>đồng thời</em> kẽ hở cục bộ và kẽ hở phát hiện - những vi phạm không kẽ hở đầu tiên. Thí nghiệm Delft ghi được \(S \approx 2.42\), an toàn trên \(2\).</p>
+
+<p>Năm <strong>2022</strong>, Aspect, John Clauser và Anton Zeilinger cùng nhận giải Nobel Vật lý cho khối công trình này. Phán quyết nay là sự thật thực nghiệm: không lý thuyết biến ẩn cục bộ nào tái tạo được tự nhiên. Rối là thật, và nó thực sự phi cổ điển.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Một hiểu nhầm phổ biến</span>
+  <p>Vi phạm bất đẳng thức Bell <em>không</em> nghĩa là tín hiệu đi nhanh hơn ánh sáng. Tương quan chỉ hiện ra khi Alice và Bob về sau đối chiếu kết quả qua một kênh cổ điển thông thường. Không thông điệp dùng được nào vượt qua khoảng cách trong lúc đo.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Lý thuyết biến ẩn cục bộ nói kết quả được đặt sẵn bởi dữ liệu chia sẻ, không có ảnh hưởng từ xa.</li>
+    <li>Bất đẳng thức CHSH giới hạn mọi lý thuyết như vậy: \(|S| \le 2\).</li>
+    <li>Một cặp rối đạt giới hạn Tsirelson \(S = 2\sqrt2 \approx 2.828\), vượt ngưỡng cổ điển.</li>
+    <li>Các thí nghiệm không kẽ hở (2015) và giải Nobel 2022 xác nhận rối không thể giải thích theo lối cổ điển.</li>
+  </ul>
+</div>

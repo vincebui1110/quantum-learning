@@ -1,0 +1,67 @@
+<p>The last lesson described Grover as "oracle plus inversion about the mean" and quoted the magic number \(\tfrac{\pi}{4}\sqrt{N}\). This lesson shows <em>why</em> that number is what it is, with a picture that makes the whole algorithm obvious: Grover is a <strong>rotation in a two-dimensional plane</strong>. Once you see it, the iteration count, the over-rotation warning, and the generalization to <strong>amplitude amplification</strong> all fall out for free.</p>
+
+<h2>Everything lives in a 2D plane</h2>
+
+<p>No matter how large \(N\) is, only two directions matter. Let \(|w\rangle = |x^\star\rangle\) be the marked ("winner") state, and let \(|s'\rangle\) be the uniform superposition of all the <em>other</em> \(N-1\) items. These two are orthogonal, and the starting state \(|s\rangle\) is a combination of just them:</p>
+
+\[ |s\rangle = \sqrt{\tfrac{N-1}{N}}\,|s'\rangle + \sqrt{\tfrac{1}{N}}\,|w\rangle. \]
+
+<p>Write \(|s\rangle = \cos\theta\,|s'\rangle + \sin\theta\,|w\rangle\). Comparing terms, the angle \(\theta\) between \(|s\rangle\) and the "non-winner" axis \(|s'\rangle\) satisfies</p>
+
+\[ \sin\theta = \frac{1}{\sqrt{N}}. \]
+
+<p>Because the amplitude of the winner is \(\sin\theta\), measuring succeeds with probability \(\sin^2\theta\). We want to rotate \(|s\rangle\) until it points along \(|w\rangle\), i.e. until the angle from \(|s'\rangle\) reaches \(90^\circ = \pi/2\).</p>
+
+<h2>Two reflections make a rotation</h2>
+
+<p>Now watch what each Grover move does geometrically.</p>
+
+<ul>
+  <li><strong>The oracle</strong> flips the sign of the \(|w\rangle\) component. Geometrically that is a <em>reflection about the \(|s'\rangle\) axis</em> - it mirrors the state across the "non-winner" direction.</li>
+  <li><strong>The diffusion operator</strong> is a <em>reflection about \(|s\rangle\)</em>, the original starting vector.</li>
+</ul>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>Composing two reflections always yields a <strong>rotation</strong>, by twice the angle between the two mirror lines. Here the two mirrors are \(|s'\rangle\) and \(|s\rangle\), separated by \(\theta\). So one Grover iteration rotates the state toward \(|w\rangle\) by exactly \(2\theta\).</p>
+</div>
+
+<p>After \(k\) iterations the state sits at angle \((2k+1)\theta\) from the \(|s'\rangle\) axis. The probability of measuring the winner is</p>
+
+\[ P(k) = \sin^2\!\big((2k+1)\theta\big). \]
+
+<h2>Solving for the optimal number of steps</h2>
+
+<p>We want \((2k+1)\theta \approx \tfrac{\pi}{2}\), so the state lands on \(|w\rangle\). Solving,</p>
+
+\[ k \approx \frac{\pi}{4\theta} - \frac{1}{2}. \]
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Take \(N = 16\), one marked item. Then \(\sin\theta = 1/\sqrt{16} = 1/4\), so \(\theta = \arcsin(0.25) \approx 14.48^\circ \approx 0.2527\) rad. The optimal count is</p>
+  \[ k \approx \frac{\pi}{4(0.2527)} - \frac12 \approx 3.107 - 0.5 \approx 2.6 \;\Rightarrow\; k = 3. \]
+  <p>Check: after \(k=3\), the angle is \((2\cdot 3+1)\theta = 7\theta \approx 101.4^\circ\), giving \(P = \sin^2(101.4^\circ)\approx 0.96\). Three iterations find the item with \(96\%\) probability - versus checking up to \(16\) items classically. For large \(N\), \(\theta\approx 1/\sqrt N\), so \(k\approx \tfrac{\pi}{4}\sqrt N\), recovering the earlier formula.</p>
+</div>
+
+<div class="callout warn">
+  <span class="callout-label">Over-rotation, geometrically</span>
+  <p>The picture makes the "stop on time" rule obvious. If you keep applying iterations past \(k\), you rotate <em>past</em> \(|w\rangle\); the angle exceeds \(\pi/2\) and \(\sin^2\) starts decreasing. The state simply keeps spinning around the circle. There is no "settling" - only a periodic sweep past the target.</p>
+</div>
+
+<h2>From search to amplitude amplification</h2>
+
+<p>Nothing above used the fact that \(|s\rangle\) came from Hadamards. The argument works for <em>any</em> procedure \(A\) that prepares a state with some "good" component. Replace the uniform-superposition reflection by a reflection about \(A|0\rangle\), and the oracle by a reflection marking the good subspace. If the good outcome has amplitude \(a\) (so success probability \(a^2\)), then the same two-reflections-make-a-rotation argument amplifies it to near-certainty in about</p>
+
+\[ O\!\left(\frac{1}{a}\right) = O\!\left(\frac{1}{\sqrt{\text{success probability}}}\right) \]
+
+<p>repetitions. This generalization is <strong>amplitude amplification</strong>: a quadratic reduction in the number of times you must run a probabilistic subroutine. Grover's search is just the special case where \(A = H^{\otimes n}\) and \(a = 1/\sqrt N\). It is one of the most reused primitives in quantum algorithms.</p>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Grover lives in the 2D plane spanned by the winner \(|w\rangle\) and the rest \(|s'\rangle\); the start angle obeys \(\sin\theta = 1/\sqrt N\).</li>
+    <li>Oracle = reflection about \(|s'\rangle\); diffusion = reflection about \(|s\rangle\). Two reflections = a rotation by \(2\theta\) per iteration.</li>
+    <li>Success probability after \(k\) steps is \(\sin^2((2k+1)\theta)\), maximized at \(k \approx \tfrac{\pi}{4\theta}-\tfrac12 \approx \tfrac{\pi}{4}\sqrt N\).</li>
+    <li>Generalizing to any state-prep \(A\) gives amplitude amplification: a quadratic speed-up for boosting any success probability \(a^2\), using \(O(1/a)\) rounds.</li>
+  </ul>
+</div>

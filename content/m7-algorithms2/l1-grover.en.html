@@ -1,0 +1,63 @@
+<p>Suppose you have an unsorted phone book with \(N\) entries and you want the one name matching a given phone number. Classically there is no shortcut: you check entries one by one, and on average you look at about \(N/2\) of them before you find it - and \(N\) in the worst case. <strong>Grover's algorithm</strong> (Lov Grover, 1996) does this on a quantum computer in only about \(\sqrt{N}\) steps. That is a genuine speed-up, but a modest one - <em>quadratic</em>, not exponential. Getting that distinction right is the whole point of this lesson.</p>
+
+<h2>The unstructured search problem</h2>
+
+<p>We are given a function - an <strong>oracle</strong> - \(f(x)\) that returns \(1\) for exactly one special input \(x^\star\) (the "marked" item) and \(0\) for all others. We know nothing else about \(f\): there is no order to exploit, no gradient to follow. The only thing we can do is ask the oracle about inputs. Classically, distinguishing the marked item requires on the order of \(N\) queries. Grover's promise is to find \(x^\star\) with high probability using roughly \(\sqrt{N}\) oracle queries.</p>
+
+<div class="callout note">
+  <span class="callout-label">Setup</span>
+  <p>With \(n\) qubits we index \(N = 2^n\) items by the computational-basis states \(|0\rangle, |1\rangle, \dots, |N-1\rangle\). The goal is to end up measuring \(|x^\star\rangle\).</p>
+</div>
+
+<h2>Step 1: start in a uniform superposition</h2>
+
+<p>Apply a Hadamard to each of the \(n\) qubits, \(H^{\otimes n}\), turning \(|0\rangle^{\otimes n}\) into an equal blend of <em>every</em> item:</p>
+
+\[ |s\rangle = H^{\otimes n}|0\rangle^{\otimes n} = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} |x\rangle. \]
+
+<p>Every item now has amplitude \(1/\sqrt{N}\), so measuring right now would give the marked item with probability only \(1/N\) - no better than a random guess. The algorithm's job is to grow the marked amplitude before we measure.</p>
+
+<h2>Step 2: repeat oracle + diffusion</h2>
+
+<p>Each <strong>Grover iteration</strong> is two moves. First the <strong>oracle</strong> flips the <em>sign</em> of the marked item's amplitude, leaving everything else alone:</p>
+
+\[ |x\rangle \;\longmapsto\; (-1)^{f(x)}\,|x\rangle, \qquad \text{so } |x^\star\rangle \to -|x^\star\rangle. \]
+
+<p>This "phase kickback" does not change any measurement probability by itself - all magnitudes are unchanged. But it plants a marker that the second move exploits. That second move is the <strong>diffusion operator</strong>, also called <em>inversion about the mean</em>: compute the average \(\bar a\) of all amplitudes, and reflect each amplitude \(a\) to \(2\bar a - a\).</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>The oracle pushes the marked amplitude below the average (it made it negative). Reflecting about the mean then sends that below-average value <em>far above</em> the average, while the many other amplitudes shrink slightly. Each iteration nudges probability toward the target.</p>
+</div>
+
+<h2>How many iterations? Where the \(\sqrt{N}\) appears</h2>
+
+<p>Here is the crucial fact: each iteration increases the marked amplitude by an almost constant amount, roughly \(2/\sqrt{N}\) per step, until it approaches \(1\). Starting from \(1/\sqrt{N}\) and needing to reach about \(1\), the number of steps needed is on the order of \(\sqrt{N}\). The precise optimal count is</p>
+
+\[ k \approx \frac{\pi}{4}\sqrt{N}. \]
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Search a database of \(N = 10^6\) items. A classical search checks about \(500{,}000\) entries on average. Grover needs</p>
+  \[ k \approx \frac{\pi}{4}\sqrt{10^6} = \frac{\pi}{4}\cdot 1000 \approx 785 \text{ iterations}. \]
+  <p>From half a million checks down to under a thousand: dramatic, but note \(785 \approx \sqrt{N}\), not \(\log N\). Squaring the speed, not exponentiating it.</p>
+</div>
+
+<h2>Why you must stop on time</h2>
+
+<p>Grover is <em>not</em> a process that keeps improving. Each iteration rotates the state by a fixed angle (the geometry of the next lesson). Once you pass \(k \approx \tfrac{\pi}{4}\sqrt{N}\), you <strong>over-rotate</strong>: you sail past the target and the success probability falls back down, eventually approaching zero again before rising once more. This makes Grover unusual - running the algorithm <em>longer</em> can make it <em>worse</em>. You must know \(N\) well enough to stop near the optimum.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Common misconception</span>
+  <p>Grover does not "check all items simultaneously and return the answer." The superposition alone gives probability \(1/N\). The work is done by amplitude amplification across \(\sqrt{N}\) careful iterations - interference, not free parallelism.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Grover finds a marked item in an unstructured set of \(N\) using \(\sim(\pi/4)\sqrt{N}\) oracle queries.</li>
+    <li>That is a <strong>quadratic</strong> speed-up over the \(\sim N\) classical queries - not exponential.</li>
+    <li>Start with \(H^{\otimes n}\) for a uniform superposition, then repeat: oracle (sign flip on the target) + diffusion (inversion about the mean).</li>
+    <li>You must stop near the optimal iteration count; running too long over-rotates and lowers the success probability.</li>
+  </ul>
+</div>

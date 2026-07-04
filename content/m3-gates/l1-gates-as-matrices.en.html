@@ -1,0 +1,63 @@
+<p>In the last module a qubit's state was a static object - a vector \(|\psi\rangle = \alpha|0\rangle + \beta|1\rangle\). This module is about <em>doing things</em> to that state. Every operation you can perform on a single qubit (short of measuring it) is a <strong>gate</strong>, and every gate is a particular kind of matrix. This lesson pins down exactly which matrices are allowed and how they act.</p>
+
+<h2>A gate is a 2×2 matrix</h2>
+
+<p>A single qubit's state is a two-component column vector, so anything that transforms it into a new state is a \(2\times 2\) matrix \(U\). Applying the gate is nothing more exotic than a <strong>matrix times a vector</strong>:</p>
+
+\[ U|\psi\rangle = \begin{pmatrix} u_{00} & u_{01} \\ u_{10} & u_{11} \end{pmatrix} \begin{pmatrix} \alpha \\ \beta \end{pmatrix} = \begin{pmatrix} u_{00}\alpha + u_{01}\beta \\ u_{10}\alpha + u_{11}\beta \end{pmatrix}. \]
+
+<p>The output is a new pair of amplitudes - a new state of the same qubit. That is the whole mechanism. The interesting question is: which matrices are physically legal?</p>
+
+<h2>The rule: gates must be unitary</h2>
+
+<p>Not every matrix is allowed. A valid gate must be <strong>unitary</strong>, meaning it satisfies</p>
+
+\[ U^{\dagger} U = I, \]
+
+<p>where \(U^{\dagger}\) is the <strong>conjugate transpose</strong> (transpose the matrix, then take the complex conjugate of every entry) and \(I\) is the identity. Unitarity is the quantum analogue of "rigid motion": it is exactly the condition that keeps the state normalized.</p>
+
+<div class="callout key">
+  <span class="callout-label">Why unitary?</span>
+  <p>A legal state has total probability \(|\alpha|^2 + |\beta|^2 = 1\). A gate must send legal states to legal states, so it must preserve that length. The length-preserving linear maps are precisely the unitary ones - so "gate" and "unitary matrix" mean the same thing.</p>
+</div>
+
+<h2>Unitarity buys you reversibility</h2>
+
+<p>Because \(U^{\dagger}U = I\), the matrix \(U^{\dagger}\) is a genuine inverse of \(U\). So if a gate \(U\) takes \(|\psi\rangle\) to \(U|\psi\rangle\), applying \(U^{\dagger}\) afterwards recovers the original exactly:</p>
+
+\[ U^{\dagger}\big(U|\psi\rangle\big) = (U^{\dagger}U)|\psi\rangle = I|\psi\rangle = |\psi\rangle. \]
+
+<p>Every quantum gate is therefore <strong>reversible</strong> - no information is ever lost during gate operations. This is a sharp contrast with measurement, which collapses a state irreversibly, and with classical gates like AND, which throw information away. It is also the reason quantum circuits are always built from invertible steps.</p>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Take the gate \(U = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\) (this is the <code>X</code> gate, coming next lesson). First, is it unitary? Its conjugate transpose is itself, and</p>
+  \[ U^{\dagger}U = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I. \ \checkmark \]
+  <p>Now apply it to \(|0\rangle = \begin{pmatrix}1\\0\end{pmatrix}\):</p>
+  \[ U|0\rangle = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 1 \end{pmatrix} = |1\rangle. \]
+  <p>The gate turned \(|0\rangle\) into \(|1\rangle\). Notice the output is still normalized - unitarity guaranteed that in advance.</p>
+</div>
+
+<h2>Drawing it: the circuit wire</h2>
+
+<p>Quantum algorithms are drawn as <strong>circuits</strong>. A single qubit is a horizontal <em>wire</em> read left to right, standing for the flow of time. A gate is a box sitting on the wire:</p>
+
+<p style="text-align:center;font-family:monospace">|ψ⟩ &nbsp;──────[ U ]──────&nbsp; U|ψ⟩</p>
+
+<p>The state enters on the left, the gate acts, and the transformed state leaves on the right. When several boxes sit on one wire, the qubit passes through them in order - the subject of the last lesson in this module. For now the key picture is simple: a wire is a qubit over time, and a box is a unitary matrix doing its single job.</p>
+
+<div class="callout note">
+  <span class="callout-label">Note</span>
+  <p>"Unitary" for complex matrices plays the role that "orthogonal" plays for real ones: both preserve length. The dagger \(\dagger\) (conjugate transpose) is the complex version of the plain transpose used for real rotation matrices.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>A single-qubit gate is a \(2\times 2\) matrix \(U\); applying it is the matrix-vector product \(U|\psi\rangle\).</li>
+    <li>Gates must be <strong>unitary</strong>: \(U^{\dagger}U = I\), where \(U^{\dagger}\) is the conjugate transpose.</li>
+    <li>Unitarity preserves normalization, so legal states map to legal states.</li>
+    <li>Unitarity also makes every gate <strong>reversible</strong>, with inverse \(U^{\dagger}\) - unlike measurement, gates never lose information.</li>
+    <li>In a circuit, a qubit is a wire read left to right and a gate is a box on that wire.</li>
+  </ul>
+</div>

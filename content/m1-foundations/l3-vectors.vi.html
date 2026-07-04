@@ -1,0 +1,70 @@
+<p>Một trạng thái lượng tử là một <strong>vector</strong>. Để làm việc với trạng thái, bạn cần vector cột, ký hiệu Dirac mà các nhà vật lý dùng để viết chúng, và một phép toán - tích trong (inner product) - đo mức độ chồng lấn giữa hai trạng thái. Bài này ráp bộ công cụ đó và nối thẳng nó vào \(|0\rangle\) và \(|1\rangle\).</p>
+
+<h2>Vector cột và ký hiệu ket</h2>
+
+<p>Với một qubit, trạng thái sống trong không gian phức hai chiều \(\mathbb{C}^2\). Ta viết trạng thái dưới dạng vector cột, và ký hiệu <strong>ket</strong> \(|\psi\rangle\) của Dirac chỉ là một tên gọi cho một cột như vậy:</p>
+
+\[ |\psi\rangle = \begin{pmatrix} \alpha \\ \beta \end{pmatrix} = \alpha\,|0\rangle + \beta\,|1\rangle, \qquad |0\rangle = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \quad |1\rangle = \begin{pmatrix} 0 \\ 1 \end{pmatrix}. \]
+
+<p>Các phần tử \(\alpha,\beta\) là số phức. Đọc ket là "một vector cột có nhãn" là đủ: \(|0\rangle\) và \(|1\rangle\) là hai cột cụ thể, và mọi trạng thái là tổ hợp của chúng.</p>
+
+<h2>Bra: biến một cột thành một hàng</h2>
+
+<p>Với mỗi ket \(|\psi\rangle\) ta gắn một <strong>bra</strong> \(\langle\psi|\), lấy bằng cách <em>chuyển vị liên hợp</em> (còn gọi là dagger, \(\dagger\)): đặt cột nằm ngang thành hàng, rồi liên hợp phức từng phần tử.</p>
+
+\[ |\psi\rangle = \begin{pmatrix} \alpha \\ \beta \end{pmatrix} \quad\Longrightarrow\quad \langle\psi| = \begin{pmatrix} \alpha^* & \beta^* \end{pmatrix}. \]
+
+<p>Việc liên hợp không phải trang trí tuỳ chọn - chính nó làm cho độ dài ra số thực và không âm, như ta sắp thấy.</p>
+
+<div class="callout note">
+  <span class="callout-label">Vì sao "bra" và "ket"</span>
+  <p>Dirac cắt đôi chữ "bracket" (dấu ngoặc). Một bra \(\langle\phi|\) và một ket \(|\psi\rangle\) đặt cạnh nhau khép lại thành một ngoặc \(\langle\phi|\psi\rangle\) - chính là tích trong. Ký hiệu được thiết kế để các mảnh khớp vào nhau theo nghĩa đen.</p>
+</div>
+
+<h2>Tích trong</h2>
+
+<p><strong>Tích trong</strong> của \(|\phi\rangle\) và \(|\psi\rangle\) là tích bra-ket \(\langle\phi|\psi\rangle\): nhân hàng với cột theo cách nhân ma trận thông thường. Với \(|\phi\rangle = \begin{pmatrix}\gamma\\\delta\end{pmatrix}\) và \(|\psi\rangle = \begin{pmatrix}\alpha\\\beta\end{pmatrix}\),</p>
+
+\[ \langle\phi|\psi\rangle = \begin{pmatrix}\gamma^* & \delta^*\end{pmatrix}\begin{pmatrix}\alpha\\\beta\end{pmatrix} = \gamma^*\alpha + \delta^*\beta. \]
+
+<p>Kết quả là một số phức đơn đo mức chồng lấn giữa hai trạng thái. Đặt \(|\phi\rangle = |\psi\rangle\) cho ta bình phương độ dài của chính trạng thái đó:</p>
+
+\[ \langle\psi|\psi\rangle = \alpha^*\alpha + \beta^*\beta = |\alpha|^2 + |\beta|^2, \]
+
+<p>một số thực và không âm với mọi trạng thái - thành quả của việc liên hợp trong bra.</p>
+
+<h2>Cơ sở trực chuẩn và chuẩn hoá</h2>
+
+<p>Các trạng thái \(|0\rangle\) và \(|1\rangle\) thoả hai hệ thức gọn:</p>
+
+\[ \langle 0|0\rangle = 1, \quad \langle 1|1\rangle = 1, \quad \langle 0|1\rangle = 0. \]
+
+<p>Mỗi cái có độ dài đơn vị (<em>chuẩn hoá</em>) và chúng vuông góc nhau (<em>trực giao</em>). Một tập có cả hai tính chất là một <strong>cơ sở trực chuẩn</strong> (orthonormal basis) - tương tự lượng tử của các trục toạ độ vuông góc, độ dài bằng một. Mọi trạng thái qubit là tổ hợp của cơ sở này, và các biên độ chính là toạ độ.</p>
+
+<p>Một trạng thái vật lý phải có <strong>chuẩn đơn vị</strong>:</p>
+
+\[ \|\psi\| = \sqrt{\langle\psi|\psi\rangle} = 1 \quad\Longleftrightarrow\quad |\alpha|^2 + |\beta|^2 = 1. \]
+
+<p>Đây đúng là quy tắc chuẩn hoá từ Module 2, nay được suy ra từ tích trong. Nó nói tổng xác suất trên mọi kết quả bằng một.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Lấy \(|\psi\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle + |1\rangle\big) = \tfrac{1}{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix}\). Bra của nó là \(\langle\psi| = \tfrac{1}{\sqrt2}\begin{pmatrix}1 & 1\end{pmatrix}\). Khi đó</p>
+  \[ \langle\psi|\psi\rangle = \tfrac{1}{\sqrt2}\cdot\tfrac{1}{\sqrt2}\,(1\cdot 1 + 1\cdot 1) = \tfrac12(2) = 1, \]
+  <p>nên \(\|\psi\| = 1\): trạng thái đã chuẩn hoá. Độ chồng lấn của nó với \(|0\rangle\) là \(\langle 0|\psi\rangle = \tfrac{1}{\sqrt2}(1\cdot 1 + 0\cdot 1) = \tfrac{1}{\sqrt2}\), mà bình phương độ lớn \(\tfrac12\) chính là xác suất đo được \(0\).</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Một trạng thái qubit là một vector cột đơn vị \(|\psi\rangle\); bra \(\langle\psi|\) của nó là chuyển vị liên hợp; tích trong \(\langle\phi|\psi\rangle\) đo độ chồng lấn. \(|0\rangle,|1\rangle\) tạo thành cơ sở trực chuẩn, và chuẩn hoá chỉ là \(\langle\psi|\psi\rangle = 1\).</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Một ket \(|\psi\rangle\) là một vector cột; \(|0\rangle,|1\rangle\) là hai cột cơ sở.</li>
+    <li>Bra \(\langle\psi|\) là chuyển vị liên hợp (hàng, các phần tử được liên hợp).</li>
+    <li>Tích trong \(\langle\phi|\psi\rangle = \gamma^*\alpha + \delta^*\beta\) là một số phức đo độ chồng lấn.</li>
+    <li>\(|0\rangle,|1\rangle\) trực chuẩn, và chuẩn hoá \(\langle\psi|\psi\rangle = |\alpha|^2+|\beta|^2 = 1\) là điều kiện chuẩn đơn vị.</li>
+  </ul>
+</div>

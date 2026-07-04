@@ -1,0 +1,59 @@
+<p>Mọi module trước đều coi qubit là một đối tượng toán học sạch sẽ: một vector \(\alpha|0\rangle + \beta|1\rangle\) mà ta xoay và đo tuỳ ý. Module này hạ xuống mặt đất. Một qubit phải được dựng từ vật chất thật, và vật chất thì cứng đầu. Bài này điểm qua bốn cách hàng đầu để chế tạo qubit vật lý ngày nay, cách mỗi loại mã hoá \(|0\rangle\) và \(|1\rangle\), cùng những đánh đổi trung thực giữa chúng. Chưa có người thắng - đó chính là điểm mấu chốt.</p>
+
+<h2>Mọi qubit vật lý cần gì</h2>
+
+<p>Dù công nghệ nào, một qubit dùng được phải cung cấp cùng bốn thứ: hai trạng thái lượng tử sạch, có thể địa chỉ hoá để làm \(|0\rangle\) và \(|1\rangle\); một cách chuẩn bị, xoay và làm rối các trạng thái đó (cổng); một cách đọc trạng thái ra; và đủ cách ly khỏi môi trường để chồng chập mong manh sống đủ lâu mà tính toán. Hãy ghi nhớ bốn yêu cầu này - mỗi nền tảng dưới đây thoả chúng theo cách khác nhau, và mỗi cái trả một cái giá khác nhau.</p>
+
+<h2>Transmon siêu dẫn</h2>
+
+<p>Cách trưởng thành về công nghiệp nhất - dùng bởi Google và IBM - làm lạnh một mạch siêu dẫn nhỏ xuống gần độ không tuyệt đối (khoảng 15 mili-kelvin). Ở nhiệt độ đó mạch hành xử như một nguyên tử nhân tạo: một <strong>dao động phi điều hoà</strong> có các mức năng lượng cách nhau không đều. Hai mức thấp nhất trở thành \(|0\rangle\) và \(|1\rangle\); khoảng cách không đều cho phép xung vi sóng tác động đúng chuyển tiếp đáy mà không vô tình trèo lên cao hơn.</p>
+
+<div class="callout note">
+  <span class="callout-label">Vì sao "phi điều hoà" lại quan trọng</span>
+  <p>Một dao động điều hoà hoàn hảo có các mức cách đều nhau, nên bất kỳ xung nào lái \(|0\rangle\to|1\rangle\) cũng lái \(|1\rangle\to|2\rangle\) như nhau - bạn không bao giờ giữ được qubit trong hai mức. Độ phi điều hoà nhẹ của transmon chính là thứ khiến nó thành một qubit dùng được.</p>
+</div>
+
+<p><strong>Ưu:</strong> cổng cực nhanh (vài chục nano-giây), dựng bằng kỹ thuật chế tạo chip quen thuộc, và số qubit đã trình diễn trên một bộ xử lý là nhiều nhất tới nay. <strong>Nhược:</strong> kết hợp ngắn (giỏi lắm cỡ một mili-giây hiện nay), cần tủ lạnh pha loãng khắt khe, và kết nối hạn chế - một qubit thường chỉ nói chuyện với hàng xóm gần trên chip.</p>
+
+<h2>Ion bẫy</h2>
+
+<p>Ở đây qubit là một nguyên tử mang điện đơn lẻ (như ytterbium hay calcium) treo lơ lửng trong chân không bằng trường điện từ. \(|0\rangle\) và \(|1\rangle\) là hai mức năng lượng electron nội của ion, điều khiển bằng xung laser hoặc vi sóng.</p>
+
+<p><strong>Ưu:</strong> mọi ion đều giống hệt nhau (tự nhiên sản xuất chúng), thời gian kết hợp rất dài (hàng giây, đôi khi lâu hơn nhiều), và bất kỳ ion nào trong bẫy cũng tương tác được với bất kỳ ion nào khác - <em>kết nối toàn phần</em>, điều mà nhiều thuật toán rất thích. <strong>Nhược:</strong> cổng chậm hơn nhiều so với siêu dẫn, và mở rộng tới số ion rất lớn trong một bẫy là khó, đẩy thiết kế theo hướng mạng lưới các bẫy nhỏ hơn.</p>
+
+<h2>Nguyên tử trung hoà</h2>
+
+<p>Anh em họ của bẫy ion: nguyên tử trung hoà được giữ trong một lưới các <em>nhíp quang</em> (chùm laser hội tụ chặt). \(|0\rangle\) và \(|1\rangle\) lại là các trạng thái nguyên tử, và cổng hai qubit được bật lên bằng cách kích nguyên tử lên các trạng thái <strong>Rydberg</strong> lớn, tương tác mạnh. <strong>Ưu:</strong> hàng trăm nguyên tử xếp trong các mẫu 2D và 3D linh hoạt, kết hợp dài, và kết nối có thể tái cấu hình. <strong>Nhược:</strong> công nghệ non trẻ hơn, với độ trung thực cổng và đọc kết quả còn đang hoàn thiện.</p>
+
+<h2>Photonics (quang tử)</h2>
+
+<p>Qubit quang tử mã hoá thông tin trong các hạt ánh sáng đơn lẻ - ví dụ trong <strong>sự phân cực</strong> của photon (ngang = \(|0\rangle\), dọc = \(|1\rangle\)) hoặc trong hai đường mà nó đi. <strong>Ưu:</strong> photon hầu như không tương tác với môi trường (nên ít mất kết hợp), bay với tốc độ ánh sáng, và là vật mang tự nhiên cho truyền thông lượng tử. <strong>Nhược:</strong> chính sự tương tác yếu đó khiến cổng hai photon rất khó; nhiều sơ đồ mang tính xác suất và phụ thuộc nặng vào việc tạo và phát hiện photon đơn một cách tin cậy.</p>
+
+<div class="callout key">
+  <span class="callout-label">Bảng so sánh nhanh</span>
+  <table>
+    <thead><tr><th>Nền tảng</th><th>Mã hoá |0⟩/|1⟩ trong</th><th>Kết hợp</th><th>Tốc độ cổng</th><th>Kết nối</th></tr></thead>
+    <tbody>
+      <tr><td>Siêu dẫn</td><td>Mức năng lượng mạch</td><td>Ngắn (~ms)</td><td>Rất nhanh (ns)</td><td>Hàng xóm gần</td></tr>
+      <tr><td>Ion bẫy</td><td>Mức năng lượng nguyên tử</td><td>Rất dài (s)</td><td>Chậm</td><td>Toàn phần</td></tr>
+      <tr><td>Nguyên tử trung hoà</td><td>Trạng thái nguyên tử (cổng Rydberg)</td><td>Dài</td><td>Trung bình</td><td>Tái cấu hình</td></tr>
+      <tr><td>Quang tử</td><td>Phân cực/đường của photon</td><td>Rất dài</td><td>Nhanh, nhưng cổng xác suất</td><td>Linh hoạt</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout warn">
+  <span class="callout-label">Đọc con số một cách cẩn trọng</span>
+  <p>Các số ở trên chỉ ở mức bậc độ lớn và thay đổi mỗi năm khi kỷ lục bị phá. Hãy xem chúng như <em>hình dạng</em> của các đánh đổi, không phải hằng số cố định. Bài học bền vững duy nhất là không nền tảng nào áp đảo trên mọi trục cùng lúc.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Một qubit vật lý cần hai trạng thái sạch, cổng điều khiển được, đọc kết quả, và cách ly khỏi nhiễu.</li>
+    <li>Transmon siêu dẫn dùng hai mức thấp nhất của một mạch phi điều hoà: cổng nhanh, kết hợp ngắn, kết nối hạn chế.</li>
+    <li>Ion bẫy dùng các mức nguyên tử nội: kết hợp dài và kết nối toàn phần, nhưng cổng chậm hơn.</li>
+    <li>Nguyên tử trung hoà (cổng Rydberg) và quang tử (phân cực/đường) mỗi loại mang thế mạnh và bài toán mở riêng.</li>
+    <li>Không có nền tảng tốt nhất phổ quát - mỗi loại đánh đổi tốc độ, kết hợp, kết nối và khả năng mở rộng khác nhau.</li>
+  </ul>
+</div>

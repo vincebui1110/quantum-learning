@@ -1,0 +1,53 @@
+<p>If you had to name a single gate as the emblem of quantum computing, it would be the <strong>Hadamard gate</strong>, written \(H\). It is the gate that turns definiteness into superposition and back again. Almost every quantum algorithm begins with a layer of Hadamards, because they are what put a qubit into the "both at once" state that quantum parallelism exploits.</p>
+
+<h2>The matrix</h2>
+
+\[ H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}. \]
+
+<p>The factor \(\tfrac{1}{\sqrt2}\) is there to keep it unitary (and states normalized). Notice \(H\) is real and symmetric, and equal to its own conjugate transpose, so \(H^{\dagger} = H\).</p>
+
+<h2>What it does to the basis states</h2>
+
+<p>Applying \(H\) to the computational basis produces the two equal superpositions you met in the last module:</p>
+
+\[ H|0\rangle = \frac{1}{\sqrt2}(|0\rangle + |1\rangle) = |+\rangle, \qquad H|1\rangle = \frac{1}{\sqrt2}(|0\rangle - |1\rangle) = |-\rangle. \]
+
+<p>This is the crucial move: a qubit sitting definitely at \(|0\rangle\) is transformed into a balanced blend of \(|0\rangle\) and \(|1\rangle\). The only difference between \(H|0\rangle\) and \(H|1\rangle\) is the sign in front of \(|1\rangle\) - the relative phase - which is exactly the information the earlier lessons said measurement in the standard basis cannot see.</p>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Compute \(H|1\rangle\) explicitly, with \(|1\rangle = \begin{pmatrix}0\\1\end{pmatrix}\):</p>
+  \[ H|1\rangle = \frac{1}{\sqrt2}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}\begin{pmatrix} 0 \\ 1 \end{pmatrix} = \frac{1}{\sqrt2}\begin{pmatrix} 1 \\ -1 \end{pmatrix} = \frac{1}{\sqrt2}(|0\rangle - |1\rangle) = |-\rangle. \]
+  <p>The top entry is \(1\cdot 0 + 1\cdot 1 = 1\); the bottom is \(1\cdot 0 + (-1)\cdot 1 = -1\). The result is \(|-\rangle\), normalized and carrying the tell-tale minus sign.</p>
+</div>
+
+<h2>Hadamard is its own inverse</h2>
+
+<p>A remarkable and useful fact: applying \(H\) twice does nothing. Because \(H^{\dagger} = H\) and \(H\) is unitary,</p>
+
+\[ H^2 = H^{\dagger}H = I. \]
+
+<p>Concretely, \(H\) undoes itself. Send \(|0\rangle\) to \(|+\rangle\), then apply \(H\) again:</p>
+
+\[ H|+\rangle = \frac{1}{\sqrt2}\big(H|0\rangle + H|1\rangle\big) = \frac{1}{\sqrt2}\big(|+\rangle + |-\rangle\big) = |0\rangle. \]
+
+<p>The \(|1\rangle\) parts of \(|+\rangle\) and \(|-\rangle\) cancel while the \(|0\rangle\) parts reinforce. This is <strong>interference</strong> in action - and it is the sharpest evidence that a superposition is not just "we don't know which." A classical coin flipped twice stays random; a qubit sent through two Hadamards returns to certainty.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>\(H\) is the gate that <em>creates</em> superposition (\(|0\rangle \to |+\rangle\)) and, applied again, <em>removes</em> it (\(|+\rangle \to |0\rangle\)). It moves between the standard basis \(\{|0\rangle,|1\rangle\}\) and the "diagonal" basis \(\{|+\rangle,|-\rangle\}\).</p>
+</div>
+
+<h2>Why it matters</h2>
+
+<p>Because \(H\) maps a single definite state to an equal superposition, one Hadamard on each of \(n\) qubits creates a superposition over all \(2^n\) possible bit-strings at once. That is the launching pad for algorithms like Deutsch-Jozsa, Grover, and Shor: put everything into superposition with Hadamards, let interference do the computation, then measure. On the Bloch sphere, \(H\) is a 180° rotation about the diagonal axis halfway between x and z, which is why it swaps the roles of the \(x\)- and \(z\)-directions - turning phase information into measurable bit information and vice versa.</p>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>\(H = \tfrac{1}{\sqrt2}\bigl(\begin{smallmatrix}1&1\\1&-1\end{smallmatrix}\bigr)\) is the Hadamard gate.</li>
+    <li>\(H|0\rangle = |+\rangle\) and \(H|1\rangle = |-\rangle\): it creates equal superpositions.</li>
+    <li>\(H\) is self-inverse, \(H^2 = I\), so \(H|+\rangle = |0\rangle\) - a second \(H\) removes the superposition by interference.</li>
+    <li>Hadamards are the standard way to launch quantum algorithms into superposition over all inputs.</li>
+  </ul>
+</div>

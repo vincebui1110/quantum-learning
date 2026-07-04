@@ -1,0 +1,51 @@
+<p>Deutsch-Jozsa proved a quantum computer could win a yes/no question in one query. In 1992 Ethan Bernstein and Umesh Vazirani upgraded the prize: their algorithm extracts an entire hidden \(n\)-bit string in a single query, where any classical method needs \(n\). Same circuit shape as before - the difference is what the oracle hides and what interference reveals.</p>
+
+<h2>The problem: find the hidden string</h2>
+
+<p>There is a secret \(n\)-bit string \(s = s_1 s_2 \dots s_n\). The oracle computes the <strong>bitwise dot product mod 2</strong>:</p>
+
+\[ f(x) = s \cdot x \bmod 2 = \big(s_1 x_1 \oplus s_2 x_2 \oplus \cdots \oplus s_n x_n\big). \]
+
+<p>Your job: determine \(s\). Classically, each query returns just one bit of information, so you must be clever about inputs. Query the string \(e_k\) that is all zeros except a \(1\) in position \(k\): then \(f(e_k) = s_k\), handing you the \(k\)-th bit. To get all \(n\) bits you repeat this \(n\) times - <strong>\(n\) queries</strong>, and you genuinely need them.</p>
+
+<h2>The quantum algorithm</h2>
+
+<p>The circuit is identical to Deutsch-Jozsa: \(n\) input qubits in \(|0\rangle\), target in \(|-\rangle\); Hadamard the inputs, query \(U_f\) once, Hadamard the inputs again, measure. The magic is what falls out.</p>
+
+<p><strong>Step 1.</strong> Hadamards on \(|0\rangle^{\otimes n}\) build the uniform superposition:</p>
+
+\[ H^{\otimes n}|0\rangle^{\otimes n} = \frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n}|x\rangle. \]
+
+<p><strong>Step 2 - kickback.</strong> The oracle stamps each term with \((-1)^{f(x)} = (-1)^{s\cdot x}\):</p>
+
+\[ \frac{1}{\sqrt{2^n}}\sum_{x}(-1)^{s\cdot x}\,|x\rangle. \]
+
+<p><strong>Step 3 - the second Hadamard, and a neat identity.</strong> There is a standard fact: applying \(H^{\otimes n}\) to a phase-patterned state \(\sum_x (-1)^{s\cdot x}|x\rangle\) collapses it to the single basis state \(|s\rangle\). Intuitively, the phase pattern \((-1)^{s\cdot x}\) is exactly the "signature" that Hadamard interference constructively focuses onto \(|s\rangle\) and destructively cancels everywhere else. So the register becomes</p>
+
+\[ H^{\otimes n}\!\left(\frac{1}{\sqrt{2^n}}\sum_{x}(-1)^{s\cdot x}|x\rangle\right) = |s\rangle. \]
+
+<p><strong>Step 4 - measure.</strong> The outcome <em>is</em> the string \(s\), all \(n\) bits at once. One query.</p>
+
+<div class="example">
+  <span class="example-label">Worked example: n = 3, s = 101</span>
+  <p>Here \(f(x) = x_1 \oplus x_3\) (bit 2 is masked out because \(s_2=0\)). After kickback the amplitudes carry \((-1)^{x_1\oplus x_3}\). Track a couple of terms: \(|000\rangle\) gets \(+\), \(|100\rangle\) gets \(-\), \(|001\rangle\) gets \(-\), \(|101\rangle\) gets \(+\). This is precisely the interference pattern \(H^{\otimes 3}\) turns into \(|101\rangle\). Measuring yields \(101 = s\). Classically you would have queried \(e_1=100,\,e_2=010,\,e_3=001\) to read \(s_1=1,\,s_2=0,\,s_3=1\) - three separate calls for the same answer.</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>Phase kickback writes \(s\) into the amplitudes as the sign pattern \((-1)^{s\cdot x}\). A single Hadamard layer is the exact inverse of that pattern, so one query plus one round of interference reads out all \(n\) bits together.</p>
+</div>
+
+<h2>The separation, stated honestly</h2>
+
+<p>This is a clean \(n\)-to-\(1\) query separation: \(n\) classical queries versus \(1\) quantum query. Unlike Deutsch-Jozsa, the classical bound of \(n\) holds even if you allow randomness and a small error - each classical query reveals at most one bit of the \(n\)-bit answer, so you cannot beat \(n\) on average. Still, keep the earlier caution in mind: this is a <em>query</em>-complexity statement. The speed-up is real and provable within this model, and Bernstein-Vazirani was historically important as a stepping stone toward the exponential separations (Simon's problem, then Shor) that motivated the field - but the oracle itself must be built from gates before any of this runs on hardware.</p>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>The oracle hides a string \(s\) via \(f(x)=s\cdot x \bmod 2\); the goal is to recover \(s\).</li>
+    <li>Classically each query yields one bit of \(s\), so \(n\) queries are required.</li>
+    <li>The quantum algorithm (H, oracle, H, measure) returns \(|s\rangle\) directly - all \(n\) bits in a single query.</li>
+    <li>The \(n\)-to-1 separation is provable and robust to error, a key stepping stone toward Simon and Shor.</li>
+  </ul>
+</div>

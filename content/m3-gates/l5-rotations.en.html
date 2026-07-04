@@ -1,0 +1,55 @@
+<p>In the qubit module you met the <strong>Bloch sphere</strong>: every single-qubit state is a point on the surface of a unit sphere, with \(|0\rangle\) at the north pole and \(|1\rangle\) at the south. This lesson delivers the payoff of that picture. Every single-qubit gate is simply a <strong>rotation of the Bloch sphere</strong> - and that one sentence organizes everything you have learned in this module.</p>
+
+<h2>Gates are rotations</h2>
+
+<p>Since a gate is unitary, it preserves the length of the state vector, so it cannot push a point off the sphere. A length-preserving motion of a sphere that keeps the centre fixed is exactly a <strong>rotation</strong>. So every single-qubit gate corresponds to rotating the whole sphere about <em>some</em> axis by <em>some</em> angle. The gates you already know fit right in:</p>
+
+<ul>
+  <li>\(X\), \(Y\), \(Z\): rotations by \(180°\) about the x-, y-, z-axes.</li>
+  <li>\(S\), \(T\): rotations about the z-axis by \(90°\) and \(45°\).</li>
+  <li>\(H\): a \(180°\) rotation about the diagonal axis midway between x and z.</li>
+</ul>
+
+<h2>The three rotation gates</h2>
+
+<p>We can rotate by an arbitrary angle \(\theta\) about each axis. These continuous families are the rotation gates \(R_x(\theta)\), \(R_y(\theta)\), \(R_z(\theta)\):</p>
+
+\[ R_x(\theta) = \begin{pmatrix} \cos\tfrac{\theta}{2} & -i\sin\tfrac{\theta}{2} \\[4pt] -i\sin\tfrac{\theta}{2} & \cos\tfrac{\theta}{2} \end{pmatrix}, \qquad R_y(\theta) = \begin{pmatrix} \cos\tfrac{\theta}{2} & -\sin\tfrac{\theta}{2} \\[4pt] \sin\tfrac{\theta}{2} & \cos\tfrac{\theta}{2} \end{pmatrix}, \]
+
+\[ R_z(\theta) = \begin{pmatrix} e^{-i\theta/2} & 0 \\[4pt] 0 & e^{i\theta/2} \end{pmatrix}. \]
+
+<p>Each rotates the Bloch sphere by angle \(\theta\) about the named axis. Setting \(\theta = 0\) gives the identity in every case (no rotation), as it should.</p>
+
+<div class="callout note">
+  <span class="callout-label">Why the half-angle?</span>
+  <p>Notice the \(\theta/2\), not \(\theta\), inside the matrices. The qubit's state vector lives in a 2-dimensional complex space that <em>double-covers</em> the Bloch sphere: rotating the physical sphere by a full \(360°\) only brings the state vector halfway around (it returns with a minus sign; a full \(720°\) is needed to truly return). So a physical rotation by \(\theta\) shows up as \(\theta/2\) in the state.</p>
+</div>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Rotate \(|0\rangle\) by \(\theta = \pi\) about the x-axis. With \(\cos\tfrac{\pi}{2} = 0\) and \(\sin\tfrac{\pi}{2} = 1\):</p>
+  \[ R_x(\pi)|0\rangle = \begin{pmatrix} 0 & -i \\ -i & 0 \end{pmatrix}\begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ -i \end{pmatrix} = -i\,|1\rangle. \]
+  <p>Up to the overall phase \(-i\) (a global phase, physically invisible), this is \(|1\rangle\). A \(180°\) rotation about the x-axis carries the north pole \(|0\rangle\) to the south pole \(|1\rangle\) - exactly what \(X\) does, confirming \(R_x(\pi) = -iX\).</p>
+</div>
+
+<h2>Every single-qubit gate is a rotation</h2>
+
+<p>More is true than "the gates we know are rotations." <em>Any</em> single-qubit unitary can be written as a rotation about some axis \(\hat{n}\) by some angle - and, equivalently, decomposed into a short sequence of rotations about fixed axes, for example</p>
+
+\[ U = e^{i\gamma}\,R_z(\alpha)\,R_y(\beta)\,R_z(\delta) \]
+
+<p>for suitable angles (the "Z-Y-Z decomposition"), with \(e^{i\gamma}\) an irrelevant global phase. This is why a small, fixed toolbox of gates is enough.</p>
+
+<h2>Universal single-qubit gate sets</h2>
+
+<p>A set of gates is <strong>universal for one qubit</strong> if you can approximate any single-qubit rotation as closely as you like by stringing its gates together. Rotations about two different axes already suffice - for instance \(R_z\) and \(R_x\). In the discrete, hardware-friendly world, \(\{H, T\}\) is universal: alternating Hadamards and \(T\) gates can approximate any rotation to arbitrary precision. That is the deep reason a real quantum computer needs only a handful of gate types to run any algorithm.</p>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Every single-qubit gate is a rotation of the Bloch sphere about some axis - unitarity keeps the state on the sphere.</li>
+    <li>\(R_x(\theta), R_y(\theta), R_z(\theta)\) rotate by \(\theta\) about the x-, y-, z-axes, built from \(\cos\tfrac{\theta}{2}\) and \(\sin\tfrac{\theta}{2}\).</li>
+    <li>The half-angle appears because the state space double-covers the Bloch sphere.</li>
+    <li>Any single-qubit unitary decomposes into a few fixed-axis rotations; small sets like \(\{H, T\}\) are universal.</li>
+  </ul>
+</div>

@@ -1,0 +1,72 @@
+<p>Every previous lesson used quantum weirdness to <em>do</em> something. This one uses it to <em>protect</em> something: a secret key. <strong>BB84</strong>, proposed by Charles Bennett and Gilles Brassard in 1984, was the first quantum key distribution (QKD) protocol. It lets Alice and Bob agree on a shared random key while guaranteeing - by the laws of physics, not the difficulty of a computation - that any eavesdropper is exposed. The secret ingredient is that measuring an unknown qubit unavoidably disturbs it.</p>
+
+<h2>Two conjugate bases</h2>
+
+<p>BB84 encodes each bit in one of two <strong>bases</strong>:</p>
+<ul>
+  <li>The <strong>Z basis</strong> (rectilinear): bit \(0 \to |0\rangle\), bit \(1 \to |1\rangle\).</li>
+  <li>The <strong>X basis</strong> (diagonal): bit \(0 \to |+\rangle\), bit \(1 \to |-\rangle\), where \(|\pm\rangle = \tfrac{1}{\sqrt2}(|0\rangle \pm |1\rangle)\).</li>
+</ul>
+
+<p>These two bases are <strong>conjugate</strong>: a state definite in one is maximally uncertain in the other. Measure \(|+\rangle\) in the Z basis and you get \(0\) or \(1\) with equal probability, learning nothing reliable. This is the mutual unpredictability BB84 weaponises.</p>
+
+<h2>The protocol</h2>
+
+<p>For each bit of a long random string, Alice picks a random bit value <em>and</em> a random basis, prepares the matching qubit, and sends it. Bob, for each incoming qubit, independently picks a random basis and measures. Then, over a public classical channel, they perform <strong>basis reconciliation</strong>: they announce which basis each used (but not the bit values). Wherever their bases matched, Bob's result equals Alice's bit - they keep it. Wherever the bases differed, the result is random - they discard it. On average half the bits survive; this surviving string is the <strong>sifted key</strong>.</p>
+
+<div class="example">
+  <span class="example-label">Worked table (no eavesdropper)</span>
+  <div style="overflow-x:auto;">
+  <table>
+    <thead><tr><th>Alice bit</th><th>Alice basis</th><th>Qubit sent</th><th>Bob basis</th><th>Bob result</th><th>Keep?</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>Z</td><td>\(|0\rangle\)</td><td>Z</td><td>0</td><td>keep</td></tr>
+      <tr><td>1</td><td>X</td><td>\(|-\rangle\)</td><td>Z</td><td>0 or 1 (random)</td><td>discard</td></tr>
+      <tr><td>1</td><td>Z</td><td>\(|1\rangle\)</td><td>Z</td><td>1</td><td>keep</td></tr>
+      <tr><td>0</td><td>X</td><td>\(|+\rangle\)</td><td>X</td><td>0</td><td>keep</td></tr>
+      <tr><td>1</td><td>X</td><td>\(|-\rangle\)</td><td>X</td><td>1</td><td>keep</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Rows where the bases agree give a guaranteed-correct shared bit. The mismatched row (Alice X, Bob Z) yields a coin flip and is thrown away in reconciliation.</p>
+</div>
+
+<h2>How eavesdropping shows up</h2>
+
+<p>Now let an eavesdropper, Eve, sit on the channel. To learn a bit she must measure the qubit - but she does not know which basis Alice used, because that is announced only <em>after</em> transmission. If Eve guesses the wrong basis, her measurement <strong>disturbs</strong> the state. Say Alice sent \(|0\rangle\) (Z basis) but Eve measures in X: she gets \(|+\rangle\) or \(|-\rangle\) at random and forwards that. When Bob later measures in Z (matching Alice), he now gets the wrong bit half the time.</p>
+
+<p>The result: on the sifted bits where Alice and Bob used the same basis, Eve's intervention injects errors. If Eve intercepts and resends every qubit, she causes an error on about</p>
+
+\[ P_{\text{error}} = \tfrac12 \cdot \tfrac12 = \tfrac14 = 25\% \]
+
+<p>of the sifted bits. Alice and Bob detect this by publicly comparing a random sample of their sifted key. A clean channel gives near-zero error; a raised error rate betrays Eve, and they abort and try again.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>Because the two bases are conjugate, Eve cannot measure without guessing the basis, and a wrong guess disturbs the qubit. Information gain and disturbance are inseparable - so eavesdropping is not silent, it is loud.</p>
+</div>
+
+<h2>Why no-cloning is the foundation</h2>
+
+<p>Could Eve dodge this by copying each qubit - keeping one to measure at leisure and forwarding the other untouched? No. The <strong>no-cloning theorem</strong> forbids duplicating an unknown quantum state. Eve cannot make a perfect copy, so she is forced to measure the live qubit and thereby disturb it. BB84's security rests directly on this physical impossibility, not on any assumption about Eve's computing power.</p>
+
+<div class="callout history">
+  <span class="callout-label">In practice</span>
+  <p>After detecting an acceptable error level, Alice and Bob run classical <em>error correction</em> to fix residual mismatches and <em>privacy amplification</em> to shrink whatever partial knowledge Eve might have to negligible. Real QKD systems over optical fibre and satellite links now use exactly this pipeline.</p>
+</div>
+
+<div class="callout warn">
+  <span class="callout-label">Contrast with classical crypto</span>
+  <p>RSA is secure only because factoring is <em>currently</em> hard - a fast quantum computer would break it. BB84's security is information-theoretic: it holds even against an adversary with unlimited computation, because it rests on physics.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>BB84 encodes each bit in one of two conjugate bases: Z (\(|0\rangle,|1\rangle\)) or X (\(|+\rangle,|-\rangle\)).</li>
+    <li>Alice and Bob keep only bits where their randomly chosen bases matched - the sifted key.</li>
+    <li>Eve must guess the basis; a wrong guess disturbs the state and injects errors (about 25% if she intercepts all).</li>
+    <li>Comparing a public sample reveals Eve through the error rate.</li>
+    <li>No-cloning underpins the security: an unknown qubit cannot be copied, so measuring is unavoidable and detectable.</li>
+  </ul>
+</div>

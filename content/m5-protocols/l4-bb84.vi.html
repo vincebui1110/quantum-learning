@@ -1,0 +1,72 @@
+<p>Mọi bài trước đều dùng sự kỳ lạ lượng tử để <em>làm</em> một điều gì đó. Bài này dùng nó để <em>bảo vệ</em> một thứ: một khoá bí mật. <strong>BB84</strong>, do Charles Bennett và Gilles Brassard đề xuất năm 1984, là giao thức phân phối khoá lượng tử (QKD) đầu tiên. Nó cho phép Alice và Bob thống nhất một khoá ngẫu nhiên chia sẻ trong khi bảo đảm - bằng định luật vật lý, không phải độ khó của một phép tính - rằng mọi kẻ nghe lén đều bị lộ. Nguyên liệu bí mật là: đo một qubit chưa biết tất yếu làm nhiễu nó.</p>
+
+<h2>Hai cơ sở liên hợp</h2>
+
+<p>BB84 mã hoá mỗi bit trong một trong hai <strong>cơ sở</strong>:</p>
+<ul>
+  <li><strong>Cơ sở Z</strong> (thẳng): bit \(0 \to |0\rangle\), bit \(1 \to |1\rangle\).</li>
+  <li><strong>Cơ sở X</strong> (chéo): bit \(0 \to |+\rangle\), bit \(1 \to |-\rangle\), với \(|\pm\rangle = \tfrac{1}{\sqrt2}(|0\rangle \pm |1\rangle)\).</li>
+</ul>
+
+<p>Hai cơ sở này <strong>liên hợp</strong>: một trạng thái xác định trong cơ sở này thì bất định cực đại trong cơ sở kia. Đo \(|+\rangle\) trong cơ sở Z thì bạn được \(0\) hoặc \(1\) với xác suất bằng nhau, chẳng học được gì đáng tin. Chính sự bất khả đoán lẫn nhau này là thứ BB84 biến thành vũ khí.</p>
+
+<h2>Giao thức</h2>
+
+<p>Với mỗi bit của một chuỗi ngẫu nhiên dài, Alice chọn ngẫu nhiên một giá trị bit <em>và</em> một cơ sở ngẫu nhiên, chuẩn bị qubit tương ứng, rồi gửi đi. Bob, với mỗi qubit tới, độc lập chọn một cơ sở ngẫu nhiên và đo. Rồi, qua một kênh cổ điển công khai, họ thực hiện <strong>đối chiếu cơ sở</strong>: họ công bố mỗi người đã dùng cơ sở nào (nhưng không công bố giá trị bit). Ở đâu cơ sở trùng nhau, kết quả của Bob bằng bit của Alice - họ giữ lại. Ở đâu cơ sở khác nhau, kết quả là ngẫu nhiên - họ bỏ đi. Trung bình một nửa số bit sống sót; chuỗi sống sót này là <strong>khoá đã sàng</strong> (sifted key).</p>
+
+<div class="example">
+  <span class="example-label">Bảng có lời giải (không có kẻ nghe lén)</span>
+  <div style="overflow-x:auto;">
+  <table>
+    <thead><tr><th>Bit Alice</th><th>Cơ sở Alice</th><th>Qubit gửi</th><th>Cơ sở Bob</th><th>Kết quả Bob</th><th>Giữ?</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>Z</td><td>\(|0\rangle\)</td><td>Z</td><td>0</td><td>giữ</td></tr>
+      <tr><td>1</td><td>X</td><td>\(|-\rangle\)</td><td>Z</td><td>0 hoặc 1 (ngẫu nhiên)</td><td>bỏ</td></tr>
+      <tr><td>1</td><td>Z</td><td>\(|1\rangle\)</td><td>Z</td><td>1</td><td>giữ</td></tr>
+      <tr><td>0</td><td>X</td><td>\(|+\rangle\)</td><td>X</td><td>0</td><td>giữ</td></tr>
+      <tr><td>1</td><td>X</td><td>\(|-\rangle\)</td><td>X</td><td>1</td><td>giữ</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Các hàng có cơ sở trùng cho một bit chia sẻ chắc chắn đúng. Hàng lệch cơ sở (Alice X, Bob Z) cho kết quả tung đồng xu và bị bỏ khi đối chiếu.</p>
+</div>
+
+<h2>Kẻ nghe lén hiện ra thế nào</h2>
+
+<p>Giờ cho một kẻ nghe lén, Eve, ngồi trên kênh. Để biết một bit, cô phải đo qubit - nhưng cô không biết Alice dùng cơ sở nào, vì điều đó chỉ được công bố <em>sau</em> khi truyền. Nếu Eve đoán sai cơ sở, phép đo của cô <strong>làm nhiễu</strong> trạng thái. Chẳng hạn Alice gửi \(|0\rangle\) (cơ sở Z) nhưng Eve đo trong X: cô được \(|+\rangle\) hoặc \(|-\rangle\) ngẫu nhiên rồi chuyển tiếp cái đó. Khi Bob sau này đo trong Z (trùng Alice), giờ anh nhận sai bit một nửa số lần.</p>
+
+<p>Kết quả: trên các bit đã sàng nơi Alice và Bob dùng cùng cơ sở, sự can thiệp của Eve gieo lỗi. Nếu Eve chặn và gửi lại mọi qubit, cô gây lỗi trên khoảng</p>
+
+\[ P_{\text{lỗi}} = \tfrac12 \cdot \tfrac12 = \tfrac14 = 25\% \]
+
+<p>số bit đã sàng. Alice và Bob phát hiện bằng cách công khai so một mẫu ngẫu nhiên của khoá đã sàng. Kênh sạch cho lỗi gần bằng không; tỉ lệ lỗi tăng lên tố cáo Eve, và họ huỷ rồi thử lại.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Vì hai cơ sở liên hợp, Eve không thể đo mà không đoán cơ sở, và một lần đoán sai làm nhiễu qubit. Thu thông tin và gây nhiễu là không tách rời - nên nghe lén không hề im lặng, nó ồn ào.</p>
+</div>
+
+<h2>Vì sao không nhân bản là nền tảng</h2>
+
+<p>Eve có thể né điều này bằng cách sao chép mỗi qubit - giữ một bản để đo thong thả và chuyển tiếp bản kia nguyên vẹn - không? Không. <strong>Định lý không nhân bản</strong> cấm nhân đôi một trạng thái lượng tử chưa biết. Eve không thể tạo bản sao hoàn hảo, nên cô buộc phải đo qubit thật và do đó làm nhiễu nó. An toàn của BB84 dựa thẳng vào sự bất khả vật lý này, không dựa vào bất kỳ giả định nào về sức mạnh tính toán của Eve.</p>
+
+<div class="callout history">
+  <span class="callout-label">Trong thực tế</span>
+  <p>Sau khi phát hiện mức lỗi chấp nhận được, Alice và Bob chạy <em>sửa lỗi</em> cổ điển để vá các chỗ lệch còn lại và <em>khuếch đại riêng tư</em> (privacy amplification) để thu nhỏ mọi hiểu biết một phần của Eve xuống mức không đáng kể. Các hệ QKD thật trên sợi quang và liên kết vệ tinh nay dùng đúng quy trình này.</p>
+</div>
+
+<div class="callout warn">
+  <span class="callout-label">So với mật mã cổ điển</span>
+  <p>RSA an toàn chỉ vì phân tích thừa số <em>hiện tại</em> khó - một máy tính lượng tử đủ nhanh sẽ phá được. An toàn của BB84 là lý thuyết thông tin: nó vững ngay cả trước một đối thủ có sức tính vô hạn, vì nó dựa trên vật lý.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>BB84 mã hoá mỗi bit trong một trong hai cơ sở liên hợp: Z (\(|0\rangle,|1\rangle\)) hoặc X (\(|+\rangle,|-\rangle\)).</li>
+    <li>Alice và Bob chỉ giữ các bit nơi cơ sở chọn ngẫu nhiên của họ trùng nhau - khoá đã sàng.</li>
+    <li>Eve phải đoán cơ sở; đoán sai làm nhiễu trạng thái và gieo lỗi (khoảng 25% nếu cô chặn hết).</li>
+    <li>So một mẫu công khai sẽ lộ Eve qua tỉ lệ lỗi.</li>
+    <li>Không nhân bản là nền tảng an toàn: một qubit chưa biết không thể sao chép, nên đo là bất khả tránh và phát hiện được.</li>
+  </ul>
+</div>

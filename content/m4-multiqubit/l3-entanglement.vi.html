@@ -1,0 +1,66 @@
+<p>Rối lượng tử là đặc trưng tách bạch nhất giữa điện toán lượng tử và cổ điển. Nó thường được mô tả bằng những từ huyền bí, nhưng định nghĩa lại chính xác và gần như bình dị: một trạng thái rối đơn giản là trạng thái không phân tích được thành các phần độc lập. Bài này làm rõ điều đó, rồi dựng các trạng thái rối nổi tiếng nhất - các trạng thái Bell - từ những cổng bạn đã biết.</p>
+
+<h2>Trạng thái tích so với trạng thái rối</h2>
+
+<p>Một trạng thái hai qubit là <strong>trạng thái tích</strong> (hay <em>tách được</em>) nếu nó viết được thành tích tensor của hai trạng thái một qubit:</p>
+
+\[ |\psi\rangle = |a\rangle \otimes |b\rangle. \]
+
+<p>Trong một trạng thái tích, mỗi qubit có trạng thái xác định riêng; mô tả chúng tách rời không mất mát gì. Một trạng thái <strong>không</strong> tách được - trạng thái mà không cách chọn \(|a\rangle,|b\rangle\) nào thoả - gọi là <strong>rối</strong>. Với một cặp rối, không qubit nào có trạng thái riêng của mình; chỉ có cả cặp, cùng nhau, mới được mô tả đầy đủ.</p>
+
+<div class="callout note">
+  <span class="callout-label">Một phép thử tách được nhanh</span>
+  <p>Khai triển \(|a\rangle\otimes|b\rangle = (a_0|0\rangle+a_1|1\rangle)(b_0|0\rangle+b_1|1\rangle)\). Biên độ của \(|00\rangle,|01\rangle,|10\rangle,|11\rangle\) là \(a_0b_0,\ a_0b_1,\ a_1b_0,\ a_1b_1\). Vậy một trạng thái tích phải thoả \(\alpha\delta = \beta\gamma\) (cả hai đều bằng \(a_0b_0a_1b_1\)). Nếu \(\alpha\delta \neq \beta\gamma\), trạng thái là rối.</p>
+</div>
+
+<h2>Dẫn dắt trạng thái Bell, từng bước</h2>
+
+<p>Lấy mạch Bell chuẩn: bắt đầu ở \(|00\rangle\), áp Hadamard lên qubit 0, rồi một CNOT với qubit 0 điều khiển và qubit 1 đích. Nhớ rằng \(H|0\rangle = \tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\).</p>
+
+<p><strong>Bước 1 - Hadamard lên qubit 0.</strong> Qubit thứ hai không đổi:</p>
+
+\[ |00\rangle \ \xrightarrow{\ H\otimes I\ }\ \tfrac{1}{\sqrt2}\big(|0\rangle+|1\rangle\big)\otimes|0\rangle = \tfrac{1}{\sqrt2}\big(|00\rangle + |10\rangle\big). \]
+
+<p><strong>Bước 2 - CNOT (điều khiển 0, đích 1).</strong> Áp quy tắc "lật đích khi điều khiển = 1" cho từng số hạng. Số hạng \(|00\rangle\) có điều khiển 0, nên giữ nguyên; số hạng \(|10\rangle\) có điều khiển 1, nên đích lật thành \(|11\rangle\):</p>
+
+\[ \tfrac{1}{\sqrt2}\big(|00\rangle + |10\rangle\big) \ \xrightarrow{\ \mathrm{CNOT}\ }\ \tfrac{1}{\sqrt2}\big(|00\rangle + |11\rangle\big) \equiv |\Phi^+\rangle. \]
+
+<p>\(|\Phi^+\rangle\) có rối không? Biên độ của nó là \(\alpha=\tfrac{1}{\sqrt2},\ \beta=0,\ \gamma=0,\ \delta=\tfrac{1}{\sqrt2}\). Phép thử tách được đòi \(\alpha\delta=\beta\gamma\), nhưng ở đây \(\alpha\delta = \tfrac12 \neq 0 = \beta\gamma\). Không tồn tại cách phân tích: <strong>\(|\Phi^+\rangle\) là trạng thái rối.</strong> Hai cổng thông thường, tác động lên một đầu vào không rối, đã tạo ra rối thực sự.</p>
+
+<h2>Bốn trạng thái Bell</h2>
+
+<p>Cho cùng mạch H-rồi-CNOT bốn đầu vào khác nhau \(|00\rangle,|01\rangle,|10\rangle,|11\rangle\) ta được bốn trạng thái rối cực đại, gọi là <strong>cơ sở Bell</strong>:</p>
+
+\[ |\Phi^{\pm}\rangle = \tfrac{1}{\sqrt2}\big(|00\rangle \pm |11\rangle\big), \qquad |\Psi^{\pm}\rangle = \tfrac{1}{\sqrt2}\big(|01\rangle \pm |10\rangle\big). \]
+
+<p>Bốn trạng thái này trực giao lẫn nhau và tạo thành một cơ sở đầy đủ cho không gian hai qubit - một cơ sở làm hoàn toàn từ các trạng thái rối, trong đó không qubit đơn nào có giá trị xác định.</p>
+
+<h2>Tương quan mà không có giá trị định sẵn ẩn</h2>
+
+<p>Đo qubit thứ nhất của \(|\Phi^+\rangle\) trong cơ sở chuẩn. Vì chỉ có \(|00\rangle\) và \(|11\rangle\) xuất hiện, kết quả là 50/50, nhưng dù được gì thì qubit thứ hai tức khắc bị buộc phải khớp: 0 buộc 0, 1 buộc 1. Hai kết quả <em>tương quan hoàn hảo</em>.</p>
+
+<div class="example">
+  <span class="example-label">Vì sao đây hơn một tương quan cổ điển</span>
+  <p>Hai chiếc găng trong hai hộp cũng tương quan hoàn hảo: mở một cái, biết cái kia. Nhưng đôi găng đã có định danh cố định từ đầu. Cặp Bell thì không - tương quan của nó đúng trong <em>mọi</em> cơ sở đo cùng lúc, một ràng buộc mạnh hơn mà không giá trị ẩn cố định nào tái tạo được. Module 5 biến điều này thành bất đẳng thức Bell, một thí nghiệm loại bỏ hoàn toàn hình dung "giá trị định sẵn ẩn".</p>
+</div>
+
+<div class="callout warn">
+  <span class="callout-label">Hiểu lầm thường gặp</span>
+  <p>Việc qubit ở xa bị xác định tức thời <em>không</em> truyền thông tin. Kết quả cục bộ của bạn ngẫu nhiên và không điều khiển được, nên bạn không thể dùng nó để gửi thông điệp. Rối cho tương quan, không cho truyền tin - chủ đề của bài sau.</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Một trạng thái là rối khi nó không viết được thành \(|a\rangle\otimes|b\rangle\). Áp \(H\) rồi CNOT lên \(|00\rangle\) cho trạng thái Bell rối \(|\Phi^+\rangle=\tfrac{1}{\sqrt2}(|00\rangle+|11\rangle)\), trong đó đo một qubit tức khắc cố định qubit kia.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Trạng thái tích (tách được) phân tích thành \(|a\rangle\otimes|b\rangle\); trạng thái rối thì không.</li>
+    <li>Phép thử tách được: trạng thái tích cần \(\alpha\delta=\beta\gamma\); \(|\Phi^+\rangle\) không thoả, nên nó rối.</li>
+    <li>\(H\) lên qubit 0 rồi CNOT(0\(\to\)1) biến \(|00\rangle\) thành \(|\Phi^+\rangle=\tfrac{1}{\sqrt2}(|00\rangle+|11\rangle)\).</li>
+    <li>Bốn trạng thái Bell \(|\Phi^\pm\rangle,|\Psi^\pm\rangle\) tạo một cơ sở trực chuẩn gồm các trạng thái rối cực đại.</li>
+    <li>Đo một qubit sẽ xác định qubit kia, nhưng tương quan này không thể gửi tín hiệu.</li>
+  </ul>
+</div>

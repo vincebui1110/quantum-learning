@@ -1,0 +1,54 @@
+<p>The oracle algorithms so far used one round of Hadamards to interfere amplitudes. The <strong>quantum Fourier transform</strong> (QFT) is the far more powerful generalization of that step - a change of basis that reshuffles amplitudes according to their frequencies. It is the engine inside phase estimation and Shor's algorithm, so it earns its own lesson.</p>
+
+<h2>The classical Fourier transform, in one line</h2>
+
+<p>The discrete Fourier transform (DFT) takes a list of \(N\) numbers \(a_0,\dots,a_{N-1}\) and produces a new list of the same length,</p>
+
+\[ b_k = \frac{1}{\sqrt N}\sum_{x=0}^{N-1} a_x\, e^{2\pi i\, xk/N}, \]
+
+<p>revealing which frequencies are present in the original data. The Fast Fourier Transform (FFT) computes all \(N\) outputs in \(O(N\log N)\) arithmetic operations - already excellent, and the backbone of modern signal processing.</p>
+
+<h2>The quantum version: transform the amplitudes</h2>
+
+<p>The QFT does the very same arithmetic, but on the \(2^n = N\) amplitudes of an \(n\)-qubit state. Its action on a computational basis state \(|x\rangle\) is defined by</p>
+
+\[ \text{QFT}\,|x\rangle = \frac{1}{\sqrt N}\sum_{k=0}^{N-1} e^{2\pi i\, xk/N}\,|k\rangle, \qquad N = 2^n. \]
+
+<p>The phases \(e^{2\pi i\, xk/N}\) are precisely the DFT kernel above. By linearity, applied to a general state \(\sum_x a_x|x\rangle\), the QFT sends the amplitude list \((a_x)\) to its discrete Fourier transform \((b_k)\) - it Fourier-transforms the amplitudes themselves.</p>
+
+<div class="example">
+  <span class="example-label">Worked example: the single-qubit QFT is just Hadamard</span>
+  <p>Take \(n=1\), so \(N=2\). The formula gives \(\text{QFT}|x\rangle = \tfrac{1}{\sqrt2}\sum_{k=0}^{1} e^{2\pi i\, xk/2}|k\rangle = \tfrac{1}{\sqrt2}\sum_k (-1)^{xk}|k\rangle\). For \(x=0\): \(\tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)=|+\rangle\). For \(x=1\): \(\tfrac{1}{\sqrt2}(|0\rangle-|1\rangle)=|-\rangle\). That is exactly the Hadamard gate. The QFT on one qubit <em>is</em> \(H\) - so every Hadamard layer you have already met was a baby Fourier transform.</p>
+</div>
+
+<h2>The product form and the gate count</h2>
+
+<p>A remarkable fact makes the QFT efficient: the big entangled-looking sum factors into a product of single-qubit states, each holding one binary digit of \(x\) in its phase:</p>
+
+\[ \text{QFT}\,|x_1\dots x_n\rangle = \frac{1}{\sqrt N}\bigotimes_{j=1}^{n}\Big(|0\rangle + e^{2\pi i\, 0.x_j x_{j+1}\dots x_n}|1\rangle\Big), \]
+
+<p>where \(0.x_j x_{j+1}\dots\) is a binary fraction. This product structure is what lets a circuit of Hadamards and controlled-phase rotations build the QFT with only</p>
+
+\[ O(n^2)\ \text{gates}. \]
+
+<p>Contrast the counts. The classical FFT needs \(O(N\log N) = O(n\,2^n)\) operations to transform \(N=2^n\) numbers; the QFT needs only \(O(n^2)\) gates for the same-sized transform - an <em>exponential</em> edge in gate count.</p>
+
+<div class="callout warn">
+  <span class="callout-label">The catch: you cannot read the spectrum</span>
+  <p>That exponential gate advantage does not mean you get the Fourier coefficients for free. After the QFT the amplitudes \(b_k\) live inside the quantum state, but measurement only <em>samples</em> one outcome \(k\) with probability \(|b_k|^2\) - it never hands you the numbers \(b_k\) themselves. So the QFT is not a drop-in replacement for the FFT: it is a subroutine that must be embedded in a larger algorithm designed so that the <em>measurement</em> reveals something useful (a period, a phase). Phase estimation, next lesson, is the classic example.</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>The QFT is the DFT acting on quantum amplitudes: \(|x\rangle \to \tfrac{1}{\sqrt N}\sum_k e^{2\pi i xk/N}|k\rangle\). It runs in \(O(n^2)\) gates - exponentially fewer than the FFT - but you still have to measure, so it is a building block, not a spectrum reader.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>The QFT Fourier-transforms the amplitudes of a state: \(|x\rangle \to \tfrac{1}{\sqrt N}\sum_k e^{2\pi i xk/N}|k\rangle\), \(N=2^n\).</li>
+    <li>On one qubit the QFT is exactly the Hadamard gate.</li>
+    <li>A product form lets a circuit implement it in \(O(n^2)\) gates, vs \(O(N\log N)\) for the classical FFT.</li>
+    <li>Measurement only samples the transformed state - the QFT does not by itself give a readable Fourier spectrum.</li>
+  </ul>
+</div>

@@ -1,0 +1,65 @@
+<p>A single gate rarely does anything interesting on its own. Real quantum circuits apply a <em>sequence</em> of gates to a qubit, one after another. This lesson explains how to compute the result of a sequence - and why the <strong>order</strong> in which you apply the gates genuinely changes the answer.</p>
+
+<h2>Sequencing = matrix multiplication</h2>
+
+<p>Suppose you apply gate \(A\) to \(|\psi\rangle\), then apply gate \(B\) to the result. Step by step:</p>
+
+\[ |\psi\rangle \;\xrightarrow{A}\; A|\psi\rangle \;\xrightarrow{B}\; B\big(A|\psi\rangle\big) = (BA)\,|\psi\rangle. \]
+
+<p>So the combined effect of "\(A\) then \(B\)" is the single matrix \(BA\) - the product of the gate matrices. Composing gates is nothing more than multiplying their matrices.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Watch the order: right to left</span>
+  <p>The gate applied <em>first</em> sits on the <em>right</em> of the product, closest to the state \(|\psi\rangle\). You <strong>read a circuit left to right</strong> (in time order), but you <strong>write the matrix product right to left</strong>. "\(A\) then \(B\)" is \(BA\), not \(AB\). This reversal trips up nearly everyone at first.</p>
+</div>
+
+<h2>Reading a one-qubit circuit</h2>
+
+<p>Here is a two-gate circuit. The qubit enters on the left as \(|0\rangle\), passes through \(X\), then through \(H\):</p>
+
+<p style="text-align:center;font-family:monospace">|0⟩ ──[ X ]──[ H ]──&nbsp; final state</p>
+
+<p>Time flows left to right, so \(X\) acts first and \(H\) second. The final state is therefore \(H\,(X|0\rangle) = (HX)|0\rangle\) - note \(H\) on the left because it acts last.</p>
+
+<div class="example">
+  <span class="example-label">Worked example: order matters</span>
+  <p><strong>Circuit 1 - \(X\) then \(H\)</strong>, applied to \(|0\rangle\). Work inside out:</p>
+  \[ X|0\rangle = |1\rangle, \qquad H|1\rangle = \tfrac{1}{\sqrt2}(|0\rangle - |1\rangle) = |-\rangle. \]
+  <p>So \((HX)|0\rangle = |-\rangle\).</p>
+  <p><strong>Circuit 2 - \(H\) then \(X\)</strong> (the same two gates, reversed):</p>
+  \[ H|0\rangle = \tfrac{1}{\sqrt2}(|0\rangle + |1\rangle) = |+\rangle, \qquad X|+\rangle = |+\rangle. \]
+  <p>So \((XH)|0\rangle = |+\rangle\). The two circuits use the identical gates yet reach <em>different</em> states, \(|-\rangle\) versus \(|+\rangle\). Order is not a bookkeeping detail; it is physics.</p>
+</div>
+
+<h2>Why order matters: matrices don't commute</h2>
+
+<p>The reason is that matrix multiplication is generally <strong>non-commutative</strong>: \(BA \neq AB\) in general. We can see it directly for \(H\) and \(X\):</p>
+
+\[ HX = \frac{1}{\sqrt2}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \frac{1}{\sqrt2}\begin{pmatrix} 1 & 1 \\ -1 & 1 \end{pmatrix}, \]
+
+\[ XH = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\frac{1}{\sqrt2}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix} = \frac{1}{\sqrt2}\begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix}. \]
+
+<p>These matrices are different, so \(HX \neq XH\), matching the two different physical outcomes above. Some pairs of gates <em>do</em> commute (for example \(Z\) and \(S\), both diagonal), but you can never assume it - always respect the given order.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>To find the final state of a circuit, multiply the gate matrices in reverse time order and apply the product to the input: for "\(A\), then \(B\), then \(C\)," compute \(CBA|\psi\rangle\). Because matrices generally do not commute, the sequence matters.</p>
+</div>
+
+<h2>Building up longer circuits</h2>
+
+<p>The same rule extends to any length. For gates \(G_1, G_2, \ldots, G_k\) applied in that time order, the whole circuit is one unitary</p>
+
+\[ U = G_k \cdots G_2\, G_1, \]
+
+<p>and the output is \(U|\psi\rangle\). You can either multiply all the matrices first to get \(U\), then apply it once, or apply the gates one at a time to the evolving state - both give the same answer. This is the entire computational engine of a single-qubit circuit: a product of unitaries acting on a state vector.</p>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Applying gates in sequence multiplies their matrices: "\(A\) then \(B\)" is the matrix \(BA\).</li>
+    <li>Read circuits left to right in time, but write the product right to left - the first gate is rightmost.</li>
+    <li>Order matters because matrices generally don't commute: \(HX \neq XH\), giving \((HX)|0\rangle=|-\rangle\) but \((XH)|0\rangle=|+\rangle\).</li>
+    <li>A whole one-qubit circuit is a single unitary \(U = G_k\cdots G_1\), and its output is \(U|\psi\rangle\).</li>
+  </ul>
+</div>

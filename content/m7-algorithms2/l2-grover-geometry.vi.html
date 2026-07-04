@@ -1,0 +1,67 @@
+<p>Bài trước mô tả Grover là "oracle cộng đảo quanh trung bình" và nêu con số kỳ diệu \(\tfrac{\pi}{4}\sqrt{N}\). Bài này cho thấy <em>vì sao</em> con số đó lại như vậy, bằng một bức tranh khiến cả thuật toán trở nên hiển nhiên: Grover là một <strong>phép quay trong mặt phẳng hai chiều</strong>. Một khi bạn thấy nó, số vòng lặp, cảnh báo quay lố, và tổng quát hoá thành <strong>khuếch đại biên độ</strong> đều tự nhiên rơi ra.</p>
+
+<h2>Mọi thứ nằm trong một mặt phẳng 2 chiều</h2>
+
+<p>Dù \(N\) lớn đến đâu, chỉ hai hướng là quan trọng. Gọi \(|w\rangle = |x^\star\rangle\) là trạng thái được đánh dấu ("người thắng"), và \(|s'\rangle\) là chồng chập đều của tất cả \(N-1\) mục <em>còn lại</em>. Hai cái này trực giao, và trạng thái xuất phát \(|s\rangle\) là một tổ hợp của đúng hai cái đó:</p>
+
+\[ |s\rangle = \sqrt{\tfrac{N-1}{N}}\,|s'\rangle + \sqrt{\tfrac{1}{N}}\,|w\rangle. \]
+
+<p>Viết \(|s\rangle = \cos\theta\,|s'\rangle + \sin\theta\,|w\rangle\). So sánh các số hạng, góc \(\theta\) giữa \(|s\rangle\) và trục "không thắng" \(|s'\rangle\) thoả</p>
+
+\[ \sin\theta = \frac{1}{\sqrt{N}}. \]
+
+<p>Vì biên độ của người thắng là \(\sin\theta\), phép đo thành công với xác suất \(\sin^2\theta\). Ta muốn quay \(|s\rangle\) cho tới khi nó chỉ dọc theo \(|w\rangle\), tức là cho tới khi góc tính từ \(|s'\rangle\) đạt \(90^\circ = \pi/2\).</p>
+
+<h2>Hai phép phản chiếu tạo thành một phép quay</h2>
+
+<p>Giờ hãy xem mỗi động tác Grover làm gì về mặt hình học.</p>
+
+<ul>
+  <li><strong>Oracle</strong> đảo dấu thành phần \(|w\rangle\). Về hình học đó là một <em>phép phản chiếu quanh trục \(|s'\rangle\)</em> - nó soi gương trạng thái qua hướng "không thắng".</li>
+  <li><strong>Toán tử khuếch tán</strong> là một <em>phép phản chiếu quanh \(|s\rangle\)</em>, vector xuất phát ban đầu.</li>
+</ul>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Ghép hai phép phản chiếu luôn cho ra một <strong>phép quay</strong>, với góc bằng hai lần góc giữa hai đường gương. Ở đây hai gương là \(|s'\rangle\) và \(|s\rangle\), cách nhau \(\theta\). Nên một vòng Grover quay trạng thái về phía \(|w\rangle\) đúng \(2\theta\).</p>
+</div>
+
+<p>Sau \(k\) vòng, trạng thái nằm ở góc \((2k+1)\theta\) tính từ trục \(|s'\rangle\). Xác suất đo được người thắng là</p>
+
+\[ P(k) = \sin^2\!\big((2k+1)\theta\big). \]
+
+<h2>Giải ra số bước tối ưu</h2>
+
+<p>Ta muốn \((2k+1)\theta \approx \tfrac{\pi}{2}\), để trạng thái đáp xuống \(|w\rangle\). Giải ra,</p>
+
+\[ k \approx \frac{\pi}{4\theta} - \frac{1}{2}. \]
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Lấy \(N = 16\), một mục được đánh dấu. Khi đó \(\sin\theta = 1/\sqrt{16} = 1/4\), nên \(\theta = \arcsin(0.25) \approx 14.48^\circ \approx 0.2527\) rad. Số vòng tối ưu là</p>
+  \[ k \approx \frac{\pi}{4(0.2527)} - \frac12 \approx 3.107 - 0.5 \approx 2.6 \;\Rightarrow\; k = 3. \]
+  <p>Kiểm tra: sau \(k=3\), góc là \((2\cdot 3+1)\theta = 7\theta \approx 101.4^\circ\), cho \(P = \sin^2(101.4^\circ)\approx 0.96\). Ba vòng tìm ra mục với xác suất \(96\%\) - so với việc kiểm tra tới \(16\) mục theo lối cổ điển. Với \(N\) lớn, \(\theta\approx 1/\sqrt N\), nên \(k\approx \tfrac{\pi}{4}\sqrt N\), khôi phục lại công thức trước.</p>
+</div>
+
+<div class="callout warn">
+  <span class="callout-label">Quay lố, theo hình học</span>
+  <p>Bức tranh khiến quy tắc "dừng đúng lúc" trở nên hiển nhiên. Nếu bạn tiếp tục áp dụng vòng lặp quá \(k\), bạn quay <em>vượt</em> \(|w\rangle\); góc vượt quá \(\pi/2\) và \(\sin^2\) bắt đầu giảm. Trạng thái chỉ đơn giản tiếp tục xoay quanh vòng tròn. Không có sự "ổn định" nào - chỉ là quét qua mục tiêu một cách tuần hoàn.</p>
+</div>
+
+<h2>Từ tìm kiếm tới khuếch đại biên độ</h2>
+
+<p>Không có chỗ nào ở trên dùng tới việc \(|s\rangle\) đến từ các cổng Hadamard. Lập luận vẫn đúng cho <em>bất kỳ</em> thủ tục \(A\) nào chuẩn bị một trạng thái có thành phần "tốt" nào đó. Thay phép phản chiếu chồng chập đều bằng phản chiếu quanh \(A|0\rangle\), và thay oracle bằng phản chiếu đánh dấu không gian con tốt. Nếu kết quả tốt có biên độ \(a\) (nên xác suất thành công \(a^2\)), thì cũng lập luận hai-phản-chiếu-thành-một-phép-quay đó khuếch đại nó tới gần chắc chắn trong khoảng</p>
+
+\[ O\!\left(\frac{1}{a}\right) = O\!\left(\frac{1}{\sqrt{\text{xác suất thành công}}}\right) \]
+
+<p>lần lặp. Tổng quát hoá này là <strong>khuếch đại biên độ</strong>: một sự giảm bậc hai số lần bạn phải chạy một chương trình con xác suất. Tìm kiếm Grover chỉ là trường hợp riêng khi \(A = H^{\otimes n}\) và \(a = 1/\sqrt N\). Nó là một trong những nguyên thuỷ được tái sử dụng nhiều nhất trong thuật toán lượng tử.</p>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Grover sống trong mặt phẳng 2 chiều căng bởi người thắng \(|w\rangle\) và phần còn lại \(|s'\rangle\); góc xuất phát tuân \(\sin\theta = 1/\sqrt N\).</li>
+    <li>Oracle = phản chiếu quanh \(|s'\rangle\); khuếch tán = phản chiếu quanh \(|s\rangle\). Hai phản chiếu = một phép quay \(2\theta\) mỗi vòng.</li>
+    <li>Xác suất thành công sau \(k\) bước là \(\sin^2((2k+1)\theta)\), cực đại tại \(k \approx \tfrac{\pi}{4\theta}-\tfrac12 \approx \tfrac{\pi}{4}\sqrt N\).</li>
+    <li>Tổng quát cho mọi thủ tục chuẩn bị \(A\) ta được khuếch đại biên độ: tăng tốc bậc hai để nâng bất kỳ xác suất thành công \(a^2\) nào, dùng \(O(1/a)\) vòng.</li>
+  </ul>
+</div>

@@ -1,0 +1,63 @@
+<p>Ở module trước, trạng thái của một qubit là một đối tượng tĩnh - một vector \(|\psi\rangle = \alpha|0\rangle + \beta|1\rangle\). Module này nói về việc <em>tác động</em> lên trạng thái đó. Mọi thao tác bạn có thể thực hiện trên một qubit (ngoài việc đo nó) đều là một <strong>cổng</strong> (gate), và mỗi cổng là một loại ma trận cụ thể. Bài này xác định chính xác những ma trận nào được phép và chúng tác động ra sao.</p>
+
+<h2>Một cổng là một ma trận 2×2</h2>
+
+<p>Trạng thái của một qubit là một vector cột hai thành phần, nên bất cứ thứ gì biến đổi nó thành trạng thái mới đều là một ma trận \(2\times 2\) là \(U\). Áp dụng cổng chẳng có gì lạ ngoài phép <strong>ma trận nhân vector</strong>:</p>
+
+\[ U|\psi\rangle = \begin{pmatrix} u_{00} & u_{01} \\ u_{10} & u_{11} \end{pmatrix} \begin{pmatrix} \alpha \\ \beta \end{pmatrix} = \begin{pmatrix} u_{00}\alpha + u_{01}\beta \\ u_{10}\alpha + u_{11}\beta \end{pmatrix}. \]
+
+<p>Đầu ra là một cặp biên độ mới - một trạng thái mới của cùng qubit đó. Đó là toàn bộ cơ chế. Câu hỏi thú vị là: ma trận nào hợp lệ về mặt vật lý?</p>
+
+<h2>Quy tắc: cổng phải unita</h2>
+
+<p>Không phải ma trận nào cũng được phép. Một cổng hợp lệ phải <strong>unita</strong> (unitary), nghĩa là thoả</p>
+
+\[ U^{\dagger} U = I, \]
+
+<p>trong đó \(U^{\dagger}\) là <strong>chuyển vị liên hợp</strong> (chuyển vị ma trận, rồi lấy liên hợp phức của mọi phần tử) và \(I\) là ma trận đơn vị. Tính unita là phiên bản lượng tử của "chuyển động cứng": nó chính là điều kiện giữ cho trạng thái luôn được chuẩn hoá.</p>
+
+<div class="callout key">
+  <span class="callout-label">Vì sao phải unita?</span>
+  <p>Một trạng thái hợp lệ có tổng xác suất \(|\alpha|^2 + |\beta|^2 = 1\). Một cổng phải đưa trạng thái hợp lệ thành trạng thái hợp lệ, nên nó phải bảo toàn độ dài đó. Các ánh xạ tuyến tính bảo toàn độ dài chính xác là các ánh xạ unita - nên "cổng" và "ma trận unita" là cùng một nghĩa.</p>
+</div>
+
+<h2>Tính unita cho bạn tính khả nghịch</h2>
+
+<p>Vì \(U^{\dagger}U = I\), ma trận \(U^{\dagger}\) là một nghịch đảo thực sự của \(U\). Nên nếu một cổng \(U\) đưa \(|\psi\rangle\) thành \(U|\psi\rangle\), áp dụng \(U^{\dagger}\) sau đó khôi phục lại đúng bản gốc:</p>
+
+\[ U^{\dagger}\big(U|\psi\rangle\big) = (U^{\dagger}U)|\psi\rangle = I|\psi\rangle = |\psi\rangle. \]
+
+<p>Vì vậy mọi cổng lượng tử đều <strong>khả nghịch</strong> - không bao giờ mất thông tin trong các thao tác cổng. Điều này trái ngược hẳn với phép đo, vốn làm sập trạng thái một cách không thể đảo, và với các cổng cổ điển như AND vốn vứt bỏ thông tin. Đó cũng là lý do mạch lượng tử luôn được xây từ các bước khả nghịch.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Lấy cổng \(U = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\) (đây là cổng <code>X</code>, ở bài kế tiếp). Trước hết, nó có unita không? Chuyển vị liên hợp của nó chính là nó, và</p>
+  \[ U^{\dagger}U = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I. \ \checkmark \]
+  <p>Giờ áp dụng nó lên \(|0\rangle = \begin{pmatrix}1\\0\end{pmatrix}\):</p>
+  \[ U|0\rangle = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 1 \end{pmatrix} = |1\rangle. \]
+  <p>Cổng đã biến \(|0\rangle\) thành \(|1\rangle\). Chú ý đầu ra vẫn được chuẩn hoá - tính unita đã đảm bảo điều đó từ trước.</p>
+</div>
+
+<h2>Vẽ ra: dây mạch</h2>
+
+<p>Thuật toán lượng tử được vẽ dưới dạng <strong>mạch</strong> (circuit). Một qubit là một <em>dây</em> nằm ngang, đọc từ trái sang phải, biểu diễn dòng chảy của thời gian. Một cổng là một hộp đặt trên dây:</p>
+
+<p style="text-align:center;font-family:monospace">|ψ⟩ &nbsp;──────[ U ]──────&nbsp; U|ψ⟩</p>
+
+<p>Trạng thái đi vào từ bên trái, cổng tác động, và trạng thái đã biến đổi đi ra bên phải. Khi nhiều hộp cùng nằm trên một dây, qubit đi qua chúng theo thứ tự - chủ đề của bài cuối module này. Còn bây giờ, hình dung cốt lõi rất đơn giản: một dây là một qubit theo thời gian, và một hộp là một ma trận unita làm đúng một việc của nó.</p>
+
+<div class="callout note">
+  <span class="callout-label">Ghi chú</span>
+  <p>"Unita" với ma trận phức đóng vai trò mà "trực giao" đóng với ma trận thực: cả hai đều bảo toàn độ dài. Dấu thập tự \(\dagger\) (chuyển vị liên hợp) là phiên bản phức của phép chuyển vị thường dùng cho ma trận quay thực.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Một cổng một qubit là một ma trận \(2\times 2\) là \(U\); áp dụng nó là tích ma trận-vector \(U|\psi\rangle\).</li>
+    <li>Cổng phải <strong>unita</strong>: \(U^{\dagger}U = I\), với \(U^{\dagger}\) là chuyển vị liên hợp.</li>
+    <li>Tính unita bảo toàn chuẩn hoá, nên trạng thái hợp lệ ánh xạ thành trạng thái hợp lệ.</li>
+    <li>Tính unita cũng làm mọi cổng <strong>khả nghịch</strong>, với nghịch đảo \(U^{\dagger}\) - khác phép đo, cổng không bao giờ mất thông tin.</li>
+    <li>Trong mạch, một qubit là một dây đọc từ trái sang phải và một cổng là một hộp trên dây đó.</li>
+  </ul>
+</div>

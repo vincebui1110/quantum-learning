@@ -1,0 +1,49 @@
+<p>Ta đã đến biên giới. Bài 3 chỉ cách bảo vệ một qubit logic; bài 4 chỉ những cỗ máy nhiễu làm được gì trong lúc chờ. Bài cuối này nối chúng lại với kết quả quan trọng nhất trong lý thuyết tính toán lượng tử - <strong>định lý ngưỡng</strong> (threshold theorem) - rồi lùi lại để nhìn trung thực con đường từ các thiết bị NISQ hôm nay tới một cỗ máy thực sự <strong>chịu lỗi</strong> (fault-tolerant).</p>
+
+<h2>Định lý ngưỡng</h2>
+
+<p>Có một nỗi lo hiển nhiên về sửa lỗi: các qubit, cổng và phép đo hội chứng phụ trội mà nó cần <em>bản thân</em> cũng nhiễu. Nếu sửa lỗi lại tạo lỗi mới, liệu thuốc có tệ hơn bệnh không? <strong>Định lý ngưỡng</strong> trả lời điều này, và câu trả lời của nó là thứ khiến tính toán lượng tử quy mô lớn khả thi dù chỉ về nguyên tắc.</p>
+
+<div class="callout key">
+  <span class="callout-label">Định lý ngưỡng</span>
+  <p>Tồn tại một tỷ lệ lỗi vật lý tới hạn \(p_{\text{th}}\), gọi là <em>ngưỡng</em>. Nếu tỷ lệ lỗi vật lý trên mỗi phép toán \(p\) <strong>dưới</strong> nó, \(p &lt; p_{\text{th}}\), thì bằng cách thêm nhiều qubit vật lý cho mỗi qubit logic, bạn có thể kéo tỷ lệ lỗi logic xuống thấp tuỳ ý - cho phép tính toán tin cậy <strong>dài tuỳ ý</strong>. Nếu \(p &gt; p_{\text{th}}\), thêm qubit chỉ làm mọi thứ tệ hơn.</p>
+</div>
+
+<p>Định lý mô tả một chuyển pha trong độ tin cậy. Dưới ngưỡng, tăng khoảng cách mã bề mặt \(d\) triệt tiêu tỷ lệ lỗi logic đại khái theo</p>
+
+\[ p_L \;\sim\; \left(\frac{p}{p_{\text{th}}}\right)^{d/2}, \]
+
+<p>nên mỗi lần tăng \(d\) hai bước lại nhân độ tin cậy lên, đổi lại là nhiều qubit vật lý hơn. Với mã bề mặt, ngưỡng thuận lợi - đâu đó quanh mức một phần trăm - và đó là phần lớn lý do nó là ứng viên dẫn đầu. Mục tiêu thực tiễn của cả lĩnh vực giờ có thể gói trong một dòng: <em>đưa tỷ lệ lỗi vật lý xuống dưới ngưỡng một cách thoải mái, rồi mở rộng.</em></p>
+
+<div class="callout history">
+  <span class="callout-label">Một cột mốc đáng nói cẩn thận</span>
+  <p>Các thí nghiệm gần đây đã trình diễn chế độ dưới ngưỡng: khi các nhà nghiên cứu tăng khoảng cách mã trên một bộ xử lý siêu dẫn, tỷ lệ lỗi logic <em>giảm</em> chứ không tăng, và một qubit logic sống lâu hơn qubit vật lý tốt nhất cấu thành nó. Đây là bằng chứng thật rằng sửa lỗi có thể thắng khi mở rộng. Đó là một chứng minh nguyên lý then chốt - không phải một máy tính chịu lỗi hoàn chỉnh.</p>
+</div>
+
+<h2>Khoảng cách giữa NISQ và chịu lỗi</h2>
+
+<p>Vậy sao bài toán chưa được giải xong? Vì một máy tính chịu lỗi hữu ích cần <em>nhiều</em> qubit logic, mỗi cái dựng từ nhiều qubit vật lý, tất cả giữ dưới ngưỡng cùng lúc, đủ lâu để hoàn tất một tính toán. Chi phí phụ trội rất nặng: cỡ hàng trăm tới một nghìn qubit vật lý cho mỗi qubit logic chất lượng cao. Một cỗ máy chạy một thuật toán lớn trên, chẳng hạn, vài nghìn qubit logic vì thế có thể cần cỡ một triệu qubit vật lý - vượt xa các thiết bị lớn nhất hôm nay. NISQ, với dăm qubit nhiễu chưa sửa, và chịu lỗi, với đại dương qubit vật lý bảo vệ một số khiêm tốn qubit logic, cách nhau hàng bậc độ lớn về quy mô lẫn chất lượng.</p>
+
+<h2>Những rào cản kỹ thuật còn lại</h2>
+
+<p>Thu hẹp khoảng cách đó là một cuộc marathon kỹ thuật trên nhiều mặt trận cùng lúc: đẩy tỷ lệ lỗi vật lý xuống sâu hơn nữa dưới ngưỡng và giữ nó ở đó; chế tạo và đi dây cho vô số qubit nhiều hơn mà không sinh nhiễu mới (bài toán <em>mở rộng</em> kinh điển); dựng các bộ giải mã cổ điển đủ nhanh để theo kịp dữ liệu hội chứng theo thời gian thực; và thuần hoá cả hạ tầng điều khiển-làm lạnh đồ sộ. Không cái nào được biết là bất khả, nhưng không cái nào gần được giải xong.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Một triển vọng chừng mực</span>
+  <p>Tiến bộ là thật và, theo mọi thước đo lịch sử, nhanh. Nhưng các nguồn trung thực tránh mốc thời gian chắc chắn. Bạn sẽ nghe những dự đoán tự tin về "máy chịu lỗi hữu ích vào năm X" từ nhiều phía; hãy đối xử với tất cả bằng đúng sự thận trọng mà chữ "N" trong NISQ đã dạy bạn. Tóm tắt có trách nhiệm là: lý thuyết vững, chế độ dưới ngưỡng đã đạt được trong phòng thí nghiệm, và phần việc còn lại là một cuộc mở rộng kỹ thuật đáng gờm nhưng không hiển nhiên là bất khả.</p>
+</div>
+
+<h2>Điều bạn giờ đã hiểu được</h2>
+
+<p>Kết thúc module - và kết thúc khoá học. Nhìn lại xem các ý tưởng vươn xa đến đâu. Khi bạn đọc rằng một công ty dựng một "bộ xử lý 100 qubit", bạn biết đó là các qubit vật lý nhiễu, không phải qubit logic, và bạn biết vì sao sự phân biệt đó quan trọng. Khi một tiêu đề tuyên bố một máy tính lượng tử "đã giải" điều gì đó, bạn có thể hỏi đúng câu: đó là máy chịu lỗi hay một demo NISQ, và nó có thực sự thắng phương pháp cổ điển tốt nhất không? Bạn hiểu vì sao mất kết hợp - sự mất đi chính cái pha mà giao thoa cần - là kẻ thù, vì sao sửa lỗi phải khôn hơn sao chép, và định lý ngưỡng hứa hẹn gì. Biên giới thực sự đang rộng mở, và giờ bạn có thể đọc nó rõ ràng, không thổi phồng và cũng không xem thường.</p>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Định lý ngưỡng: nếu tỷ lệ lỗi vật lý dưới một ngưỡng tới hạn \(p_{\text{th}}\), mở rộng sửa lỗi cho phép tính toán tin cậy dài tuỳ ý.</li>
+    <li>Dưới ngưỡng, tỷ lệ lỗi logic của mã bề mặt giảm mạnh theo khoảng cách mã, \(p_L \sim (p/p_{\text{th}})^{d/2}\); trên ngưỡng, thêm qubit lại tệ hơn.</li>
+    <li>Chế độ dưới ngưỡng đã được trình diễn thực nghiệm - một chứng minh nguyên lý thật, không phải một máy hoàn chỉnh.</li>
+    <li>Khoảng cách NISQ-tới-chịu-lỗi rất lớn: nhiều qubit logic, mỗi cái từ hàng trăm-cộng qubit vật lý, có thể tổng cỡ một triệu qubit vật lý.</li>
+    <li>Các rào cản còn lại mang tính kỹ thuật - mở rộng, giữ tỷ lệ dưới ngưỡng, giải mã thời gian thực, hạ tầng điều khiển - nên hãy giữ triển vọng chừng mực, không thổi phồng.</li>
+  </ul>
+</div>

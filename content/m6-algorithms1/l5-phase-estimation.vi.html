@@ -1,0 +1,58 @@
+<p>Giờ ta ráp các mảnh - phản hồi pha và QFT ngược - thành chương trình con quan trọng bậc nhất trong điện toán lượng tử: <strong>ước lượng pha lượng tử</strong> (QPE). Nó là trái tim đang đập của thuật toán phân tích thừa số Shor và của các tính toán năng lượng trong hoá học lượng tử. Bài này mang tính khái niệm, nhưng các phương trình chủ chốt kể trọn câu chuyện.</p>
+
+<h2>Bài toán: đọc pha của một trị riêng</h2>
+
+<p>Giả sử bạn có một unitary \(U\) và một trong các trạng thái riêng \(|u\rangle\) của nó. Vì \(U\) là unitary, các trị riêng của nó là pha thuần, nên ta viết được</p>
+
+\[ U\,|u\rangle = e^{2\pi i\varphi}\,|u\rangle, \qquad 0 \le \varphi < 1. \]
+
+<p>Số \(\varphi\) là <strong>pha riêng</strong> (eigenphase). Tự thân việc áp \(U\) không thay đổi trạng thái \(|u\rangle\) theo cách nào quan sát được - pha \(e^{2\pi i\varphi}\) là toàn cục và vô hình với phép đo. Nhiệm vụ của ước lượng pha là lôi \(\varphi\) đang ẩn đó ra một thanh ghi bạn đọc được, với độ chính xác \(n\) bit.</p>
+
+<h2>Động cơ: kickback với các luỹ thừa có điều khiển của U</h2>
+
+<p>Lấy một <strong>thanh ghi đếm</strong> gồm \(n\) qubit (sẽ giữ đáp án) cộng một thanh ghi giữ \(|u\rangle\). Đưa mọi qubit đếm về \(|+\rangle\) bằng Hadamard, rồi áp một <strong>controlled-\(U\)</strong> từ mỗi qubit đếm, nhưng với luỹ thừa tăng gấp đôi: qubit \(j\) điều khiển \(U^{2^{j}}\).</p>
+
+<p>Ở đây kickback lại ra tay. Vì \(|u\rangle\) là trạng thái riêng, áp \(U^{2^j}\) nhân nó với \(e^{2\pi i\,2^{j}\varphi}\); với điều khiển ở dạng chồng chập, pha đó phản hồi lên qubit điều khiển:</p>
+
+\[ \tfrac{1}{\sqrt2}\big(|0\rangle + |1\rangle\big) \;\longrightarrow\; \tfrac{1}{\sqrt2}\big(|0\rangle + e^{2\pi i\, 2^{j}\varphi}|1\rangle\big). \]
+
+<p>Bản thân \(|u\rangle\) không hề bị nhiễu loạn - nó chỉ cung cấp pha riêng lặp đi lặp lại. Sau tất cả các luỹ thừa có điều khiển, thanh ghi đếm giữ</p>
+
+\[ \frac{1}{\sqrt{2^n}}\sum_{k=0}^{2^n-1} e^{2\pi i\,\varphi k}\,|k\rangle. \]
+
+<div class="callout note">
+  <span class="callout-label">Trông quen chứ?</span>
+  <p>So với công thức QFT \(\tfrac{1}{\sqrt N}\sum_k e^{2\pi i\, xk/N}|k\rangle\). Đây đúng là biến đổi Fourier của trạng thái cơ sở \(|x\rangle\) với \(x/N = \varphi\), tức \(x = 2^n\varphi\). Các luỹ thừa có điều khiển đã chuẩn bị sẵn <em>biến đổi Fourier của đáp án</em>.</p>
+</div>
+
+<h2>Bộ giải mã: QFT ngược</h2>
+
+<p>Nếu các pha mã hoá QFT của số \(x = 2^n\varphi\), thì chạy QFT <em>ngược lại</em> phải khôi phục \(|x\rangle\). Đó là bước cuối: áp <strong>QFT ngược</strong> lên thanh ghi đếm, rồi đo. Khi \(\varphi\) đúng là một phân số \(n\) bit, kết quả là số nguyên \(x = 2^n\varphi\), và chia cho \(2^n\) cho ra \(\varphi\) chính xác:</p>
+
+\[ \text{đo} \;\Rightarrow\; x, \qquad \varphi \approx \frac{x}{2^n}. \]
+
+<p>Khi \(\varphi\) không phải một phân số \(n\) bit chính xác, QFT ngược dồn xác suất thành đỉnh nhọn quanh xấp xỉ \(n\) bit gần nhất, nên phép đo trả về ước lượng \(n\) bit tốt nhất với xác suất cao. Thêm qubit đếm mua thêm bit độ chính xác.</p>
+
+<div class="example">
+  <span class="example-label">Kiểm tra: một pha biểu diễn được chính xác</span>
+  <p>Cho \(n=3\) và \(\varphi = 0.101_2 = 5/8\). Các luỹ thừa có điều khiển viết \(\tfrac{1}{\sqrt8}\sum_k e^{2\pi i (5/8) k}|k\rangle\), chính là \(\text{QFT}|5\rangle\). QFT ngược đưa nó về \(|5\rangle = |101\rangle\), đo được chắc chắn. Đọc ra \(\varphi = 5/8\). Không nhiễu lấy mẫu, vì đáp án vừa khít trong 3 bit.</p>
+</div>
+
+<h2>Vì sao nó quan trọng: Shor và hoá học</h2>
+
+<p>Ước lượng pha là lý do máy tính lượng tử đe doạ RSA. <strong>Thuật toán phân tích thừa số Shor</strong> quy việc phân tích về tìm chu kỳ của ánh xạ luỹ thừa modulo, và chu kỳ đó đúng là một pha riêng của một unitary bạn dựng được - QPE rút nó ra, và QFT bên trong khiến việc đó hiệu quả. Cùng chương trình con ấy ước lượng <strong>năng lượng trạng thái cơ bản</strong> của một phân tử: mã hoá tiến hoá thời gian của Hamiltonian thành \(U = e^{-iHt}\), chuẩn bị một trạng thái riêng xấp xỉ, và QPE đọc ra trị riêng năng lượng. Hai ứng dụng cờ đầu của lĩnh vực này, ở cốt lõi, chính là một mạch duy nhất này.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Ước lượng pha = (Hadamard) + (controlled-\(U^{2^j}\) kích pha riêng vào thanh ghi đếm dưới dạng QFT) + (QFT ngược để giải mã) + (đo). Nó biến một pha riêng vô hình \(\varphi\) thành một con số \(n\) bit đọc được, và là cốt lõi của thuật toán Shor cùng hoá học lượng tử.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>QPE ước lượng pha \(\varphi\) trong \(U|u\rangle = e^{2\pi i\varphi}|u\rangle\) tới độ chính xác \(n\) bit.</li>
+    <li>Các luỹ thừa controlled-\(U^{2^j}\) dùng phản hồi pha để viết \(\tfrac{1}{\sqrt{2^n}}\sum_k e^{2\pi i\varphi k}|k\rangle\) vào thanh ghi đếm - chính là QFT của đáp án.</li>
+    <li>QFT ngược giải mã nó thành một số nguyên đo được \(x \approx 2^n\varphi\); thêm qubit là thêm độ chính xác.</li>
+    <li>QPE là chương trình con cốt lõi sau thuật toán phân tích thừa số Shor và ước lượng năng lượng trong hoá học lượng tử.</li>
+  </ul>
+</div>

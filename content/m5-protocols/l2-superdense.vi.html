@@ -1,0 +1,72 @@
+<p>Một qubit mang được bao nhiêu thông tin cổ điển? Một qubit đo trong cơ sở cố định chỉ cho một bit, và một kết quả sâu sắc (giới hạn Holevo) nói rằng ta không bao giờ rút được quá một bit cổ điển từ một qubit đứng riêng. <strong>Mã hoá siêu đặc</strong> cho thấy một kẽ hở đẹp đẽ: nếu Alice và Bob <em>chia sẻ trước</em> một cặp rối, Alice gửi được <strong>hai</strong> bit cổ điển khi chỉ truyền <strong>một</strong> qubit. Rối, được thiết lập từ trước, nhân đôi kênh truyền.</p>
+
+<h2>Thiết lập: một cặp Bell chia sẻ</h2>
+
+<p>Trước khi có thông điệp nào, một nguồn chuẩn bị trạng thái Bell</p>
+
+\[ |\Phi^+\rangle = \frac{1}{\sqrt2}\big(|00\rangle + |11\rangle\big), \]
+
+<p>rồi trao qubit thứ nhất cho Alice và qubit thứ hai cho Bob. Giờ họ có thể đi về hai đầu thế giới. Alice giữ một nửa; Bob giữ nửa kia. Chưa qubit nào đứng riêng mang thông điệp - cặp chỉ là một tài nguyên chia sẻ, như hai đầu của một sợi cáp đã lắp sẵn.</p>
+
+<div class="callout note">
+  <span class="callout-label">Việc này phải xảy ra trước</span>
+  <p>Rối được phân phối <em>trước</em> khi Alice quyết định nói gì. Khi sau đó chọn thông điệp 2 bit, cô chỉ tác động lên qubit của riêng mình.</p>
+</div>
+
+<h2>Mã hoá: một phép Pauli cho mỗi thông điệp</h2>
+
+<p>Alice muốn gửi một trong bốn thông điệp: \(00, 01, 10, 11\). Cô áp một cổng đơn qubit lên <em>nửa</em> của mình, chọn từ \(\{I, X, Z, XZ\}\):</p>
+
+\[
+\begin{array}{c|c|c}
+\text{thông điệp} & \text{Alice áp} & \text{trạng thái cặp thu được}\\ \hline
+00 & I & |\Phi^+\rangle = \tfrac{1}{\sqrt2}(|00\rangle+|11\rangle)\\
+01 & X & |\Psi^+\rangle = \tfrac{1}{\sqrt2}(|10\rangle+|01\rangle)\\
+10 & Z & |\Phi^-\rangle = \tfrac{1}{\sqrt2}(|00\rangle-|11\rangle)\\
+11 & XZ & |\Psi^-\rangle = \tfrac{1}{\sqrt2}(|01\rangle-|10\rangle)
+\end{array}
+\]
+
+<p>Mỗi phép Pauli xoay trạng thái chia sẻ sang một <em>cái khác</em> trong bốn <strong>trạng thái Bell</strong>. Bốn trạng thái này trực giao lẫn nhau, nên phân biệt hoàn hảo được. Điều then chốt: Alice chỉ chạm qubit của riêng mình, vậy mà toàn bộ trạng thái hai qubit đã dịch chuyển.</p>
+
+<div class="example">
+  <span class="example-label">Bước có lời giải: mã hoá X</span>
+  <p>Bắt đầu từ \(|\Phi^+\rangle = \tfrac{1}{\sqrt2}(|00\rangle + |11\rangle)\). Alice áp \(X\) lên qubit (thứ nhất) của mình, nó lật \(|0\rangle \leftrightarrow |1\rangle\):</p>
+  \[ (X\otimes I)|\Phi^+\rangle = \tfrac{1}{\sqrt2}(|10\rangle + |01\rangle) = |\Psi^+\rangle. \]
+  <p>Cặp giờ ở một trạng thái Bell khác biệt. Bob, khi có cả hai qubit, sẽ phân biệt được nó với ba cái còn lại một cách chắc chắn.</p>
+</div>
+
+<h2>Truyền và giải mã</h2>
+
+<p>Alice giờ gửi qubit đơn của mình cho Bob. Bob giữ cả hai nửa và phải xác định chúng đang ở trạng thái Bell nào - một <strong>phép đo Bell</strong>. Mạch chuẩn là: áp <strong>CNOT</strong> (qubit của Alice làm điều khiển, của Bob làm đích), rồi <strong>H</strong> lên qubit của Alice, rồi đo cả hai trong cơ sở tính toán. Điều này ánh xạ bốn trạng thái Bell về lại bốn kết quả thường:</p>
+
+\[ |\Phi^+\rangle \to 00, \quad |\Psi^+\rangle \to 01, \quad |\Phi^-\rangle \to 10, \quad |\Psi^-\rangle \to 11. \]
+
+<p>Hai bit đo được chính là thông điệp của Alice. Hai bit cổ điển được khôi phục - từ một kênh mà chỉ có một qubit đi qua.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Mã hoá siêu đặc gửi 2 bit cổ điển bằng 1 qubit truyền đi, nhưng chỉ nhờ một cặp Bell đã chia sẻ từ trước. Rối chia sẻ trước là "nửa" thứ hai của kênh - không có nó, một qubit cho tối đa một bit.</p>
+</div>
+
+<h2>Vì sao đây không phải bữa trưa miễn phí</h2>
+
+<p>Ta dễ nói một qubit "biến thành" hai bit, nhưng sổ sách vẫn trung thực. Thiết lập cặp Bell đã đòi hỏi gửi một qubit (nửa của Bob) từ trước. Tính trên cả giao thức, tổng cộng có hai qubit dịch chuyển để giao hai bit. Cái mã hoá siêu đặc mua cho bạn là <em>thời điểm</em>: rối đắt đỏ có thể phân phối từ trước, vào lúc rảnh, để đến khi gửi tin chỉ cần một qubit duy nhất vượt kênh.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Không có nhắn tin nhanh hơn ánh sáng</span>
+  <p>Bob không biết gì cho tới khi qubit của Alice tới nơi vật lý. Rối chia sẻ tự nó không mang thông tin; thông điệp cưỡi trên qubit truyền đi, vốn không đi nhanh hơn ánh sáng.</p>
+</div>
+
+<p>Mã hoá siêu đặc và dịch chuyển lượng tử (bài sau) là hình phản chiếu của nhau: ở đây một qubit mang hai bit cổ điển; ở kia hai bit cổ điển mang một qubit. Cả hai đều tiêu một cặp Bell chia sẻ.</p>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Mã hoá siêu đặc gửi 2 bit cổ điển khi chỉ truyền 1 qubit.</li>
+    <li>Nó cần một cặp Bell chia sẻ trước - rối là tài nguyên làm nên điều đó.</li>
+    <li>Alice mã hoá bằng một trong \(\{I, X, Z, XZ\}\), xoay cặp thành một trong bốn trạng thái Bell.</li>
+    <li>Bob giải mã bằng CNOT + H rồi đo, đọc ra 2 bit một cách chắc chắn.</li>
+    <li>Không truyền tin nhanh hơn ánh sáng: Bob không biết gì cho tới khi qubit của Alice tới.</li>
+  </ul>
+</div>

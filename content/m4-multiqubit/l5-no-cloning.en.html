@@ -1,0 +1,61 @@
+<p>Classical information is trivially copyable: every file you save, every byte forwarded across a network, is a copy. It is natural to assume quantum information behaves the same way. It does not. The <strong>no-cloning theorem</strong> proves that no machine can copy an arbitrary unknown quantum state - and the proof is a short, clean consequence of a single fact you already know: quantum evolution is linear.</p>
+
+<h2>What "cloning" would have to mean</h2>
+
+<p>A cloning device would be one fixed unitary \(U\) that takes any unknown state \(|\psi\rangle\), together with a blank target qubit \(|0\rangle\), and produces two copies:</p>
+
+\[ U\big(|\psi\rangle \otimes |0\rangle\big) = |\psi\rangle \otimes |\psi\rangle \qquad \text{for every } |\psi\rangle. \]
+
+<p>The crucial word is <em>every</em>. It is easy to copy a <em>known</em> basis state - a CNOT with a blank target does exactly \(|0\rangle|0\rangle\to|0\rangle|0\rangle\) and \(|1\rangle|0\rangle\to|1\rangle|1\rangle\). The theorem is about a single machine that must work for all states at once, including unknown superpositions.</p>
+
+<h2>The proof by linearity</h2>
+
+<p>Assume such a \(U\) exists. Apply it to the two basis states:</p>
+
+\[ U\big(|0\rangle|0\rangle\big) = |0\rangle|0\rangle, \qquad U\big(|1\rangle|0\rangle\big) = |1\rangle|1\rangle. \]
+
+<p>Now feed it the superposition \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\). We can compute the answer two different ways, and they must agree.</p>
+
+<p><strong>Route 1 - use the cloning definition directly.</strong> By definition \(U\) should copy \(|+\rangle\), giving</p>
+
+\[ U\big(|+\rangle|0\rangle\big) = |+\rangle|+\rangle = \tfrac{1}{2}\big(|00\rangle + |01\rangle + |10\rangle + |11\rangle\big). \]
+
+<p><strong>Route 2 - use linearity.</strong> Because \(U\) is linear, it acts term by term on \(|+\rangle|0\rangle = \tfrac{1}{\sqrt2}(|0\rangle|0\rangle + |1\rangle|0\rangle)\):</p>
+
+\[ U\big(|+\rangle|0\rangle\big) = \tfrac{1}{\sqrt2}\Big(U|0\rangle|0\rangle + U|1\rangle|0\rangle\Big) = \tfrac{1}{\sqrt2}\big(|00\rangle + |11\rangle\big). \]
+
+<p>The two routes disagree. Route 1 gives an equal spread over all four basis states; Route 2 gives the entangled Bell state \(\tfrac{1}{\sqrt2}(|00\rangle+|11\rangle)\), which has no \(|01\rangle\) or \(|10\rangle\) terms at all. They cannot both be the output of the same operation:</p>
+
+\[ \tfrac{1}{2}\big(|00\rangle + |01\rangle + |10\rangle + |11\rangle\big) \ \neq\ \tfrac{1}{\sqrt2}\big(|00\rangle + |11\rangle\big). \]
+
+<p>Contradiction. Our only assumption was that a universal cloner \(U\) exists, so that assumption is false. <strong>No such unitary can exist.</strong></p>
+
+<div class="callout note">
+  <span class="callout-label">The one-line reason</span>
+  <p>Copying is <em>quadratic</em> in the amplitudes - the output amplitudes are products like \(\alpha^2, \alpha\beta\). Unitary evolution is strictly <em>linear</em>. A linear map cannot reproduce a quadratic one, so cloning is impossible. The \(|+\rangle\) calculation above is just this mismatch made concrete.</p>
+</div>
+
+<h2>Consequences</h2>
+
+<p>The no-cloning theorem is not a mere curiosity; it shapes what quantum computers can and cannot do.</p>
+
+<ul>
+  <li><strong>You cannot back up a qubit.</strong> There is no "copy-paste" for unknown quantum data, and no way to make redundant copies to protect against noise the classical way. Quantum error correction has to work around this, spreading information across entangled qubits rather than duplicating it.</li>
+  <li><strong>It secures quantum key distribution (QKD).</strong> An eavesdropper cannot silently copy qubits in transit to read them later; any attempt to intercept-and-resend disturbs the states and is detectable. Protocols like BB84 turn no-cloning directly into security.</li>
+  <li><strong>It forbids one route to faster-than-light signalling.</strong> If you could clone, you could make many copies of one qubit of an entangled pair and read out its state, defeating no-signalling. No-cloning quietly protects that consistency too.</li>
+</ul>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>No single unitary can copy an arbitrary unknown quantum state. The proof: assume a cloner works on \(|0\rangle\) and \(|1\rangle\), apply linearity to \(|+\rangle\), and the two ways of computing the result disagree - a contradiction.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>The no-cloning theorem forbids a universal unitary \(U\) with \(U(|\psi\rangle|0\rangle)=|\psi\rangle|\psi\rangle\) for every \(|\psi\rangle\).</li>
+    <li>Known basis states can be copied (CNOT); arbitrary unknown superpositions cannot.</li>
+    <li>The proof rests on linearity: applying an assumed cloner to \(|+\rangle\) two ways gives contradictory outputs.</li>
+    <li>Consequences: no qubit backups, security for QKD, and consistency with no faster-than-light signalling.</li>
+  </ul>
+</div>

@@ -1,0 +1,56 @@
+<p>Một bit cổ điển là đối tượng đơn giản nhất trong tin học: nó là <code>0</code> hoặc <code>1</code>. Một <strong>qubit</strong> - bit lượng tử - là đối tượng đơn giản nhất trong điện toán <em>lượng tử</em>, và nó thực sự phong phú hơn. Bài này định nghĩa chính xác trạng thái của một qubit là gì, bằng ký hiệu bạn sẽ dùng suốt khoá học.</p>
+
+<h2>Trạng thái là vector: ký hiệu ket</h2>
+
+<p>Ta viết hai trạng thái xác định của qubit là \(|0\rangle\) và \(|1\rangle\). Ký hiệu ngoặc \(|\;\rangle\) gọi là <strong>ket</strong> (do Paul Dirac đưa ra); tạm thời cứ đọc \(|0\rangle\) là "trạng thái không". Về hình thức, đây là các vector cột hai chiều:</p>
+
+\[ |0\rangle = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \qquad |1\rangle = \begin{pmatrix} 0 \\ 1 \end{pmatrix}. \]
+
+<p>Sức mạnh của qubit là nó không bị giới hạn ở hai trạng thái này. Một trạng thái qubit tổng quát là một <strong>chồng chập</strong> (superposition) - một tổ hợp có trọng số:</p>
+
+\[ |\psi\rangle = \alpha\,|0\rangle + \beta\,|1\rangle = \begin{pmatrix} \alpha \\ \beta \end{pmatrix}. \]
+
+<p>Hai số \(\alpha\) và \(\beta\) gọi là <strong>biên độ</strong> (amplitude). Chúng là <em>số phức</em>, không chỉ là phân số - một điều trở nên thiết yếu ở hai bài sau khi ta bàn về pha. Nếu số phức đã quên, module 1 có phần ôn nhanh; với bài này chỉ cần biết mỗi số phức \(z\) có độ lớn \(|z|\), và \(|z|^2\) là một số thực không âm.</p>
+
+<div class="callout note">
+  <span class="callout-label">Ký hiệu</span>
+  <p>\(|0\rangle\) và \(|1\rangle\) gọi là <strong>cơ sở tính toán</strong> (computational basis, hay cơ sở chuẩn). "Cơ sở" nghĩa là mọi trạng thái qubit đều viết được thành tổ hợp của hai cái này, giống như mọi điểm trong mặt phẳng là tổ hợp của hai trục toạ độ.</p>
+</div>
+
+<h2>Quy tắc duy nhất biên độ phải tuân: chuẩn hoá</h2>
+
+<p>Biên độ không được tuỳ tiện. Chúng phải thoả <strong>điều kiện chuẩn hoá</strong>:</p>
+
+\[ |\alpha|^2 + |\beta|^2 = 1. \]
+
+<p>Lý do sẽ chính xác ở bài sau: \(|\alpha|^2\) là xác suất đo qubit và thấy <code>0</code>, còn \(|\beta|^2\) là xác suất thấy <code>1</code>. Xác suất của hai kết quả duy nhất có thể xảy ra phải cộng lại bằng \(1\). Chú ý đây là điều kiện trên <em>bình phương</em> độ lớn, không phải trên \(\alpha+\beta\) - một chỗ rất nhiều người nhầm.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>\(|\psi\rangle = \tfrac{3}{5}|0\rangle + \tfrac{4}{5}|1\rangle\) có phải trạng thái hợp lệ? Kiểm tra chuẩn hoá:</p>
+  \[ \left|\tfrac{3}{5}\right|^2 + \left|\tfrac{4}{5}\right|^2 = \tfrac{9}{25} + \tfrac{16}{25} = \tfrac{25}{25} = 1. \ \checkmark \]
+  <p>Hợp lệ. Dù \(\tfrac{3}{5} + \tfrac{4}{5} = \tfrac{7}{5} \neq 1\), trạng thái vẫn hợp lệ, vì chính bình phương độ lớn mới phải cộng lại bằng một.</p>
+</div>
+
+<h2>Chồng chập quan trọng nhất: trọng số bằng nhau</h2>
+
+<p>Đặt \(\alpha = \beta = \tfrac{1}{\sqrt{2}}\). Ta được một trạng thái phổ biến tới mức có tên riêng:</p>
+
+\[ |+\rangle = \frac{1}{\sqrt{2}}\big(|0\rangle + |1\rangle\big). \]
+
+<p>Kiểm tra chuẩn hoá: \(\left(\tfrac{1}{\sqrt2}\right)^2 + \left(\tfrac{1}{\sqrt2}\right)^2 = \tfrac12 + \tfrac12 = 1.\) Hệ số \(\tfrac{1}{\sqrt2}\) chính là thứ cần để tổng xác suất giữ nguyên bằng một. Khi người ta nói qubit "vừa là 0 vừa là 1 cùng lúc", trạng thái cân bằng này là thứ họ hình dung - nhưng như hai bài sau cho thấy, câu nói đó chỉ là tóm tắt lỏng lẻo của một điều chính xác hơn.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Trạng thái của một qubit là một vector phức hai chiều \(\alpha|0\rangle + \beta|1\rangle\) với \(|\alpha|^2 + |\beta|^2 = 1\). Các biên độ \(\alpha,\beta\) là mô tả đầy đủ của qubit - mọi thứ bạn có thể hỏi về nó đều tính từ chúng.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>\(|0\rangle\) và \(|1\rangle\) là hai trạng thái cơ sở tính toán, viết dưới dạng vector cột.</li>
+    <li>Trạng thái tổng quát là chồng chập \(|\psi\rangle = \alpha|0\rangle + \beta|1\rangle\) với biên độ phức.</li>
+    <li>Chuẩn hoá đòi hỏi \(|\alpha|^2 + |\beta|^2 = 1\) - điều kiện trên bình phương độ lớn, không phải trên biên độ thô.</li>
+    <li>\(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\) là chồng chập cân bằng, trọng số bằng nhau.</li>
+  </ul>
+</div>

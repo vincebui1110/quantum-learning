@@ -1,0 +1,50 @@
+<p>Rối không chỉ giới hạn ở các cặp. Với ba qubit trở lên, nó phong phú và bất ngờ hơn. Bài này gặp trạng thái GHZ - một trạng thái rối ba qubit - xem xét kỹ điều xảy ra khi bạn chỉ đo một qubit của thanh ghi rối, và giải quyết một câu hỏi trung thực quan trọng: rối có cho phép truyền tín hiệu nhanh hơn ánh sáng không? (Không.)</p>
+
+<h2>Trạng thái GHZ</h2>
+
+<p>Đặt tên theo Greenberger, Horne và Zeilinger, <strong>trạng thái GHZ</strong> của ba qubit là</p>
+
+\[ |\mathrm{GHZ}\rangle = \tfrac{1}{\sqrt2}\big(|000\rangle + |111\rangle\big). \]
+
+<p>Đây là họ hàng ba qubit tự nhiên của \(|\Phi^+\rangle\): một chồng chập đều của "toàn số không" và "toàn số một", không có gì ở giữa. Bạn dựng nó bằng cách mở rộng mạch Bell - áp \(H\) lên qubit đầu, rồi CNOT từ qubit 0 sang qubit 1, rồi CNOT từ qubit 0 sang qubit 2. Mỗi CNOT sao giá trị của điều khiển vào một qubit mới ngay trong chồng chập:</p>
+
+\[ |000\rangle \xrightarrow{\,H\,} \tfrac{1}{\sqrt2}(|000\rangle+|100\rangle) \xrightarrow{\,\mathrm{CNOT}_{01}\,} \tfrac{1}{\sqrt2}(|000\rangle+|110\rangle) \xrightarrow{\,\mathrm{CNOT}_{02}\,} \tfrac{1}{\sqrt2}(|000\rangle+|111\rangle). \]
+
+<h2>Đo một qubit của thanh ghi rối</h2>
+
+<p>Giả sử bạn chỉ đo qubit thứ nhất của trạng thái GHZ trong cơ sở chuẩn. Chỉ có hai số hạng tồn tại, \(|000\rangle\) và \(|111\rangle\), mỗi cái với xác suất \(\left(\tfrac{1}{\sqrt2}\right)^2 = \tfrac12\). Dù bạn thấy gì, nó cũng chọn một nhánh và làm sập toàn thanh ghi:</p>
+
+\[ \text{kết quả } 0 \ \Rightarrow\ |000\rangle, \qquad \text{kết quả } 1 \ \Rightarrow\ |111\rangle. \]
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải: một phép đo cố định cả ba</span>
+  <p>Bạn đo qubit 1 và đọc được <strong>1</strong>. Nhánh \(|000\rangle\) giờ bất khả, nên trạng thái sập về \(|111\rangle\). Qubit 2 và 3, mà bạn chưa hề chạm tới và có thể ở rất xa, giờ chắc chắn đều bằng \(1\). Một phép đo cục bộ đã xác định cả ba qubit cùng lúc - dấu hiệu của rối nhiều qubit thực sự.</p>
+</div>
+
+<p>Đây là bài học tổng quát về đo một hệ con: chạm vào một qubit của trạng thái rối là tác động lên toàn trạng thái. Các qubit chưa đo được cập nhật để nhất quán với điều bạn thấy. (Với rối một phần, các qubit còn lại có thể tự chúng vẫn ở chồng chập chứ không phải một giá trị xác định - nhưng trong GHZ, một phép đo ghim chặt tất cả.)</p>
+
+<h2>Rối là tài nguyên, không phải điện thoại</h2>
+
+<p>Sự sập tức thời của các qubit ở xa mời gọi một kết luận hấp dẫn: chắc hẳn ta khai thác được nó để liên lạc nhanh hơn ánh sáng? Không thể, và đáng để thành thật về lý do chính xác.</p>
+
+<p>Xét hai người, Alice và Bob, mỗi người giữ một qubit của \(|\Phi^+\rangle\) chung. Khi Alice đo, kết quả của <em>cô ấy</em> ngẫu nhiên - 50/50 - và cô không kiểm soát được mình sẽ ra kết quả nào. Bob, khi chỉ khảo sát qubit của riêng mình, cũng thấy một kết quả 50/50 hoàn toàn ngẫu nhiên, và điều then chốt là thống kê cục bộ của anh <strong>y hệt nhau</strong> dù Alice đã đo hay chưa. Không có thay đổi quan sát được nào ở phía Bob mà Alice có thể gây ra. Tương quan giữa kết quả của họ chỉ hiện ra <em>sau</em> khi họ gặp nhau và đối chiếu qua một kênh cổ điển thông thường (chậm hơn ánh sáng).</p>
+
+<div class="callout warn">
+  <span class="callout-label">Không truyền tín hiệu, nói thẳng</span>
+  <p>Rối tạo ra các tương quan mạnh hơn mọi thứ cổ điển, nhưng tự nó không truyền thông tin điều khiển được. Đó là <strong>nguyên lý không truyền tín hiệu</strong>, và đó là lý do cơ học lượng tử và thuyết tương đối chung sống hoà bình. Rối là một <em>tài nguyên</em> thực sự - nó cấp năng lượng cho dịch chuyển lượng tử, mã hoá siêu đặc, và phân phối khoá lượng tử - nhưng luôn kết hợp với một kênh cổ điển, không bao giờ là điện thoại nhanh hơn ánh sáng.</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>\(|\mathrm{GHZ}\rangle=\tfrac{1}{\sqrt2}(|000\rangle+|111\rangle)\) mở rộng rối kiểu Bell ra ba qubit. Đo một qubit của thanh ghi rối làm sập toàn trạng thái, nhưng tính ngẫu nhiên cục bộ khiến không thông tin nào đi nhanh hơn ánh sáng.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Trạng thái GHZ \(\tfrac{1}{\sqrt2}(|000\rangle+|111\rangle)\) là trạng thái rối cực đại ba qubit, dựng bằng một \(H\) và hai CNOT.</li>
+    <li>Đo một qubit của thanh ghi rối làm sập toàn trạng thái; trong GHZ, một kết quả cố định cả ba qubit.</li>
+    <li>Thống kê đo cục bộ không bao giờ phụ thuộc vào việc bên ở xa làm gì - nguyên lý không truyền tín hiệu.</li>
+    <li>Rối là tài nguyên cho tương quan, không phải cho liên lạc nhanh hơn ánh sáng.</li>
+  </ul>
+</div>

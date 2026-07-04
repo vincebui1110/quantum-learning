@@ -1,0 +1,56 @@
+<p>A classical bit is the simplest object in computing: it is either <code>0</code> or <code>1</code>. A <strong>qubit</strong> - a quantum bit - is the simplest object in <em>quantum</em> computing, and it is genuinely richer. This lesson defines exactly what a qubit's state is, using the notation you will read for the rest of the course.</p>
+
+<h2>States as vectors: the ket</h2>
+
+<p>We write the two definite states of a qubit as \(|0\rangle\) and \(|1\rangle\). The angled bracket notation \(|\;\rangle\) is called a <strong>ket</strong> (introduced by Paul Dirac); for now, just read \(|0\rangle\) as "the state zero." Formally these are two-dimensional column vectors:</p>
+
+\[ |0\rangle = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \qquad |1\rangle = \begin{pmatrix} 0 \\ 1 \end{pmatrix}. \]
+
+<p>The power of a qubit is that it is not limited to these two. A general qubit state is a <strong>superposition</strong> - a weighted combination:</p>
+
+\[ |\psi\rangle = \alpha\,|0\rangle + \beta\,|1\rangle = \begin{pmatrix} \alpha \\ \beta \end{pmatrix}. \]
+
+<p>The two numbers \(\alpha\) and \(\beta\) are called <strong>amplitudes</strong>. They are <em>complex numbers</em>, not merely fractions - a fact that becomes essential two lessons from now when we discuss phase. If complex numbers are rusty, module 1 has a short refresher; for this lesson it is enough to know that every complex number \(z\) has a magnitude \(|z|\), and \(|z|^2\) is a non-negative real number.</p>
+
+<div class="callout note">
+  <span class="callout-label">Notation</span>
+  <p>\(|0\rangle\) and \(|1\rangle\) are called the <strong>computational basis</strong> (or standard basis). "Basis" means every qubit state can be written as a combination of these two, just as every point in a plane is some combination of two axes.</p>
+</div>
+
+<h2>The one rule amplitudes must obey: normalization</h2>
+
+<p>Amplitudes are not free to be anything. They must satisfy the <strong>normalization condition</strong>:</p>
+
+\[ |\alpha|^2 + |\beta|^2 = 1. \]
+
+<p>The reason will be precise in the next lesson: \(|\alpha|^2\) is the probability of measuring the qubit and finding <code>0</code>, and \(|\beta|^2\) the probability of finding <code>1</code>. Probabilities of the only two possible outcomes must sum to \(1\). Notice this is a condition on the <em>squares</em> of the magnitudes, not on \(\alpha+\beta\) - a distinction people trip over constantly.</p>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Is \(|\psi\rangle = \tfrac{3}{5}|0\rangle + \tfrac{4}{5}|1\rangle\) a valid state? Check normalization:</p>
+  \[ \left|\tfrac{3}{5}\right|^2 + \left|\tfrac{4}{5}\right|^2 = \tfrac{9}{25} + \tfrac{16}{25} = \tfrac{25}{25} = 1. \ \checkmark \]
+  <p>Yes. Even though \(\tfrac{3}{5} + \tfrac{4}{5} = \tfrac{7}{5} \neq 1\), the state is valid, because it is the squared magnitudes that must sum to one.</p>
+</div>
+
+<h2>The most important superposition: equal weight</h2>
+
+<p>Set \(\alpha = \beta = \tfrac{1}{\sqrt{2}}\). This gives a state so common it has its own name:</p>
+
+\[ |+\rangle = \frac{1}{\sqrt{2}}\big(|0\rangle + |1\rangle\big). \]
+
+<p>Check it is normalized: \(\left(\tfrac{1}{\sqrt2}\right)^2 + \left(\tfrac{1}{\sqrt2}\right)^2 = \tfrac12 + \tfrac12 = 1.\) The factor \(\tfrac{1}{\sqrt2}\) is exactly what is needed to keep the total probability at one. When people say a qubit is "both 0 and 1 at once," this balanced state is what they picture - but as the next two lessons show, that phrase is a loose summary of something more precise.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>A qubit's state is a two-dimensional complex vector \(\alpha|0\rangle + \beta|1\rangle\) with \(|\alpha|^2 + |\beta|^2 = 1\). The amplitudes \(\alpha,\beta\) are the complete description of the qubit - everything you can ever ask about it is computed from them.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>\(|0\rangle\) and \(|1\rangle\) are the two computational-basis states, written as column vectors.</li>
+    <li>A general state is a superposition \(|\psi\rangle = \alpha|0\rangle + \beta|1\rangle\) with complex amplitudes.</li>
+    <li>Normalization requires \(|\alpha|^2 + |\beta|^2 = 1\) - a condition on squared magnitudes, not on the raw amplitudes.</li>
+    <li>\(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\) is the balanced, equal-weight superposition.</li>
+  </ul>
+</div>

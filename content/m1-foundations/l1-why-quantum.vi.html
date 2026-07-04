@@ -1,0 +1,46 @@
+<p>Trước khi vào bất kỳ phép toán nào, nên nói rõ máy tính lượng tử (quantum computer) thực chất là gì - và, cũng quan trọng không kém, nó <em>không</em> phải là gì. Nguồn hiểu lầm lớn nhất trong lĩnh vực này là niềm tin rằng máy tính lượng tử chỉ đơn giản là một máy tính thường chạy rất nhanh. Không phải vậy. Nó là một <strong>công cụ chuyên dụng</strong>, thắng máy cổ điển ở một tập nhỏ và cụ thể các bài toán, và hoàn toàn không có lợi thế gì ở hầu hết công việc tính toán thường ngày.</p>
+
+<h2>Có những bài toán khó về mặt cấu trúc với máy cổ điển</h2>
+
+<p>Máy cổ điển giỏi đến kinh ngạc ở gần như mọi thứ: sắp xếp, tìm kiếm cơ sở dữ liệu, dựng video, chạy bảng tính. Điện toán lượng tử không nhắm vào những việc đó. Nó nhắm vào một nhúm bài toán có vẻ khó về mặt <em>cấu trúc</em> - khó không phải vì thuật toán cổ điển của ta vụng về, mà vì chính cấu trúc của bài toán dường như ngăn cản một lời giải cổ điển nhanh.</p>
+
+<ul>
+  <li><strong>Phân tích thừa số số nguyên lớn (factoring).</strong> An ninh của phần lớn Internet (mã hoá RSA) dựa trên việc chưa có thuật toán cổ điển nào phân tích thừa số một số lớn nhanh. Phương pháp cổ điển tốt nhất, sàng trường số tổng quát, chạy trong thời gian <em>dưới-mũ</em>. Thuật toán lượng tử của Shor phân tích trong khoảng thời gian cỡ <code>(log N)</code> mũ ba - một bước nhảy cấp số nhân.</li>
+  <li><strong>Mô phỏng hệ lượng tử.</strong> Để mô tả trạng thái lượng tử của chỉ <code>n</code> hạt, máy cổ điển cần một bảng có kích thước tăng như <code>2^n</code> số. Với vài trăm hạt, con số này vượt cả số nguyên tử trong vũ trụ. Máy lượng tử biểu diễn các trạng thái ấy một cách bẩm sinh, khiến mô phỏng hoá học và vật liệu trở thành ứng dụng tự nhiên nhất của nó.</li>
+  <li><strong>Một số bài tìm kiếm và tối ưu.</strong> Thuật toán Grover tìm trong không gian phi cấu trúc gồm <code>N</code> phần tử chỉ trong khoảng <code>√N</code> bước thay vì <code>N</code>. Đây là tăng tốc thật nhưng chỉ ở mức <em>bậc hai</em> - hữu ích, song khiêm tốn hơn nhiều so với bước nhảy cấp số nhân của factoring.</li>
+</ul>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Máy tính lượng tử không phải một laptop nhanh hơn. Nó là cỗ máy chuyên dụng, lợi thế chỉ gói trong các bài toán có cấu trúc toán học đặc thù - trên hết là mô phỏng vật lý lượng tử, cùng vài bài số học và tìm kiếm.</p>
+</div>
+
+<h2>Vì sao "thử mọi đáp án cùng lúc" là hình dung sai</h2>
+
+<p>Một khẩu hiệu phổ biến nói rằng máy lượng tử "thử mọi đáp án đồng thời". Điều này gây hiểu nhầm. Đúng là máy lượng tử có thể giữ một chồng chập (superposition) trên nhiều khả năng cùng lúc - nhưng khi bạn <strong>đo</strong>, bạn chỉ nhận đúng một kết quả, chọn ngẫu nhiên. Nghệ thuật của một thuật toán lượng tử là sắp đặt phép tính sao cho các đáp án sai <em>triệt tiêu lẫn nhau</em> (qua giao thoa - interference, chủ đề của bài sau) và đáp án đúng còn lại với xác suất cao. Bản thân tính song song không cho bạn gì; chính giao thoa mới làm nên chuyện.</p>
+
+<div class="callout note">
+  <span class="callout-label">Phép loại suy</span>
+  <p>Hãy hình dung một con sóng. Cho nó đi theo hai đường rồi hợp lại: nơi đỉnh gặp đáy sóng biến mất, nơi đỉnh gặp đỉnh sóng lớn lên. Một thuật toán lượng tử nặn xác suất theo cùng cách ấy - thiết kế sự triệt tiêu của các đáp án sai - điều mà một cỗ máy chỉ "thử tất cả" không bao giờ làm được.</p>
+</div>
+
+<h2>Nhìn thẳng vào tình hình hiện nay</h2>
+
+<p>Nên tách bạch cái đã chứng minh trên lý thuyết với cái đã dựng được trên phần cứng. <em>Lý thuyết</em> thì vững chắc: các thuật toán như của Shor và Grover chặt chẽ về toán học, và lời hứa là có thật. <em>Phần cứng</em> thì còn sơ khai. Thiết bị hôm nay nhiễu và nhỏ - cái gọi là kỷ nguyên NISQ (Noisy Intermediate-Scale Quantum - lượng tử quy mô trung bình nhiều nhiễu). Thách thức kỹ thuật trung tâm là <strong>sửa lỗi</strong> (error correction): qubit vật lý mong manh, nên phải gộp nhiều cái lại để bảo vệ một qubit "logic" đáng tin.</p>
+
+<p>Đến giữa thập niên 2020, sửa lỗi đã đi từ lý thuyết vào phòng thí nghiệm, với các trình diễn ở cỡ vài chục qubit logic và độ chính xác cổng cải thiện nhanh. Nhưng một cỗ máy đủ lớn để chạy thuật toán Shor trên một số có ý nghĩa mật mã, hay để mô phỏng một phân tử nghiêm túc, vẫn được nhiều người kỳ vọng là thành tựu của cuối 2020s tới 2030s. Tiến bộ nhanh và thật; nhưng marketing thường chạy trước phần cứng. Người thực hành tỉnh táo giữ cả hai sự thật cùng lúc.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Kiểm tra thực tế</span>
+  <p>Máy tính lượng tử <em>chưa</em> phá vỡ mã hoá, và không thay thế các trung tâm dữ liệu. Những tuyên bố "ưu thế lượng tử" tới nay chỉ liên quan tới các bài benchmark dàn dựng, không phải ứng dụng hữu ích. Hãy hoài nghi lành mạnh với mọi tít báo hứa hẹn một cuộc cách mạng lượng tử đa dụng "vào năm sau".</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Máy tính lượng tử là thiết bị chuyên dụng, không phải một máy đa dụng chạy nhanh hơn.</li>
+    <li>Lợi thế của nó giới hạn ở các bài toán khó về cấu trúc: factoring, mô phỏng lượng tử, và một số bài tìm kiếm/tối ưu.</li>
+    <li>"Thử mọi đáp án cùng lúc" là sai; cơ chế thật là giao thoa triệt tiêu các đáp án sai.</li>
+    <li>Lĩnh vực đang ở giai đoạn phần cứng sơ khai, nhiều nhiễu; máy hữu ích rộng rãi đã sửa lỗi còn nhiều năm nữa.</li>
+  </ul>
+</div>

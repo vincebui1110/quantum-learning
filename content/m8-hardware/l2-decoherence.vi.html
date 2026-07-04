@@ -1,0 +1,55 @@
+<p>Bài trước khen thời gian kết hợp của từng nền tảng rồi lặng lẽ thừa nhận nó ngắn. Bài này giải thích kết hợp thực chất là gì, vì sao mất nó - <strong>mất kết hợp</strong> (decoherence) - là kẻ thù trung tâm của tính toán lượng tử, và cách các kỹ sư định lượng thiệt hại bằng hai hằng số thời gian, \(T_1\) và \(T_2\), cùng một con số gọi là <em>độ trung thực cổng</em> (gate fidelity).</p>
+
+<h2>Vì sao qubit mong manh</h2>
+
+<p>Một bit cổ điển bền vững vì nó dư thừa: một số <code>1</code> là hàng triệu electron trên một tụ điện, và mất vài electron thì chẳng thay đổi gì. Qubit thì ngược lại - toàn bộ trạng thái của nó nằm trong các biên độ mong manh và, quan trọng nhất, trong <em>pha tương đối</em> giữa \(|0\rangle\) và \(|1\rangle\). Môi trường luôn dòm ngó: trường điện từ lạc, dao động nhiệt, các qubit lân cận, dây đọc kết quả. Bất kỳ tương tác không kiểm soát nào cũng rò thông tin về qubit ra môi trường, và khoảnh khắc môi trường "biết" điều gì đó về trạng thái, chồng chập sạch của qubit bị hỏng. Sự rò đó là mất kết hợp.</p>
+
+<div class="callout note">
+  <span class="callout-label">Mất kết hợp = phép đo ngoài ý muốn</span>
+  <p>Bạn có thể coi mất kết hợp như việc môi trường đo qubit của bạn một chút, liên tục, không xin phép. Vì phép đo làm sập chồng chập, "phép đo" chậm chạp ngoài ý muốn này dần phá đúng những đặc tính lượng tử mà bạn đang cố dùng.</p>
+</div>
+
+<h2>T1: hồi phục năng lượng</h2>
+
+<p>Hằng số thời gian đầu tiên, \(T_1\), đo <strong>hồi phục</strong> (relaxation): một qubit bị kích giữ trạng thái kích bao lâu trước khi đổ năng lượng ra môi trường và suy từ \(|1\rangle\) về \(|0\rangle\) năng lượng thấp hơn. Đó là tương tự lượng tử của một vật nóng nguội đi. Nếu bạn chuẩn bị \(|1\rangle\) và chờ, xác suất còn tìm thấy \(|1\rangle\) giảm theo hàm mũ:</p>
+
+\[ P_1(t) = e^{-t/T_1}. \]
+
+<p>Sau một \(T_1\), chỉ còn một phần \(1/e \approx 37\%\) trạng thái kích sống sót. \(T_1\) dài hơn thì tốt hơn.</p>
+
+<h2>T2: mất pha</h2>
+
+<p>Hằng số thứ hai, \(T_2\), đo <strong>mất pha</strong> (dephasing): pha tương đối mong manh giữa \(|0\rangle\) và \(|1\rangle\) giữ được rõ ràng bao lâu. Lấy chồng chập đều \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle + |1\rangle)\). Những dao động nhỏ trong năng lượng qubit khiến pha đó trôi ngẫu nhiên, nên sau một lúc trạng thái là một hỗn hợp chưa biết, nhoè đi, chứ không còn là \(|+\rangle\) sắc nét bạn đã chuẩn bị. Mất pha không đòi qubit phải mất năng lượng - dân số của \(|0\rangle\) và \(|1\rangle\) có thể đứng yên trong khi pha lặng lẽ xáo trộn.</p>
+
+<div class="callout key">
+  <span class="callout-label">Quan hệ giữa chúng</span>
+  <p>Hồi phục năng lượng cũng xáo trộn pha, nên hai đại lượng liên hệ qua bất đẳng thức</p>
+  \[ T_2 \le 2\,T_1. \]
+  <p>Trong thực tế \(T_2\) thường là con số ngắn hơn, đau đớn hơn, vì mất pha thuần chồng lên hồi phục. Và \(T_2\) chi phối chính cái pha mà giao thoa dựa vào - đó là lý do mất pha là lỗi lượng tử điển hình nhất.</p>
+</div>
+
+<h2>Vì sao mất kết hợp phá đặc biệt các thuật toán lượng tử</h2>
+
+<p>Nhớ lại động cơ của lợi thế lượng tử: một thuật toán sắp xếp biên độ sao cho các đường dẫn tới đáp án sai <em>giao thoa triệt tiêu</em> (khử nhau) còn các đường tới đáp án đúng <em>giao thoa tăng cường</em> (cộng nhau). Vũ điệu đó phụ thuộc hoàn toàn vào pha tương đối rõ ràng. Mất pha làm ngẫu nhiên hoá các pha đó, nên những triệt tiêu cẩn thận nhoè đi, đỉnh xác suất ở đáp án đúng bẹp xuống, và cỗ máy trượt về một thiết bị cổ điển đầy nhiễu chỉ xuất ra rác. Mất kết hợp không chỉ thêm chút nhiễu - nó tấn công đúng nguồn tài nguyên đã làm cho máy tính trở nên lượng tử.</p>
+
+<h2>Lỗi cổng, lỗi đọc, và độ trung thực</h2>
+
+<p>Mất kết hợp là kẻ thù thụ động; còn có kẻ thù chủ động. Mỗi cổng là một xung vật lý không bao giờ được hiệu chỉnh hoàn hảo, nên nó rơi hơi lệch mục tiêu - một <strong>lỗi cổng</strong>. Đọc một qubit cũng có thể báo nhầm \(|0\rangle\) thành \(|1\rangle\) hay ngược lại - một <strong>lỗi đọc</strong>. Các kỹ sư tóm tắt một phép toán gần lý tưởng đến đâu bằng <strong>độ trung thực cổng</strong> \(F\), một số giữa 0 và 1, trong đó 1 là hoàn hảo. Một người bạn tiện lợi là tỷ lệ lỗi trên mỗi cổng,</p>
+
+\[ \varepsilon = 1 - F. \]
+
+<div class="example">
+  <span class="example-label">Vì sao lỗi nhỏ vẫn giết chết mạch dài</span>
+  <p>Giả sử mỗi cổng có độ trung thực \(F = 0.999\), nên \(\varepsilon = 0.001\). Lỗi tích lũy: sau \(n\) cổng, cơ hội đi qua nguyên vẹn xấp xỉ \(F^{\,n} = 0.999^{\,n}\). Tới \(n = 1000\) cổng thì đó là \(0.999^{1000} \approx 0.37\) - đại khái một phần ba cơ hội chạy sạch. Tới \(n = 5000\) nó sụp xuống dưới \(1\%\). Chính phép nhân này là lý do các thuật toán sâu nằm ngoài tầm với hôm nay, và là lý do hai bài sau tồn tại.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Mất kết hợp là môi trường rò thông tin ra khỏi qubit - thực chất là một phép đo ngoài ý muốn, liên tục.</li>
+    <li>\(T_1\) (hồi phục) đo suy giảm năng lượng từ \(|1\rangle\) về \(|0\rangle\), giảm theo \(e^{-t/T_1}\).</li>
+    <li>\(T_2\) (mất pha) đo pha tương đối sống bao lâu, với \(T_2 \le 2\,T_1\); nó thường là con số ngắn hơn, hại hơn.</li>
+    <li>Mất kết hợp hại đặc biệt vì nó phá thông tin pha mà giao thoa - nguồn của lợi thế lượng tử - dựa vào.</li>
+    <li>Lỗi cổng và lỗi đọc chồng thêm; độ trung thực \(F\) (và tỷ lệ lỗi \(\varepsilon = 1-F\)) tích lũy suốt mạch, nên lỗi nhỏ vẫn phá hỏng tính toán dài.</li>
+  </ul>
+</div>

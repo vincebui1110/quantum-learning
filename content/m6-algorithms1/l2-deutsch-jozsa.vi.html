@@ -1,0 +1,62 @@
+<p>Năm 1985, David Deutsch đặt một câu hỏi nhỏ, gần như ngớ ngẩn - và câu trả lời của nó là chứng minh đầu tiên rằng một máy tính lượng tử có thể làm chắc chắn một việc mà máy cổ điển không làm được trong một lần duy nhất. Bài này giải trọn vẹn thuật toán gốc ấy, rồi mở rộng lên bài toán \(n\) bit <strong>Deutsch-Jozsa</strong>.</p>
+
+<h2>Bài toán: hằng hay cân bằng?</h2>
+
+<p>Bạn được cho một oracle cho hàm một bit \(f:\{0,1\}\to\{0,1\}\). Có bốn hàm như vậy, và chúng chia làm hai loại. Một hàm là <strong>hằng</strong> nếu \(f(0)=f(1)\) (hai đầu ra như nhau), và <strong>cân bằng</strong> nếu \(f(0)\neq f(1)\) (đầu ra khác nhau). Nhiệm vụ: xác định bạn đang cầm loại nào.</p>
+
+<p>Cổ điển thì dễ nhưng không miễn phí - bạn phải biết <em>cả</em> \(f(0)\) và \(f(1)\), vì biết cái này chẳng nói gì về cái kia. Đó là <strong>hai</strong> truy vấn. Thuật toán Deutsch quyết định nó trong <strong>một</strong>.</p>
+
+<h2>Thuật toán một bit, giải trọn vẹn</h2>
+
+<p>Dùng hai qubit: đầu vào khởi đầu ở \(|0\rangle\) và đích khởi đầu ở \(|1\rangle\). Mạch là: Hadamard cả hai, rồi oracle \(U_f\), rồi Hadamard lên đầu vào, rồi đo đầu vào.</p>
+
+<p><strong>Bước 1 - Hadamard.</strong> \(H|0\rangle=|+\rangle\) và \(H|1\rangle=|-\rangle\), nên trạng thái trở thành</p>
+
+\[ |+\rangle|-\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle+|1\rangle\big)\,|-\rangle. \]
+
+<p><strong>Bước 2 - oracle, qua phản hồi pha.</strong> Với đích ở \(|-\rangle\), mỗi số hạng đầu vào nhận \((-1)^{f(x)}\):</p>
+
+\[ U_f\,|+\rangle|-\rangle = \tfrac{1}{\sqrt2}\Big((-1)^{f(0)}|0\rangle + (-1)^{f(1)}|1\rangle\Big)|-\rangle. \]
+
+<p>Rút dấu chung \((-1)^{f(0)}\) ra. Dấu ngoặc thành \(|0\rangle + (-1)^{f(0)\oplus f(1)}|1\rangle\). Con số duy nhất \(f(0)\oplus f(1)\) - bằng \(0\) khi hằng, \(1\) khi cân bằng - giờ điều khiển pha tương đối của thanh ghi đầu vào.</p>
+
+<p><strong>Bước 3 - Hadamard cuối.</strong> Nếu \(f(0)\oplus f(1)=0\) thì đầu vào là \(|+\rangle\), và \(H|+\rangle=|0\rangle\). Nếu \(f(0)\oplus f(1)=1\) thì đầu vào là \(|-\rangle\), và \(H|-\rangle=|1\rangle\). Bỏ qua một dấu toàn cục không đáng kể, thanh ghi đầu vào đúng bằng</p>
+
+\[ (-1)^{f(0)}\,\big|\,f(0)\oplus f(1)\,\big\rangle. \]
+
+<p><strong>Bước 4 - đo.</strong> Kết quả \(0\) nghĩa là hằng; kết quả \(1\) nghĩa là cân bằng. Một truy vấn, một phép đo, không chút bất định.</p>
+
+<div class="example">
+  <span class="example-label">Kiểm tra cụ thể: hàm đồng nhất cân bằng</span>
+  <p>Cho \(f(x)=x\), nên \(f(0)=0,\,f(1)=1\) (cân bằng). Kickback cho \(\tfrac{1}{\sqrt2}(|0\rangle - |1\rangle)=|-\rangle\) trên đầu vào. Rồi \(H|-\rangle=|1\rangle\), và ta đo được \(1\). Đúng - thuật toán báo "cân bằng". Với hàm hằng \(f(x)=0\), không dấu nào lật, đầu vào giữ \(|+\rangle\), và \(H|+\rangle=|0\rangle\) cho \(0\).</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Vì sao chạy được: giao thoa</span>
+  <p>Hadamard cuối khiến hai đường biên độ giao thoa. Khi \(f\) hằng, chúng cộng dồn trên \(|0\rangle\) và triệt tiêu trên \(|1\rangle\); khi cân bằng thì ngược lại. Một truy vấn đã nạp cả hai giá trị hàm vào các pha, và giao thoa đọc ra <em>mối quan hệ</em> giữa chúng - đúng thứ ta được hỏi.</p>
+</div>
+
+<h2>Mở rộng: Deutsch-Jozsa</h2>
+
+<p>Giờ \(f:\{0,1\}^n\to\{0,1\}\) đi kèm một lời hứa: nó hoặc <strong>hằng</strong> (cùng đầu ra cho cả \(2^n\) đầu vào) hoặc <strong>cân bằng</strong> (đầu ra \(0\) trên đúng một nửa số đầu vào, \(1\) trên nửa còn lại). Không hàm nào khác được phép. Mạch tổng quát dùng \(n\) qubit đầu vào: Hadamard tất cả, truy vấn \(U_f\) một lần (đích ở \(|-\rangle\)), Hadamard tất cả lần nữa, rồi đo.</p>
+
+<p>Kết quả đẹp và sắc gọn. Xác suất đo được chuỗi toàn số không \(|0\dots0\rangle\) là</p>
+
+\[ \Big|\,\tfrac{1}{2^n}\sum_{x}(-1)^{f(x)}\Big|^2 = \begin{cases} 1 & f \text{ hằng},\\[2pt] 0 & f \text{ cân bằng}. \end{cases} \]
+
+<p>Nếu \(f\) hằng, mọi số hạng cùng dấu và cộng lại thành \(\pm1\); nếu cân bằng, các \(+1\) và \(-1\) triệt tiêu đúng bằng nhau. Vậy: đo được toàn số không \(\Rightarrow\) hằng; đo ra thứ khác \(\Rightarrow\) cân bằng. Một truy vấn giải quyết chắc chắn. Một thuật toán cổ điển tất định có thể cần tới \(2^{n-1}+1\) truy vấn trong trường hợp xấu nhất - một khoảng cách hàm mũ.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Một lưu ý thành thật</span>
+  <p>Bài toán được dàn dựng: lời hứa (hằng-hoặc-cân-bằng, không có gì ở giữa) chính là thứ khiến giao thoa hoàn hảo. Và nếu chấp nhận một xác suất sai nhỏ, một thuật toán cổ điển giải được nó chỉ với vài lần lấy mẫu ngẫu nhiên. Giá trị của Deutsch-Jozsa không nằm ở thực tiễn - nó là tách biệt <em>chứng minh được</em> gọn gàng đầu tiên giữa độ phức tạp truy vấn lượng tử chính xác và cổ điển chính xác, và là khuôn mẫu mà mọi thuật toán về sau bắt chước.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Hằng nghĩa là \(f(0)=f(1)\); cân bằng nghĩa là chúng khác nhau. Cổ điển, trường hợp một bit cần 2 truy vấn.</li>
+    <li>Thuật toán Deutsch - H, oracle (kickback), H, đo - quyết định trong một truy vấn; đầu vào kết thúc ở \(|f(0)\oplus f(1)\rangle\).</li>
+    <li>Deutsch-Jozsa mở rộng lên \(n\) bit: kết quả toàn số không \(\Rightarrow\) hằng, ngược lại là cân bằng, chắc chắn trong một truy vấn.</li>
+    <li>Tách biệt là chứng minh được nhưng dàn dựng - giá trị của nó là bằng chứng nguyên lý, không phải một nhiệm vụ hữu ích.</li>
+  </ul>
+</div>

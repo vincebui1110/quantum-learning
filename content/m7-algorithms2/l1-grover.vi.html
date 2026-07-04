@@ -1,0 +1,63 @@
+<p>Giả sử bạn có một danh bạ không sắp xếp gồm \(N\) mục và muốn tìm cái tên khớp với một số điện thoại cho trước. Về mặt cổ điển không có lối tắt: bạn kiểm tra từng mục một, và trung bình phải nhìn khoảng \(N/2\) mục trước khi thấy - và \(N\) trong trường hợp xấu nhất. <strong>Thuật toán Grover</strong> (Lov Grover, 1996) làm việc này trên máy lượng tử chỉ trong khoảng \(\sqrt{N}\) bước. Đó là một sự tăng tốc thật sự, nhưng khiêm tốn - <em>bậc hai</em>, không phải hàm mũ. Hiểu đúng sự khác biệt đó chính là trọng tâm của bài này.</p>
+
+<h2>Bài toán tìm kiếm không có cấu trúc</h2>
+
+<p>Ta được cho một hàm - một <strong>oracle</strong> - \(f(x)\) trả về \(1\) cho đúng một đầu vào đặc biệt \(x^\star\) (mục "được đánh dấu") và \(0\) cho mọi đầu vào khác. Ta không biết gì thêm về \(f\): không có thứ tự để khai thác, không có độ dốc để lần theo. Việc duy nhất làm được là hỏi oracle về các đầu vào. Cổ điển, để phân biệt mục được đánh dấu cần cỡ \(N\) lần hỏi. Lời hứa của Grover là tìm \(x^\star\) với xác suất cao chỉ dùng khoảng \(\sqrt{N}\) lần hỏi oracle.</p>
+
+<div class="callout note">
+  <span class="callout-label">Thiết lập</span>
+  <p>Với \(n\) qubit ta đánh chỉ số \(N = 2^n\) mục bằng các trạng thái cơ sở tính toán \(|0\rangle, |1\rangle, \dots, |N-1\rangle\). Mục tiêu là cuối cùng đo được \(|x^\star\rangle\).</p>
+</div>
+
+<h2>Bước 1: bắt đầu ở chồng chập đều</h2>
+
+<p>Áp dụng một cổng Hadamard lên từng qubit trong \(n\) qubit, \(H^{\otimes n}\), biến \(|0\rangle^{\otimes n}\) thành một hỗn hợp cân bằng của <em>mọi</em> mục:</p>
+
+\[ |s\rangle = H^{\otimes n}|0\rangle^{\otimes n} = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} |x\rangle. \]
+
+<p>Bây giờ mọi mục đều có biên độ \(1/\sqrt{N}\), nên đo ngay lúc này chỉ cho ra mục được đánh dấu với xác suất \(1/N\) - không hơn gì đoán mò. Nhiệm vụ của thuật toán là tăng biên độ của mục tiêu trước khi ta đo.</p>
+
+<h2>Bước 2: lặp lại oracle + khuếch tán</h2>
+
+<p>Mỗi <strong>vòng lặp Grover</strong> gồm hai động tác. Trước hết <strong>oracle</strong> đảo <em>dấu</em> biên độ của mục được đánh dấu, không đụng tới phần còn lại:</p>
+
+\[ |x\rangle \;\longmapsto\; (-1)^{f(x)}\,|x\rangle, \qquad \text{nên } |x^\star\rangle \to -|x^\star\rangle. \]
+
+<p>"Cú hích pha" này tự nó không đổi bất kỳ xác suất đo nào - mọi độ lớn giữ nguyên. Nhưng nó cắm một dấu hiệu để động tác thứ hai khai thác. Động tác thứ hai là <strong>toán tử khuếch tán</strong>, còn gọi là <em>đảo quanh giá trị trung bình</em>: tính trung bình \(\bar a\) của mọi biên độ, rồi phản chiếu mỗi biên độ \(a\) thành \(2\bar a - a\).</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Oracle đẩy biên độ mục tiêu xuống dưới trung bình (nó làm biên độ âm). Phản chiếu quanh trung bình sau đó đưa giá trị dưới-trung-bình đó lên <em>cao hơn hẳn</em> trung bình, trong khi rất nhiều biên độ khác co lại một chút. Mỗi vòng dồn xác suất về phía mục tiêu.</p>
+</div>
+
+<h2>Cần bao nhiêu vòng? Chỗ \(\sqrt{N}\) xuất hiện</h2>
+
+<p>Đây là sự thật then chốt: mỗi vòng làm tăng biên độ mục tiêu một lượng gần như không đổi, cỡ \(2/\sqrt{N}\) mỗi bước, cho tới khi nó tiến gần \(1\). Xuất phát từ \(1/\sqrt{N}\) và cần đạt tới khoảng \(1\), số bước cần thiết là cỡ \(\sqrt{N}\). Số vòng tối ưu chính xác là</p>
+
+\[ k \approx \frac{\pi}{4}\sqrt{N}. \]
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Tìm trong cơ sở dữ liệu \(N = 10^6\) mục. Tìm kiếm cổ điển trung bình kiểm tra khoảng \(500{.}000\) mục. Grover cần</p>
+  \[ k \approx \frac{\pi}{4}\sqrt{10^6} = \frac{\pi}{4}\cdot 1000 \approx 785 \text{ vòng}. \]
+  <p>Từ nửa triệu lần kiểm tra xuống dưới một nghìn: ấn tượng, nhưng để ý \(785 \approx \sqrt{N}\), không phải \(\log N\). Là lấy căn của độ khó, không phải hạ mũ nó.</p>
+</div>
+
+<h2>Vì sao phải dừng đúng lúc</h2>
+
+<p>Grover <em>không</em> phải một quá trình cứ chạy là tốt lên mãi. Mỗi vòng quay trạng thái một góc cố định (hình học của bài sau). Một khi vượt qua \(k \approx \tfrac{\pi}{4}\sqrt{N}\), bạn <strong>quay lố</strong>: bạn lướt qua mục tiêu và xác suất thành công tụt xuống trở lại, cuối cùng lại tiến gần về không trước khi tăng lên lần nữa. Điều này khiến Grover khác thường - chạy thuật toán <em>lâu hơn</em> có thể làm nó <em>tệ hơn</em>. Bạn phải biết \(N\) đủ rõ để dừng gần điểm tối ưu.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Ngộ nhận thường gặp</span>
+  <p>Grover không "kiểm tra mọi mục cùng lúc rồi trả về đáp án". Riêng chồng chập chỉ cho xác suất \(1/N\). Công việc được làm bởi khuếch đại biên độ qua \(\sqrt{N}\) vòng lặp cẩn thận - giao thoa, không phải song song miễn phí.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Grover tìm một mục được đánh dấu trong tập không cấu trúc \(N\) dùng \(\sim(\pi/4)\sqrt{N}\) lần hỏi oracle.</li>
+    <li>Đó là tăng tốc <strong>bậc hai</strong> so với \(\sim N\) lần hỏi cổ điển - không phải hàm mũ.</li>
+    <li>Bắt đầu bằng \(H^{\otimes n}\) cho chồng chập đều, rồi lặp: oracle (đảo dấu mục tiêu) + khuếch tán (đảo quanh trung bình).</li>
+    <li>Phải dừng gần số vòng tối ưu; chạy quá lâu sẽ quay lố và làm giảm xác suất thành công.</li>
+  </ul>
+</div>

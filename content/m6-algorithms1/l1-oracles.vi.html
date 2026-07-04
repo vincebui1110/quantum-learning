@@ -1,0 +1,54 @@
+<p>Các module trước đã dựng nên bộ máy: qubit, cổng, rối lượng tử. Giờ ta đặt câu hỏi làm nên tên tuổi của điện toán lượng tử - <em>khi nào một máy tính lượng tử thắng được máy cổ điển, và thắng bao nhiêu?</em> Câu trả lời gọn ghẽ nhất đến từ một khung đơn giản gọi là <strong>mô hình truy vấn</strong>, và tất cả đều dựa trên một mẹo lặp đi lặp lại: <strong>phản hồi pha</strong> (phase kickback). Bài này dựng cả hai.</p>
+
+<h2>Oracle: một hàm bạn chỉ được hỏi</h2>
+
+<p>Hãy hình dung một hàm \(f\) biến đầu vào \(n\) bit thành một bit duy nhất, \(f:\{0,1\}^n \to \{0,1\}\). Ta không được cho công thức của \(f\). Thay vào đó ta được trao một hộp đen - một <strong>oracle</strong> - để truy vấn: đưa vào một đầu vào, nhận lại đầu ra. Chi phí duy nhất ta đếm là số lần truy vấn. Mọi thứ khác (chuẩn bị trạng thái, áp Hadamard, đo) đều "miễn phí". Đây là cách đo thuật toán theo <strong>độ phức tạp truy vấn</strong>, và đây là nơi những tăng tốc lượng tử chứng minh được đầu tiên trú ngụ.</p>
+
+<p>Một máy tính lượng tử không thể dùng một hộp đơn giản ghi đè đầu vào bằng \(f(x)\), vì như thế không thuận nghịch - mà mọi cổng lượng tử phải là một unitary thuận nghịch. Cách sửa tiêu chuẩn dùng một thanh ghi thứ hai, thanh ghi <strong>đích</strong>, và lưu đáp án bằng phép XOR:</p>
+
+\[ U_f\,|x\rangle|y\rangle = |x\rangle\,|y \oplus f(x)\rangle. \]
+
+<p>Ở đây \(|x\rangle\) là thanh ghi đầu vào \(n\) qubit, \(|y\rangle\) là một qubit đích, và \(\oplus\) là phép cộng theo mod 2 (XOR). Áp \(U_f\) hai lần đưa \(y\) về ban đầu, xác nhận phép toán là nghịch đảo của chính nó - một unitary thực thụ.</p>
+
+<div class="callout note">
+  <span class="callout-label">Vì sao dùng XOR</span>
+  <p>Đặt \(y=0\): khi đó \(U_f|x\rangle|0\rangle = |x\rangle|f(x)\rangle\), đúng hành vi "hiển nhiên". Dạng XOR là phiên bản thuận nghịch, cũng hoạt động khi \(y=1\) và, quan trọng nhất, khi \(y\) ở dạng chồng chập - đó mới là điểm mấu chốt.</p>
+</div>
+
+<h2>Mẹo cấp năng lượng cho mọi thứ: phản hồi pha</h2>
+
+<p>Thay vì đưa cho qubit đích một giá trị \(0\) hay \(1\) xác định, hãy chuẩn bị nó ở trạng thái trừ \(|-\rangle = \tfrac{1}{\sqrt2}(|0\rangle - |1\rangle)\). Xem \(U_f\) làm gì với một trạng thái cơ sở đầu vào \(|x\rangle\):</p>
+
+\[ U_f\,|x\rangle|-\rangle = |x\rangle\,\tfrac{1}{\sqrt2}\big(|0 \oplus f(x)\rangle - |1 \oplus f(x)\rangle\big). \]
+
+<p>Giờ chia trường hợp. Nếu \(f(x)=0\), thanh ghi đích giữ nguyên: \(\tfrac{1}{\sqrt2}(|0\rangle-|1\rangle) = |-\rangle\). Nếu \(f(x)=1\), hai nhãn hoán đổi: \(\tfrac{1}{\sqrt2}(|1\rangle-|0\rangle) = -|-\rangle\). Cả hai gộp lại thành một công thức gọn:</p>
+
+\[ U_f\,|x\rangle|-\rangle = (-1)^{f(x)}\,|x\rangle\,|-\rangle. \]
+
+<p>Thanh ghi đích ra đúng như lúc vào - vẫn là \(|-\rangle\) - nhưng giá trị \(f(x)\) đã nhảy sang thanh ghi <em>đầu vào</em> dưới dạng pha \((-1)^{f(x)}\). Đây là <strong>phản hồi pha</strong>: vì \(|-\rangle\) là trạng thái riêng của phép lật bit \(X\) với trị riêng \(-1\), XOR bất cứ thứ gì vào nó chỉ nhân cả số hạng với \(\pm 1\).</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Lấy \(n=1\) và truy vấn đầu vào chồng chập \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\), với đích ở \(|-\rangle\). Theo tính tuyến tính, ta áp kickback từng số hạng:</p>
+  \[ U_f\,|+\rangle|-\rangle = \tfrac{1}{\sqrt2}\Big((-1)^{f(0)}|0\rangle + (-1)^{f(1)}|1\rangle\Big)|-\rangle. \]
+  <p>Một lần truy vấn đã in cả hai giá trị \(f(0)\) và \(f(1)\) vào các dấu của một trạng thái đầu vào. Không một phép tính cổ điển đơn lẻ nào thấy được hai đầu ra cùng lúc - lối mã hoá song-song-trong-pha này là nguyên liệu thô mà mọi thuật toán trong module này tinh chỉnh.</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Với đích ở \(|-\rangle\), oracle tác động như \(|x\rangle \to (-1)^{f(x)}|x\rangle\). Đầu ra của hàm trở thành một pha tương đối trên thanh ghi đầu vào. Về sau, giao thoa sẽ biến những pha đó thành một đáp án đo được.</p>
+</div>
+
+<h2>Độ phức tạp truy vấn và độ phức tạp cổng</h2>
+
+<p>Hãy thành thật về nghĩa của "tăng tốc" ở đây. Mô hình truy vấn đếm <em>số lần gọi oracle</em>. Một thuật toán lượng tử một-truy-vấn vẫn có thể dùng nhiều cổng thông thường quanh lời gọi duy nhất đó, và bản thân việc dựng một oracle thật cho một hàm thật cũng tốn cổng. Vậy nên một tách biệt truy vấn ấn tượng không tự động là một chiến thắng runtime ấn tượng. Hãy tách bạch hai ý: <strong>độ phức tạp truy vấn</strong> (hỏi hộp bao nhiêu lần) và <strong>độ phức tạp cổng</strong> (tổng số phép toán cơ bản). Các thuật toán sắp tới cho những tách biệt truy vấn gọn gàng, chứng minh được; còn chúng có chuyển thành tốc độ thực tế hay không phụ thuộc oracle dựng được rẻ tới đâu.</p>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Oracle là một hộp đen thuận nghịch: \(U_f|x\rangle|y\rangle = |x\rangle|y\oplus f(x)\rangle\).</li>
+    <li>Mô hình truy vấn chỉ đếm số lần gọi oracle; đây là nơi những lợi thế lượng tử chứng minh được đầu tiên xuất hiện.</li>
+    <li>Phản hồi pha: với đích ở \(|-\rangle\), \(U_f|x\rangle|-\rangle = (-1)^{f(x)}|x\rangle|-\rangle\).</li>
+    <li>Độ phức tạp truy vấn khác độ phức tạp cổng - một tách biệt truy vấn là một khẳng định chứng minh được, không tự động là tăng tốc theo đồng hồ.</li>
+  </ul>
+</div>

@@ -1,0 +1,55 @@
+<p>Ở module về qubit, bạn đã gặp <strong>mặt cầu Bloch</strong>: mọi trạng thái một qubit là một điểm trên bề mặt một mặt cầu đơn vị, với \(|0\rangle\) ở cực bắc và \(|1\rangle\) ở cực nam. Bài này mang lại phần thưởng của hình dung đó. Mọi cổng một qubit đơn giản là một <strong>phép quay mặt cầu Bloch</strong> - và chỉ một câu đó sắp xếp lại tất cả những gì bạn đã học trong module này.</p>
+
+<h2>Cổng là phép quay</h2>
+
+<p>Vì một cổng là unita, nó bảo toàn độ dài của vector trạng thái, nên không thể đẩy một điểm ra khỏi mặt cầu. Một chuyển động bảo toàn độ dài của mặt cầu mà giữ cố định tâm chính là một <strong>phép quay</strong>. Nên mọi cổng một qubit tương ứng với việc quay toàn bộ mặt cầu quanh <em>một</em> trục nào đó một <em>góc</em> nào đó. Các cổng bạn đã biết khớp ngay vào đây:</p>
+
+<ul>
+  <li>\(X\), \(Y\), \(Z\): quay \(180°\) quanh trục x, y, z.</li>
+  <li>\(S\), \(T\): quay quanh trục z một góc \(90°\) và \(45°\).</li>
+  <li>\(H\): quay \(180°\) quanh trục chéo nằm giữa x và z.</li>
+</ul>
+
+<h2>Ba cổng quay</h2>
+
+<p>Ta có thể quay một góc tuỳ ý \(\theta\) quanh mỗi trục. Các họ liên tục này là các cổng quay \(R_x(\theta)\), \(R_y(\theta)\), \(R_z(\theta)\):</p>
+
+\[ R_x(\theta) = \begin{pmatrix} \cos\tfrac{\theta}{2} & -i\sin\tfrac{\theta}{2} \\[4pt] -i\sin\tfrac{\theta}{2} & \cos\tfrac{\theta}{2} \end{pmatrix}, \qquad R_y(\theta) = \begin{pmatrix} \cos\tfrac{\theta}{2} & -\sin\tfrac{\theta}{2} \\[4pt] \sin\tfrac{\theta}{2} & \cos\tfrac{\theta}{2} \end{pmatrix}, \]
+
+\[ R_z(\theta) = \begin{pmatrix} e^{-i\theta/2} & 0 \\[4pt] 0 & e^{i\theta/2} \end{pmatrix}. \]
+
+<p>Mỗi cái quay mặt cầu Bloch một góc \(\theta\) quanh trục được nêu tên. Đặt \(\theta = 0\) cho ma trận đơn vị trong mọi trường hợp (không quay), đúng như phải vậy.</p>
+
+<div class="callout note">
+  <span class="callout-label">Vì sao là nửa góc?</span>
+  <p>Chú ý \(\theta/2\), không phải \(\theta\), bên trong các ma trận. Vector trạng thái của qubit sống trong một không gian phức 2 chiều <em>phủ đôi</em> mặt cầu Bloch: quay mặt cầu vật lý trọn \(360°\) chỉ đưa vector trạng thái đi được nửa vòng (nó trở lại kèm một dấu trừ; cần trọn \(720°\) mới thực sự về chỗ cũ). Nên một phép quay vật lý góc \(\theta\) hiện ra thành \(\theta/2\) trong trạng thái.</p>
+</div>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Quay \(|0\rangle\) một góc \(\theta = \pi\) quanh trục x. Với \(\cos\tfrac{\pi}{2} = 0\) và \(\sin\tfrac{\pi}{2} = 1\):</p>
+  \[ R_x(\pi)|0\rangle = \begin{pmatrix} 0 & -i \\ -i & 0 \end{pmatrix}\begin{pmatrix} 1 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ -i \end{pmatrix} = -i\,|1\rangle. \]
+  <p>Sai khác pha chung \(-i\) (một pha toàn cục, vô hình về vật lý), đây là \(|1\rangle\). Một phép quay \(180°\) quanh trục x đưa cực bắc \(|0\rangle\) tới cực nam \(|1\rangle\) - đúng điều \(X\) làm, xác nhận \(R_x(\pi) = -iX\).</p>
+</div>
+
+<h2>Mọi cổng một qubit đều là một phép quay</h2>
+
+<p>Còn nhiều hơn "các cổng ta biết là phép quay". <em>Bất kỳ</em> unita một qubit nào cũng viết được thành một phép quay quanh một trục \(\hat{n}\) nào đó một góc nào đó - và, tương đương, phân tích thành một chuỗi ngắn các phép quay quanh những trục cố định, ví dụ</p>
+
+\[ U = e^{i\gamma}\,R_z(\alpha)\,R_y(\beta)\,R_z(\delta) \]
+
+<p>với các góc thích hợp (phân tích "Z-Y-Z"), trong đó \(e^{i\gamma}\) là một pha toàn cục không quan trọng. Đó là lý do một hộp công cụ cổng nhỏ, cố định là đủ.</p>
+
+<h2>Tập cổng phổ quát cho một qubit</h2>
+
+<p>Một tập cổng là <strong>phổ quát cho một qubit</strong> nếu bạn có thể xấp xỉ bất kỳ phép quay một qubit nào gần tuỳ ý bằng cách ghép nối các cổng của nó. Phép quay quanh hai trục khác nhau đã đủ - chẳng hạn \(R_z\) và \(R_x\). Trong thế giới rời rạc, thân thiện với phần cứng, \(\{H, T\}\) là phổ quát: xen kẽ các cổng Hadamard và \(T\) có thể xấp xỉ bất kỳ phép quay nào tới độ chính xác tuỳ ý. Đó là lý do sâu xa vì sao một máy tính lượng tử thật chỉ cần một nhúm loại cổng để chạy bất kỳ thuật toán nào.</p>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Mọi cổng một qubit là một phép quay mặt cầu Bloch quanh một trục nào đó - tính unita giữ trạng thái trên mặt cầu.</li>
+    <li>\(R_x(\theta), R_y(\theta), R_z(\theta)\) quay góc \(\theta\) quanh trục x, y, z, xây từ \(\cos\tfrac{\theta}{2}\) và \(\sin\tfrac{\theta}{2}\).</li>
+    <li>Nửa góc xuất hiện vì không gian trạng thái phủ đôi mặt cầu Bloch.</li>
+    <li>Bất kỳ unita một qubit nào cũng phân tích thành vài phép quay quanh trục cố định; các tập nhỏ như \(\{H, T\}\) là phổ quát.</li>
+  </ul>
+</div>

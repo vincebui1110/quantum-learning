@@ -1,0 +1,58 @@
+<p>Tới giờ mọi thứ vẫn nằm trong thế giới hai chiều của một qubit đơn. Máy tính lượng tử thật giữ nhiều qubit cùng lúc, và phần vật lý thú vị - tương quan, giao thoa xuyên thanh ghi, rối lượng tử - chỉ xuất hiện khi các qubit được ghép lại. Bài này giới thiệu phép toán kết dính các qubit với nhau: <strong>tích tensor</strong>, ký hiệu \(\otimes\).</p>
+
+<h2>Ghép hai hệ</h2>
+
+<p>Giả sử qubit A ở trạng thái \(|a\rangle\) và qubit B ở trạng thái \(|b\rangle\). Trạng thái chung của cặp là tích tensor \(|a\rangle \otimes |b\rangle\), thường viết tắt \(|a\rangle|b\rangle\) hoặc \(|ab\rangle\). Áp dụng lên hai trạng thái cơ sở của mỗi qubit ta được bốn trạng thái cơ sở ghép:</p>
+
+\[ |00\rangle,\quad |01\rangle,\quad |10\rangle,\quad |11\rangle. \]
+
+<p>Đọc \(|01\rangle\) là "qubit A bằng 0, qubit B bằng 1". Bốn trạng thái này là <strong>cơ sở tính toán</strong> của hệ hai qubit. Dưới dạng vector cột chúng sống trong không gian bốn chiều; tích tensor cho biết chính xác cách xây chúng bằng phép xếp chồng:</p>
+
+\[ |0\rangle\otimes|0\rangle = \begin{pmatrix}1\\0\end{pmatrix}\otimes\begin{pmatrix}1\\0\end{pmatrix} = \begin{pmatrix}1\\0\\0\\0\end{pmatrix}, \qquad |1\rangle\otimes|0\rangle = \begin{pmatrix}0\\0\\1\\0\end{pmatrix}. \]
+
+<div class="callout note">
+  <span class="callout-label">Cách tích tensor xếp chồng</span>
+  <p>Để tính \(\begin{pmatrix}a_1\\a_2\end{pmatrix}\otimes\begin{pmatrix}b_1\\b_2\end{pmatrix}\), nhân cả vector thứ hai với từng phần tử của vector thứ nhất rồi xếp kết quả lại: \(\big(a_1 b_1,\ a_1 b_2,\ a_2 b_1,\ a_2 b_2\big)^{\top}\). Thứ tự quan trọng - \(|01\rangle \neq |10\rangle\).</p>
+</div>
+
+<h2>Một trạng thái hai qubit tổng quát</h2>
+
+<p>Giống như một qubit là chồng chập bất kỳ của \(|0\rangle\) và \(|1\rangle\), một trạng thái hai qubit là chồng chập bất kỳ của bốn trạng thái cơ sở:</p>
+
+\[ |\psi\rangle = \alpha\,|00\rangle + \beta\,|01\rangle + \gamma\,|10\rangle + \delta\,|11\rangle. \]
+
+<p>Bốn biên độ \(\alpha,\beta,\gamma,\delta\) là số phức, và đúng như trước chúng tuân một điều kiện chuẩn hoá duy nhất:</p>
+
+\[ |\alpha|^2 + |\beta|^2 + |\gamma|^2 + |\delta|^2 = 1. \]
+
+<p>Mỗi bình phương độ lớn là xác suất của kết quả đo hai bit tương ứng. Chẳng hạn \(|\gamma|^2\) là xác suất đọc được \(10\) - qubit A cho 1 và qubit B cho 0.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải: tạo \(|0\rangle\otimes|+\rangle\)</span>
+  <p>Đặt qubit A ở \(|0\rangle\) và qubit B ở \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\). Phân phối tích tensor vào tổng:</p>
+  \[ |0\rangle\otimes|+\rangle = |0\rangle \otimes \tfrac{1}{\sqrt2}\big(|0\rangle+|1\rangle\big) = \tfrac{1}{\sqrt2}\big(|0\rangle\otimes|0\rangle + |0\rangle\otimes|1\rangle\big) = \tfrac{1}{\sqrt2}\big(|00\rangle + |01\rangle\big). \]
+  <p>Kiểm tra chuẩn hoá: \(\left(\tfrac{1}{\sqrt2}\right)^2 + \left(\tfrac{1}{\sqrt2}\right)^2 = 1.\ \checkmark\) Kết quả là một trạng thái hai qubit hợp lệ mà tình cờ được xây từ hai trạng thái một qubit độc lập - những trạng thái như vậy gọi là trạng thái <em>tích</em> (hay tách được), chủ đề của bài 3.</p>
+</div>
+
+<h2>Vì sao kích thước bùng nổ</h2>
+
+<p>Một qubit cần 2 biên độ; hai qubit cần \(2^2 = 4\); ba qubit cần \(2^3 = 8\). Tổng quát:</p>
+
+\[ n \text{ qubit} \ \Longrightarrow\ 2^{n} \text{ biên độ phức}. \]
+
+<p>Mỗi qubit thêm vào <em>nhân đôi</em> phần mô tả. Năm mươi qubit đã cần \(2^{50} \approx 10^{15}\) biên độ - nhiều số hơn cả một ổ cứng lớn có thể chứa. Sự bùng nổ theo hàm mũ này là con dao hai lưỡi: nó là lý do máy tính cổ điển chật vật mô phỏng hệ lượng tử, và nó gợi ý nơi sức mạnh của máy tính lượng tử có thể đến. Nhưng riêng kích thước không phải toàn bộ câu chuyện - việc bạn <em>làm</em> được gì có ích với các biên độ đó do các cổng và sự rối mà ta xây tiếp quyết định.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Tích tensor ghép các qubit: \(n\) qubit sống trong không gian \(2^n\) chiều với các trạng thái cơ sở dạng \(|010\dots\rangle\). Một trạng thái tổng quát là chồng chập phức đã chuẩn hoá của cả \(2^n\) trạng thái cơ sở.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Trạng thái chung của hai qubit là tích tensor \(|a\rangle\otimes|b\rangle\), cho bốn trạng thái cơ sở \(|00\rangle,|01\rangle,|10\rangle,|11\rangle\).</li>
+    <li>Trạng thái hai qubit tổng quát là \(\alpha|00\rangle+\beta|01\rangle+\gamma|10\rangle+\delta|11\rangle\) với \(|\alpha|^2+|\beta|^2+|\gamma|^2+|\delta|^2=1\).</li>
+    <li>Tích tensor xếp chồng các vector; thứ tự quan trọng, nên \(|01\rangle \neq |10\rangle\).</li>
+    <li>\(n\) qubit cần \(2^n\) biên độ - kích thước theo hàm mũ nằm ở trung tâm của điện toán lượng tử.</li>
+  </ul>
+</div>

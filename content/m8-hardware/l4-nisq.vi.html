@@ -1,0 +1,56 @@
+<p>Sửa lỗi đầy đủ, từ bài trước, là đích đến. Nhưng nó đòi hàng trăm hoặc hàng nghìn qubit vật lý cho mỗi qubit logic - phần cứng ta chưa có. Vậy những cỗ máy chưa hoàn hảo hôm nay thực sự làm được gì? Bài này gọi tên kỷ nguyên hiện tại, <strong>NISQ</strong>, và giải thích lớp thuật toán được thiết kế để vắt giá trị ra từ nó: các phương pháp <strong>biến phân</strong> (variational), trên hết là <strong>VQE</strong> và <strong>QAOA</strong>.</p>
+
+<h2>NISQ nghĩa là gì</h2>
+
+<p>Năm 2018 nhà vật lý <strong>John Preskill</strong> đặt ra thuật ngữ <strong>NISQ</strong> - <em>Noisy Intermediate-Scale Quantum</em> (Lượng tử quy mô trung bình có nhiễu) - để mô tả những cỗ máy ta thực tế sẽ có trong nhiều năm tới. Bóc tách cái tên:</p>
+
+<ul>
+  <li><strong>Noisy (có nhiễu):</strong> không sửa lỗi, nên mất kết hợp và lỗi cổng giới hạn mạch ở độ sâu khiêm tốn (nhớ sự tích lũy ở bài 2).</li>
+  <li><strong>Intermediate-Scale (quy mô trung bình):</strong> cỡ 50 tới vài nghìn qubit - quá nhiều để mô phỏng tầm thường trên laptop, quá ít để chạy sửa lỗi.</li>
+  <li><strong>Quantum (lượng tử):</strong> thực sự lượng tử, chỉ là chưa chịu lỗi.</li>
+</ul>
+
+<div class="callout note">
+  <span class="callout-label">Cái tên là một nhãn cảnh báo</span>
+  <p>"Noisy" nằm ở đầu NISQ một cách có chủ ý. Cách đặt vấn đề của Preskill cố tình tỉnh táo: các thiết bị này là dụng cụ khoa học thú vị, chưa phải siêu máy tính đa dụng. Bất kỳ tuyên bố nào phớt lờ chữ "N" đều nên đọc với sự nghi ngờ.</p>
+</div>
+
+<h2>Ràng buộc cốt lõi, và lối thoát</h2>
+
+<p>Giới hạn buộc chặt là <strong>độ sâu mạch</strong> (circuit depth). Một mạch dài tích lũy quá nhiều lỗi để tin, nên thuật toán NISQ phải dùng mạch <em>ngắn</em>. Các thuật toán sách giáo khoa như của Shor cần mạch sâu, chính xác, nên tạm thời ngoài tầm với. Cách lách là ngừng bắt máy lượng tử làm mọi thứ và ghép nó với một máy cổ điển trong một vòng lặp. Đây là các <strong>thuật toán biến phân lai lượng tử-cổ điển</strong>.</p>
+
+<div class="callout key">
+  <span class="callout-label">Vòng lặp biến phân</span>
+  <p>Một thuật toán biến phân chạy một mạch ngắn, có tham số - một <em>ansatz</em> \(U(\vec{\theta})\) với các núm điều chỉnh \(\vec\theta\) - để chuẩn bị một trạng thái thử \(|\psi(\vec\theta)\rangle\). Máy lượng tử đo một chi phí \(C(\vec\theta)\). Một <em>bộ tối ưu cổ điển</em> sau đó chỉnh \(\vec\theta\) để hạ chi phí và trả các giá trị mới về cho máy lượng tử. Lặp lại cho tới khi chi phí ngừng cải thiện.</p>
+  \[ \vec\theta^{\,*} = \arg\min_{\vec\theta}\; C(\vec\theta). \]
+</div>
+
+<p>Mạch lượng tử ngắn nằm trong ngân sách kết hợp; công việc nặng nhọc của tối ưu hoá được đẩy sang phần cứng cổ điển đã hiểu rõ. Nhiệm vụ của máy lượng tử chỉ là đánh giá một chi phí mà cổ điển khó tính.</p>
+
+<h2>VQE: tìm năng lượng trạng thái cơ bản</h2>
+
+<p><strong>Variational Quantum Eigensolver</strong> ước lượng năng lượng thấp nhất - <em>năng lượng trạng thái cơ bản</em> - của một hệ lượng tử như một phân tử. Hàm chi phí chính là năng lượng, \(C(\vec\theta) = \langle \psi(\vec\theta)| H |\psi(\vec\theta)\rangle\), với \(H\) mã hoá vật lý của phân tử. Một nguyên lý nền tảng của cơ học lượng tử, <em>nguyên lý biến phân</em>, bảo đảm kỳ vọng này không bao giờ tụt xuống dưới năng lượng cơ bản thật \(E_0\):</p>
+
+\[ \langle \psi(\vec\theta)| H |\psi(\vec\theta)\rangle \;\ge\; E_0. \]
+
+<p>Nên kéo chi phí xuống được bảo đảm là tiến về đáp án đúng. Vì năng lượng phân tử chi phối hoá học, VQE là một mục tiêu sớm tự nhiên trong hoá học và khoa học vật liệu - dù trên phần cứng nhiễu hôm nay nó chủ yếu mới được trình diễn trên các phân tử nhỏ.</p>
+
+<h2>QAOA: tối ưu tổ hợp</h2>
+
+<p><strong>Quantum Approximate Optimization Algorithm</strong> tấn công các bài toán <em>tổ hợp</em> - chọn phương án tốt nhất từ một tập rời rạc khổng lồ, như max-cut trên đồ thị hay các bài định tuyến và lập lịch. Hàm chi phí mã hoá "lời giải ứng viên này tốt đến đâu", và cùng vòng lặp biến phân tìm các tham số làm cho lời giải tốt thành kết quả đo dễ xảy ra nhất. Các mạch nông, chỉnh được của QAOA là sự phù hợp có chủ ý với giới hạn độ sâu NISQ.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Lợi thế đang đứng ở đâu một cách trung thực</span>
+  <p>Cẩn thận ở đây. Các thuật toán biến phân đầy hứa hẹn và được nghiên cứu nhiều, nhưng một lợi thế lượng tử rõ ràng, thực tiễn, hữu ích thương mại từ VQE hay QAOA trên phần cứng NISQ thật thì <em>chưa</em> được thiết lập một cách thuyết phục. Nhiễu giới hạn độ sâu mạch, và các thuật toán cổ điển vẫn liên tục cải thiện như đối thủ cạnh tranh. Hiện trạng trung thực: một hướng nghiên cứu giá trị, những trình diễn thực nghiệm thật trên các trường hợp nhỏ, nhưng chưa phải chiến thắng chắc chắn trước các phương pháp cổ điển tốt nhất.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>NISQ = Noisy Intermediate-Scale Quantum, do Preskill đặt (2018): ~50-1000+ qubit, không sửa lỗi, độ sâu mạch hạn chế.</li>
+    <li>Ràng buộc buộc chặt là độ sâu mạch, nên NISQ ưu tiên mạch ngắn trong các vòng lặp biến phân lai lượng tử-cổ điển.</li>
+    <li>Một thuật toán biến phân chạy một ansatz có tham số trên máy lượng tử trong khi một bộ tối ưu cổ điển chỉnh tham số để tối thiểu hoá một chi phí.</li>
+    <li>VQE ước lượng năng lượng trạng thái cơ bản của phân tử, được bảo vệ bởi nguyên lý biến phân \(\langle H\rangle \ge E_0\); QAOA nhắm tối ưu tổ hợp.</li>
+    <li>Các phương pháp này hứa hẹn nhưng một lợi thế lượng tử dứt khoát, hữu ích trên phần cứng NISQ thật thì chưa được thiết lập - đọc các tuyên bố một cách cẩn trọng.</li>
+  </ul>
+</div>

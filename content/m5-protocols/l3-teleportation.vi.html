@@ -1,0 +1,84 @@
+<p>Giả sử Alice giữ một qubit ở trạng thái chưa biết \(|\psi\rangle = \alpha|0\rangle + \beta|1\rangle\) và muốn Bob, ở xa, cuối cùng nắm giữ đúng trạng thái đó. Cô không thể chỉ đo nó - đo sẽ làm nó sập và tiết lộ gần như không gì về \(\alpha\) và \(\beta\). Cô không thể sao chép nó - định lý không nhân bản cấm điều đó. Đáng kinh ngạc, <strong>dịch chuyển lượng tử</strong> vẫn chuyển được trạng thái, dùng một cặp Bell chia sẻ và hai bit cổ điển. Bản gốc bị phá huỷ trong quá trình, và không thông tin nào đi nhanh hơn ánh sáng.</p>
+
+<h2>Nguyên liệu</h2>
+
+<p>Có ba qubit tham gia:</p>
+<ul>
+  <li>Qubit 1: trạng thái chưa biết của Alice \(|\psi\rangle = \alpha|0\rangle + \beta|1\rangle\) - cô không biết \(\alpha,\beta\).</li>
+  <li>Qubit 2 và 3: một cặp Bell chia sẻ \(|\Phi^+\rangle_{23} = \tfrac{1}{\sqrt2}(|00\rangle+|11\rangle)\). Alice giữ qubit 2, Bob giữ qubit 3.</li>
+</ul>
+
+<p>Trạng thái ba qubit đầy đủ trước khi có gì xảy ra là</p>
+
+\[ |\psi\rangle_1 \otimes |\Phi^+\rangle_{23} = \tfrac{1}{\sqrt2}\big(\alpha|0\rangle + \beta|1\rangle\big)\big(|00\rangle + |11\rangle\big). \]
+
+<h2>Bước 1: phép đo Bell của Alice</h2>
+
+<p>Alice thực hiện một <strong>phép đo Bell</strong> lên hai qubit của mình (1 và 2): một CNOT với qubit 1 làm điều khiển và qubit 2 làm đích, rồi một Hadamard lên qubit 1, rồi đo cả hai. Đại số viết lại trạng thái chung thành tổng theo các giá trị mà hai bit đo được \((m_1 m_2)\) có thể nhận. Khai triển và nhóm lại:</p>
+
+\[
+|\psi\rangle_1|\Phi^+\rangle_{23} = \tfrac12\Big[
+|00\rangle(\alpha|0\rangle+\beta|1\rangle)
++ |01\rangle(\alpha|1\rangle+\beta|0\rangle)
+\]
+\[
++ |10\rangle(\alpha|0\rangle-\beta|1\rangle)
++ |11\rangle(\alpha|1\rangle-\beta|0\rangle)\Big].
+\]
+
+<p>Đọc kỹ: mỗi trong bốn kết quả đồng khả năng của Alice \(00, 01, 10, 11\) để lại qubit của Bob ở một trạng thái bằng \(|\psi\rangle\) sai khác một phép hiệu chỉnh Pauli đã biết. Bốn khả năng đúng là \(I|\psi\rangle\), \(X|\psi\rangle\), \(Z|\psi\rangle\), và \(XZ|\psi\rangle\).</p>
+
+<div class="callout note">
+  <span class="callout-label">Chú ý điều vừa xảy ra</span>
+  <p>Phép đo của Alice đã phá huỷ bản sao \(|\psi\rangle\) của cô - qubit 1 và 2 giờ giữ các bit đo xác định, không phải chồng chập. Trong khi đó qubit của Bob bỗng mang \(\alpha\) và \(\beta\), bị xáo bởi một phép Pauli mà anh chưa biết.</p>
+</div>
+
+<h2>Bước 2: gửi hai bit cổ điển</h2>
+
+<p>Qubit của Bob gần với \(|\psi\rangle\) nhưng anh chưa biết trường hợp hiệu chỉnh nào trong bốn cái áp dụng. Alice phải báo cho anh hai kết quả đo \(m_1 m_2\). Cô gửi <strong>hai bit cổ điển</strong> này qua một kênh thông thường - một cuộc gọi, một email, bất cứ gì không nhanh hơn ánh sáng.</p>
+
+<h2>Bước 3: hiệu chỉnh của Bob</h2>
+
+<p>Đọc hai bit, Bob áp phép Pauli nghịch tương ứng lên qubit của mình:</p>
+
+\[
+\begin{array}{c|c}
+\text{Alice gửi } m_1 m_2 & \text{Bob áp}\\ \hline
+00 & I \\
+01 & X \\
+10 & Z \\
+11 & XZ
+\end{array}
+\]
+
+<p>Sau hiệu chỉnh, qubit của Bob đúng bằng \(\alpha|0\rangle + \beta|1\rangle = |\psi\rangle\). Trạng thái chưa biết đã tới, hoàn hảo, mà Bob và Alice chưa hề biết \(\alpha\) và \(\beta\) là gì.</p>
+
+<div class="example">
+  <span class="example-label">Trường hợp có lời giải: kết quả 01</span>
+  <p>Nếu Alice đo được \(m_1 m_2 = 01\), khai triển cho thấy qubit của Bob là \(\alpha|1\rangle + \beta|0\rangle\) - các biên độ bị hoán đổi, đúng là \(X|\psi\rangle\). Bob áp \(X\) (hoán đổi \(|0\rangle\leftrightarrow|1\rangle\)) và khôi phục \(\alpha|0\rangle + \beta|1\rangle = |\psi\rangle\). Xong.</p>
+</div>
+
+<h2>Hai điều nó KHÔNG làm</h2>
+
+<div class="callout key">
+  <span class="callout-label">Không vi phạm không nhân bản</span>
+  <p>Cuối cùng chỉ có đúng một bản sao \(|\psi\rangle\), ở phía Bob. Bản gốc của Alice đã bị phá huỷ bởi phép đo Bell của cô. Dịch chuyển <em>di chuyển</em> một trạng thái; nó không bao giờ nhân đôi. Điều này hoàn toàn nhất quán với định lý không nhân bản.</p>
+</div>
+
+<div class="callout warn">
+  <span class="callout-label">Không truyền tín hiệu nhanh hơn ánh sáng</span>
+  <p>Trước khi các bit cổ điển của Alice tới, qubit của Bob ở trạng thái trộn cực đại - đo nó cho nhiễu ngẫu nhiên mang thông tin bằng không. Chỉ hai bit cổ điển, đi với tốc độ ánh sáng hoặc chậm hơn, mới mở khoá trạng thái. Rối một mình không truyền gì. Đó là lý do dịch chuyển không thể vượt tốc độ ánh sáng.</p>
+</div>
+
+<p>Chú ý tỉ giá trao đổi, phản chiếu mã hoá siêu đặc: dịch chuyển tiêu <strong>1 cặp Bell chia sẻ + 2 bit cổ điển</strong> để di chuyển <strong>1 qubit</strong> thông tin lượng tử. Rối và liên lạc cổ điển đều không thể thiếu - bỏ cái nào giao thức cũng hỏng.</p>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Dịch chuyển di chuyển một qubit chưa biết bằng 1 cặp Bell chia sẻ + 2 bit cổ điển.</li>
+    <li>Alice đo Bell lên qubit chưa biết và nửa cặp của mình, thu 2 bit.</li>
+    <li>Bob áp phép hiệu chỉnh \(I\), \(X\), \(Z\), hay \(XZ\) chọn theo 2 bit đó để khôi phục \(|\psi\rangle\).</li>
+    <li>Bản gốc bị phá huỷ - nhất quán với không nhân bản (trạng thái được di chuyển, không sao chép).</li>
+    <li>Các bit cổ điển là thiết yếu, nên không có truyền tin nhanh hơn ánh sáng.</li>
+  </ul>
+</div>

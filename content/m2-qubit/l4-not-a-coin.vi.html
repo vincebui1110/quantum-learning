@@ -1,0 +1,45 @@
+<p>Rất dễ thu gọn tất cả những điều này vào một hình dung cổ điển dễ chịu: "một qubit ở chồng chập thực ra đã là 0 hoặc 1 rồi, ta chỉ chưa biết là cái nào cho tới khi nhìn - như một đồng xu úp dưới cốc." Bài này tháo dỡ hình dung đó, vì thấy chính xác vì sao nó sai mới là điều làm phần còn lại của khoá học có ý nghĩa.</p>
+
+<h2>Mô hình đồng xu úp dưới cốc</h2>
+
+<p>Câu chuyện cổ điển là câu chuyện của <strong>sự thiếu hiểu biết</strong>: đồng xu có một giá trị xác định; phép đo chỉ tiết lộ một sự thật vốn đã an bài. Nếu qubit chỉ có vậy, điện toán lượng tử chẳng có gì mới - một máy tính cổ điển xác suất đã mô hình hoá hoàn hảo các bit "chưa biết nhưng xác định" rồi.</p>
+
+<h2>Thí nghiệm phá vỡ nó: giao thoa</h2>
+
+<p>Đây là một quy trình hai bước bạn có thể chạy (và tự thử trong Phòng thực hành). Bắt đầu với \(|0\rangle\) xác định. Áp dụng cổng Hadamard \(H\), tạo chồng chập cân bằng:</p>
+
+\[ H\,|0\rangle = |+\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle + |1\rangle\big). \]
+
+<p>Nếu đo ngay lúc này, bạn được 0 hoặc 1 với xác suất bằng nhau - tới đây vẫn nhất quán với câu chuyện đồng xu. Nhưng <em>đừng</em> đo. Áp dụng cổng Hadamard thứ hai. Vì \(H\) là nghịch đảo của chính nó (\(H^2 = I\)):</p>
+
+\[ H\,|+\rangle = H H\,|0\rangle = |0\rangle. \]
+
+<p>Giờ đo: bạn được \(0\) một cách <strong>chắc chắn</strong>. Tính ngẫu nhiên đã biến mất.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Vì sao điều này chí mạng với mô hình đồng xu</span>
+  <p>Nếu qubit sau cổng \(H\) đầu tiên bí mật đã là một giá trị 0 hoặc 1 xác định (một đồng xu đã tiếp đất), thì cổng \(H\) thứ hai không thể khử ngẫu nhiên của nó - một đồng xu công bằng tung lên, giấu đi, rồi "tung" lại vẫn là 50/50. Việc tính chắc chắn tái xuất chứng minh qubit <em>không</em> bí mật là một giá trị nào cả. Cả hai biên độ đều thực sự có mặt, và cổng \(H\) thứ hai để chúng <strong>giao thoa</strong>: các đường dẫn tới \(|1\rangle\) triệt tiêu, các đường tới \(|0\rangle\) cộng hưởng.</p>
+</div>
+
+<h2>Điều gì khiến triệt tiêu xảy ra được</h2>
+
+<p>Giao thoa hoạt động chỉ vì biên độ mang dấu (và, tổng quát, pha phức). Trong cổng Hadamard thứ hai, kết quả \(|1\rangle\) nhận đóng góp \(+\tfrac{1}{2}\) và \(-\tfrac{1}{2}\), cộng lại bằng không. Xác suất - vốn không âm - không bao giờ triệt tiêu như thế. Đây là toàn bộ lý do vì sao một qubit không chỉ là một bit ngẫu nhiên: nó được mô tả bằng biên độ, và biên độ có thể giao thoa triệt tiêu.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Một qubit ở chồng chập không phải "bí mật là 0 hoặc 1". Hai biên độ của nó đồng thời là thật và có thể triệt tiêu hoặc cộng hưởng. Mọi thuật toán lượng tử - Deutsch-Jozsa, Grover, Shor - đều là sự dàn dựng chính xác kiểu giao thoa này để cho đáp án sai triệt tiêu và đáp án đúng cộng hưởng.</p>
+</div>
+
+<h2>Khoá học đi tiếp về đâu</h2>
+
+<p>Bây giờ bạn đã có bộ công cụ khái niệm đầy đủ cho một qubit đơn: vector trạng thái, biên độ, chuẩn hoá, phép đo và quy tắc Born, pha, mặt cầu Bloch, và giao thoa - thứ khiến tất cả trở nên phi cổ điển. Các module tiếp theo cho bạn các phép biến đổi (cổng), rồi thêm một qubit thứ hai (rối lượng tử), và từ đó là các giao thức và thuật toán biến những ý tưởng này thành sức mạnh tính toán.</p>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Mô hình "bí mật đã là 0 hoặc 1" có thể kiểm chứng - và giao thoa bác bỏ nó.</li>
+    <li>Áp dụng \(H\) hai lần lên \(|0\rangle\) trả về \(|0\rangle\) chắc chắn; một bit cổ điển ẩn không bao giờ làm được điều này.</li>
+    <li>Giao thoa xảy ra được vì biên độ có dấu/pha và có thể triệt tiêu; xác suất thì không.</li>
+    <li>Giao thoa được khai thác là động cơ của mọi thuật toán lượng tử bạn gặp về sau.</li>
+  </ul>
+</div>

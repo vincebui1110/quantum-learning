@@ -1,0 +1,62 @@
+<p>Single-qubit gates rotate one qubit at a time and can never create correlation between qubits. To build interesting circuits we need gates that let one qubit's value influence another. These are the <strong>two-qubit gates</strong>, and the most important of them is CNOT.</p>
+
+<h2>CNOT: the controlled-NOT</h2>
+
+<p>CNOT has a <strong>control</strong> qubit and a <strong>target</strong> qubit. Its rule is a single sentence: <em>flip the target if and only if the control is 1.</em> On the four basis states (control listed first):</p>
+
+\[ |00\rangle\to|00\rangle,\quad |01\rangle\to|01\rangle,\quad |10\rangle\to|11\rangle,\quad |11\rangle\to|10\rangle. \]
+
+<p>The control is never changed; only the target may flip. Ordering the basis as \((|00\rangle,|01\rangle,|10\rangle,|11\rangle)\), CNOT is the \(4\times4\) matrix</p>
+
+\[ \mathrm{CNOT} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \end{pmatrix}. \]
+
+<p>The top-left \(2\times2\) block is the identity (control = 0: leave the target alone); the bottom-right block is the NOT matrix \(\begin{pmatrix}0&1\\1&0\end{pmatrix}\) (control = 1: flip the target). In a circuit the control is a filled dot \(\bullet\) and the target is \(\oplus\), joined by a vertical line.</p>
+
+<div class="callout note">
+  <span class="callout-label">Reading the truth table</span>
+  <p>Written as classical bits \((c,t)\), CNOT sends \((c,t)\to(c,\,t\oplus c)\), where \(\oplus\) is XOR. This is the exact classical reversible XOR gate - but applied to quantum superpositions, it does far more, as the next lesson shows.</p>
+</div>
+
+<h2>CZ: the controlled-Z</h2>
+
+<p>CZ applies a \(Z\) gate to the target when the control is 1. Since \(Z\) leaves \(|0\rangle\) alone and sends \(|1\rangle\to-|1\rangle\), CZ does nothing except attach a minus sign to the single basis state \(|11\rangle\):</p>
+
+\[ \mathrm{CZ} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & -1 \end{pmatrix}. \]
+
+<p>Because CZ acts only when <em>both</em> qubits are 1, it treats them symmetrically: swapping which qubit is control and which is target gives the identical gate. This symmetry is why CZ appears so often in hardware, where a native interaction between two qubits is naturally symmetric.</p>
+
+<h2>SWAP: exchanging two qubits</h2>
+
+<p>SWAP simply exchanges the states of the two qubits: \(|ab\rangle\to|ba\rangle\). It fixes \(|00\rangle\) and \(|11\rangle\) and interchanges \(|01\rangle\leftrightarrow|10\rangle\):</p>
+
+\[ \mathrm{SWAP} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}. \]
+
+<div class="example">
+  <span class="example-label">Worked example: CNOT on a superposed control</span>
+  <p>Apply CNOT to \(\tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\otimes|0\rangle = \tfrac{1}{\sqrt2}(|00\rangle+|10\rangle)\). Act on each term by the rule "flip target iff control = 1":</p>
+  \[ \tfrac{1}{\sqrt2}\big(|00\rangle + |10\rangle\big) \ \xrightarrow{\ \mathrm{CNOT}\ }\ \tfrac{1}{\sqrt2}\big(|00\rangle + |11\rangle\big). \]
+  <p>The \(|00\rangle\) term is untouched (control 0); the \(|10\rangle\) term has its target flipped to give \(|11\rangle\). The output cannot be written as a product of two single-qubit states - CNOT has created entanglement. That derivation is the whole subject of lesson 3.</p>
+</div>
+
+<h2>Controlled operations in general</h2>
+
+<p>The pattern generalizes: for any single-qubit unitary \(U\), a <strong>controlled-\(U\)</strong> gate applies \(U\) to the target only when the control is 1, and does nothing when it is 0. In block form,</p>
+
+\[ \mathrm{C}\text{-}U = \begin{pmatrix} I & 0 \\ 0 & U \end{pmatrix}, \]
+
+<p>where \(I\) is the \(2\times2\) identity acting on the control-0 subspace and \(U\) acts on the control-1 subspace. CNOT is \(\mathrm{C}\text{-}X\) and CZ is \(\mathrm{C}\text{-}Z\). Together with single-qubit gates, CNOT alone is enough to approximate any quantum computation - it is part of a <em>universal</em> gate set.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>Two-qubit gates couple qubits. CNOT flips the target iff the control is 1; CZ phase-flips only \(|11\rangle\); SWAP exchanges the two qubits. A controlled-\(U\) applies \(U\) to the target conditioned on the control.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>CNOT \(=\begin{pmatrix}1&0&0&0\\0&1&0&0\\0&0&0&1\\0&0&1&0\end{pmatrix}\): flips the target iff the control is 1; classically \((c,t)\to(c,t\oplus c)\).</li>
+    <li>CZ attaches a minus sign to \(|11\rangle\) only and is symmetric in its two qubits.</li>
+    <li>SWAP exchanges the two qubits: \(|ab\rangle\to|ba\rangle\).</li>
+    <li>Controlled-\(U\) applies \(U\) to the target when the control is 1; the control dot is \(\bullet\), the target is \(\oplus\).</li>
+  </ul>
+</div>

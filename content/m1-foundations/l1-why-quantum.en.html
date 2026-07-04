@@ -1,0 +1,46 @@
+<p>Before any math, it is worth being clear about what a quantum computer actually is - and, just as important, what it is not. The single biggest source of confusion in this field is the belief that a quantum computer is simply a very fast ordinary computer. It is not. It is a <strong>specialized instrument</strong> that beats classical machines on a small, specific set of problems, and offers no advantage at all on most everyday computing.</p>
+
+<h2>Some problems are structurally hard for classical computers</h2>
+
+<p>Classical computers are astonishingly good at almost everything: sorting, searching databases, rendering video, running spreadsheets. Quantum computing is not aimed at any of these. It targets a handful of problems that appear to be <em>structurally</em> hard - hard not because our classical algorithms are clumsy, but because the problem's own structure seems to forbid a fast classical solution.</p>
+
+<ul>
+  <li><strong>Factoring large integers.</strong> The security of much of the internet (RSA encryption) rests on the fact that no known classical algorithm can factor a large number quickly. The best classical method, the general number field sieve, runs in <em>sub-exponential</em> time. Shor's quantum algorithm factors in roughly <code>(log N)</code>-cubed time - an exponential leap.</li>
+  <li><strong>Simulating quantum systems.</strong> To describe the quantum state of just <code>n</code> particles, a classical computer needs a table of size that grows like <code>2^n</code> numbers. At a few hundred particles that exceeds the number of atoms in the universe. A quantum computer represents such states natively, making chemistry and materials simulation its most natural application.</li>
+  <li><strong>Some search and optimization.</strong> Grover's algorithm searches an unstructured space of <code>N</code> items in about <code>√N</code> steps rather than <code>N</code>. This is a real but only <em>quadratic</em> speedup - useful, yet far more modest than factoring's exponential gain.</li>
+</ul>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>A quantum computer is not a faster laptop. It is a specialized machine whose advantage is confined to problems with a particular mathematical structure - above all, simulating quantum physics and a few number-theoretic and search tasks.</p>
+</div>
+
+<h2>Why "tries all answers at once" is the wrong picture</h2>
+
+<p>A popular slogan says a quantum computer "tries every answer simultaneously." This is misleading. A quantum computer can indeed hold a superposition over many possibilities at once - but when you <strong>measure</strong>, you get exactly one outcome, chosen at random. The art of a quantum algorithm is to arrange the computation so that the wrong answers <em>cancel out</em> (through interference, the subject of a later lesson) and the right answer is left with high probability. Parallelism alone gives you nothing; interference is what does the work.</p>
+
+<div class="callout note">
+  <span class="callout-label">Analogy</span>
+  <p>Think of a wave. Send it down two paths and recombine them: where crests meet troughs the wave vanishes, and where crests meet crests it grows. A quantum algorithm sculpts probability the same way - engineering cancellation of the wrong answers - which a machine that merely "tried everything" could never do.</p>
+</div>
+
+<h2>An honest look at the field today</h2>
+
+<p>It helps to separate what is proven in theory from what is built in hardware. The <em>theory</em> is solid: algorithms like Shor's and Grover's are mathematically rigorous, and the promise is real. The <em>hardware</em> is early. Today's devices are noisy and small - the so-called NISQ era (Noisy Intermediate-Scale Quantum). The central engineering challenge is <strong>error correction</strong>: physical qubits are fragile, so many of them must be combined to protect a single reliable "logical" qubit.</p>
+
+<p>As of the mid-2020s, error correction has moved from theory into the lab, with demonstrations on the order of tens of logical qubits and rapidly improving gate fidelities. But a machine large enough to run Shor's algorithm on a cryptographically relevant number, or to simulate a serious molecule, is still widely expected to be a late-2020s-to-2030s achievement. Progress is fast and genuine; the marketing often runs ahead of the hardware. A grounded practitioner holds both truths at once.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Reality check</span>
+  <p>Quantum computers have <em>not</em> broken encryption, and they are not replacing data centers. Claims of "quantum supremacy" so far concern contrived benchmark tasks, not useful applications. Treat any headline promising a general-purpose quantum revolution "next year" with healthy skepticism.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>A quantum computer is a specialized device, not a faster general-purpose computer.</li>
+    <li>Its advantage is limited to structurally hard problems: factoring, quantum simulation, and some search/optimization.</li>
+    <li>"Trying all answers at once" is wrong; the real mechanism is interference that cancels wrong answers.</li>
+    <li>The field is in an early, noisy hardware phase; broadly useful, error-corrected machines are still years away.</li>
+  </ul>
+</div>

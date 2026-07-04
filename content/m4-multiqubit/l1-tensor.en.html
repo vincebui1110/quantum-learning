@@ -1,0 +1,58 @@
+<p>Everything so far has lived in the two-dimensional world of a single qubit. Real quantum computers hold many qubits at once, and the interesting physics - correlation, interference across registers, entanglement - only appears when qubits are combined. This lesson introduces the mathematical operation that glues qubits together: the <strong>tensor product</strong>, written \(\otimes\).</p>
+
+<h2>Combining two systems</h2>
+
+<p>Suppose qubit A is in state \(|a\rangle\) and qubit B is in state \(|b\rangle\). The joint state of the pair is their tensor product \(|a\rangle \otimes |b\rangle\), usually abbreviated \(|a\rangle|b\rangle\) or even \(|ab\rangle\). Applying this to the two basis states of each qubit produces four combined basis states:</p>
+
+\[ |00\rangle,\quad |01\rangle,\quad |10\rangle,\quad |11\rangle. \]
+
+<p>Read \(|01\rangle\) as "qubit A is 0, qubit B is 1." These four states are the <strong>computational basis</strong> of a two-qubit system. As column vectors they live in a four-dimensional space; the tensor product tells you exactly how to build them by stacking:</p>
+
+\[ |0\rangle\otimes|0\rangle = \begin{pmatrix}1\\0\end{pmatrix}\otimes\begin{pmatrix}1\\0\end{pmatrix} = \begin{pmatrix}1\\0\\0\\0\end{pmatrix}, \qquad |1\rangle\otimes|0\rangle = \begin{pmatrix}0\\0\\1\\0\end{pmatrix}. \]
+
+<div class="callout note">
+  <span class="callout-label">How the tensor product stacks</span>
+  <p>To compute \(\begin{pmatrix}a_1\\a_2\end{pmatrix}\otimes\begin{pmatrix}b_1\\b_2\end{pmatrix}\), multiply the whole second vector by each entry of the first and stack the results: \(\big(a_1 b_1,\ a_1 b_2,\ a_2 b_1,\ a_2 b_2\big)^{\top}\). The order matters - \(|01\rangle \neq |10\rangle\).</p>
+</div>
+
+<h2>A general two-qubit state</h2>
+
+<p>Just as one qubit is any superposition of \(|0\rangle\) and \(|1\rangle\), a two-qubit state is any superposition of the four basis states:</p>
+
+\[ |\psi\rangle = \alpha\,|00\rangle + \beta\,|01\rangle + \gamma\,|10\rangle + \delta\,|11\rangle. \]
+
+<p>The four amplitudes \(\alpha,\beta,\gamma,\delta\) are complex numbers, and exactly as before they obey a single normalization condition:</p>
+
+\[ |\alpha|^2 + |\beta|^2 + |\gamma|^2 + |\delta|^2 = 1. \]
+
+<p>Each squared magnitude is the probability of the corresponding two-bit measurement outcome. For instance \(|\gamma|^2\) is the probability of reading \(10\) - qubit A gives 1 and qubit B gives 0.</p>
+
+<div class="example">
+  <span class="example-label">Worked example: forming \(|0\rangle\otimes|+\rangle\)</span>
+  <p>Put qubit A in \(|0\rangle\) and qubit B in \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\). Distribute the tensor product over the sum:</p>
+  \[ |0\rangle\otimes|+\rangle = |0\rangle \otimes \tfrac{1}{\sqrt2}\big(|0\rangle+|1\rangle\big) = \tfrac{1}{\sqrt2}\big(|0\rangle\otimes|0\rangle + |0\rangle\otimes|1\rangle\big) = \tfrac{1}{\sqrt2}\big(|00\rangle + |01\rangle\big). \]
+  <p>Check normalization: \(\left(\tfrac{1}{\sqrt2}\right)^2 + \left(\tfrac{1}{\sqrt2}\right)^2 = 1.\ \checkmark\) The result is a valid two-qubit state that happens to be built from two independent single-qubit states - such states are called <em>product</em> (or separable) states, the subject of lesson 3.</p>
+</div>
+
+<h2>Why size explodes</h2>
+
+<p>One qubit needs 2 amplitudes; two qubits need \(2^2 = 4\); three qubits need \(2^3 = 8\). In general:</p>
+
+\[ n \text{ qubits} \ \Longrightarrow\ 2^{n} \text{ complex amplitudes}. \]
+
+<p>Every qubit you add <em>doubles</em> the description. Fifty qubits already require \(2^{50} \approx 10^{15}\) amplitudes - more numbers than a large hard drive can hold. This exponential blow-up is a double-edged sword: it is why classical computers struggle to simulate quantum systems, and it hints at where a quantum computer's power might come from. But raw size alone is not the whole story - what you can usefully <em>do</em> with those amplitudes is decided by the gates and the entanglement we build next.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>The tensor product combines qubits: \(n\) qubits live in a \(2^n\)-dimensional space with basis states like \(|010\dots\rangle\). A general state is a normalized complex superposition of all \(2^n\) basis states.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>The joint state of two qubits is the tensor product \(|a\rangle\otimes|b\rangle\), giving the four basis states \(|00\rangle,|01\rangle,|10\rangle,|11\rangle\).</li>
+    <li>A general two-qubit state is \(\alpha|00\rangle+\beta|01\rangle+\gamma|10\rangle+\delta|11\rangle\) with \(|\alpha|^2+|\beta|^2+|\gamma|^2+|\delta|^2=1\).</li>
+    <li>The tensor product stacks vectors; order matters, so \(|01\rangle \neq |10\rangle\).</li>
+    <li>\(n\) qubits require \(2^n\) amplitudes - the exponential size at the heart of quantum computing.</li>
+  </ul>
+</div>

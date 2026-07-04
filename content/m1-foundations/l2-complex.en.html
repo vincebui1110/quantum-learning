@@ -1,0 +1,76 @@
+<p>Quantum amplitudes are <strong>complex numbers</strong>, so the whole subject rests on a small amount of complex arithmetic. The good news: you need far less than a full course. This lesson gives you exactly the pieces that reappear on every later page - and no more.</p>
+
+<h2>The imaginary unit and the form a + bi</h2>
+
+<p>The <strong>imaginary unit</strong> \(i\) is defined by a single property:</p>
+
+\[ i^2 = -1. \]
+
+<p>There is no real number whose square is negative, so \(i\) is a genuinely new object. A general <strong>complex number</strong> is written</p>
+
+\[ z = a + bi, \qquad a,b \in \mathbb{R}, \]
+
+<p>where \(a\) is the <strong>real part</strong> and \(b\) the <strong>imaginary part</strong>. You add and multiply complex numbers just like ordinary algebra, using \(i^2 = -1\) whenever it appears. For example \((1+i)(2-i) = 2 - i + 2i - i^2 = 2 + i + 1 = 3 + i.\)</p>
+
+<h2>Complex conjugate, modulus, and |z|²</h2>
+
+<p>The <strong>complex conjugate</strong> of \(z = a + bi\) flips the sign of the imaginary part:</p>
+
+\[ z^* = a - bi. \]
+
+<p>The <strong>modulus</strong> (or magnitude) \(|z|\) measures the distance from \(z\) to the origin in the complex plane. Its square has an especially clean form, and it is this squared quantity that the Born rule will turn into a probability:</p>
+
+\[ |z|^2 = z\,z^* = (a+bi)(a-bi) = a^2 + b^2, \qquad |z| = \sqrt{a^2 + b^2}. \]
+
+<p>Notice \(z z^*\) is always a non-negative <em>real</em> number, even though \(z\) itself is complex. That is exactly why quantum theory squares amplitudes to get probabilities: the squaring launders a complex amplitude into a legitimate, real, non-negative number.</p>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Let \(z = 3 + 4i\). Then</p>
+  \[ z^* = 3 - 4i, \qquad |z|^2 = z z^* = 3^2 + 4^2 = 9 + 16 = 25, \qquad |z| = \sqrt{25} = 5. \]
+  <p>If this were a (yet-to-be-normalized) amplitude, the <em>unnormalized</em> weight of its outcome would be \(25\). Compare a second amplitude \(w = i\): here \(|w|^2 = 0^2 + 1^2 = 1\), so \(w = i\) has full unit weight despite having no real part at all.</p>
+</div>
+
+<h2>Polar form and Euler's formula</h2>
+
+<p>Every complex number can also be written by its distance from the origin and its angle. If \(r = |z|\) and \(\theta\) is the angle from the positive real axis, then</p>
+
+\[ z = r(\cos\theta + i\sin\theta). \]
+
+<p>The bracket has a famously compact name via <strong>Euler's formula</strong>:</p>
+
+\[ e^{i\theta} = \cos\theta + i\sin\theta, \qquad\text{so}\qquad z = r\,e^{i\theta}. \]
+
+<p>A crucial consequence: since \(\cos^2\theta + \sin^2\theta = 1\), the number \(e^{i\theta}\) always sits on the unit circle, meaning</p>
+
+\[ \left| e^{i\theta} \right| = 1 \quad\text{for every real } \theta. \]
+
+<div class="callout note">
+  <span class="callout-label">Sanity check</span>
+  <p>Setting \(\theta = \pi\) gives \(e^{i\pi} = \cos\pi + i\sin\pi = -1\), the celebrated identity \(e^{i\pi} + 1 = 0\). Setting \(\theta = \pi/2\) gives \(e^{i\pi/2} = i\).</p>
+</div>
+
+<h2>Why phase matters</h2>
+
+<p>A factor of the form \(e^{i\theta}\) is called a <strong>phase</strong>. Because \(|e^{i\theta}| = 1\), multiplying a single amplitude by a phase never changes that amplitude's magnitude - and so, if it were the only amplitude, it would never change any probability. This is why an overall <em>global</em> phase is physically invisible.</p>
+
+<p>The subtlety - and the entire engine of quantum computing - is the <strong>relative</strong> phase between two amplitudes. Consider adding two amplitudes of equal size but different phase:</p>
+
+\[ \tfrac{1}{\sqrt2}\big(1\big) + \tfrac{1}{\sqrt2}\big(e^{i\theta}\big). \]
+
+<p>When \(\theta = 0\) the two terms reinforce; when \(\theta = \pi\) we have \(e^{i\pi} = -1\) and they <em>cancel exactly</em>, giving zero. The magnitudes never changed, yet the outcome swung from full to nothing. That switch - controlled purely by phase - is interference, and it is what a later lesson builds every quantum algorithm from.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>For an amplitude \(z\), the physically meaningful quantity is \(|z|^2 = a^2 + b^2\), a real non-negative number. A phase \(e^{i\theta}\) has magnitude 1 and so is invisible on its own, but a <em>relative</em> phase between amplitudes controls interference.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>The imaginary unit satisfies \(i^2 = -1\); a complex number is \(z = a + bi\).</li>
+    <li>The conjugate is \(z^* = a - bi\), and \(|z|^2 = z z^* = a^2 + b^2\) is real and non-negative.</li>
+    <li>Euler's formula: \(e^{i\theta} = \cos\theta + i\sin\theta\), with \(|e^{i\theta}| = 1\) for all real \(\theta\).</li>
+    <li>A phase is invisible alone but decisive as a <em>relative</em> phase, where it drives interference.</li>
+  </ul>
+</div>

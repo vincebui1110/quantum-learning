@@ -1,0 +1,58 @@
+<p>We now assemble the pieces - phase kickback and the inverse QFT - into the single most important subroutine in quantum computing: <strong>quantum phase estimation</strong> (QPE). It is the beating heart of Shor's factoring algorithm and of quantum chemistry energy calculations. This lesson is conceptual, but the key equations tell the whole story.</p>
+
+<h2>The problem: read an eigenvalue's phase</h2>
+
+<p>Suppose you have a unitary \(U\) and one of its eigenstates \(|u\rangle\). Because \(U\) is unitary, its eigenvalues are pure phases, so we can write</p>
+
+\[ U\,|u\rangle = e^{2\pi i\varphi}\,|u\rangle, \qquad 0 \le \varphi < 1. \]
+
+<p>The number \(\varphi\) is the <strong>eigenphase</strong>. Applying \(U\) does not change the state \(|u\rangle\) in any observable way on its own - the phase \(e^{2\pi i\varphi}\) is global and invisible to measurement. Phase estimation's job is to drag that hidden \(\varphi\) out into a register you can read, to \(n\) bits of precision.</p>
+
+<h2>The engine: kickback with controlled powers of U</h2>
+
+<p>Take a <strong>counting register</strong> of \(n\) qubits (which will hold the answer) plus a register holding \(|u\rangle\). Put every counting qubit into \(|+\rangle\) with Hadamards, then apply a <strong>controlled-\(U\)</strong> from each counting qubit, but with the powers doubling: qubit \(j\) controls \(U^{2^{j}}\).</p>
+
+<p>Here kickback strikes again. Since \(|u\rangle\) is an eigenstate, applying \(U^{2^j}\) multiplies it by \(e^{2\pi i\,2^{j}\varphi}\); with the control in superposition, that phase kicks back onto the control qubit:</p>
+
+\[ \tfrac{1}{\sqrt2}\big(|0\rangle + |1\rangle\big) \;\longrightarrow\; \tfrac{1}{\sqrt2}\big(|0\rangle + e^{2\pi i\, 2^{j}\varphi}|1\rangle\big). \]
+
+<p>The state \(|u\rangle\) itself is never disturbed - it just supplies the eigenphase over and over. After all the controlled powers, the counting register holds</p>
+
+\[ \frac{1}{\sqrt{2^n}}\sum_{k=0}^{2^n-1} e^{2\pi i\,\varphi k}\,|k\rangle. \]
+
+<div class="callout note">
+  <span class="callout-label">Look familiar?</span>
+  <p>Compare this to the QFT formula \(\tfrac{1}{\sqrt N}\sum_k e^{2\pi i\, xk/N}|k\rangle\). It is exactly the Fourier transform of the basis state \(|x\rangle\) where \(x/N = \varphi\), i.e. \(x = 2^n\varphi\). The controlled powers have prepared the <em>Fourier transform of the answer</em>.</p>
+</div>
+
+<h2>The decoder: inverse QFT</h2>
+
+<p>If the phases encode the QFT of the number \(x = 2^n\varphi\), then running the QFT <em>backwards</em> must recover \(|x\rangle\). That is the final step: apply the <strong>inverse QFT</strong> to the counting register, then measure. When \(\varphi\) is exactly an \(n\)-bit fraction, the outcome is the integer \(x = 2^n\varphi\), and dividing by \(2^n\) gives \(\varphi\) exactly:</p>
+
+\[ \text{measure} \;\Rightarrow\; x, \qquad \varphi \approx \frac{x}{2^n}. \]
+
+<p>When \(\varphi\) is not an exact \(n\)-bit fraction, the inverse QFT peaks the probability sharply on the nearest \(n\)-bit approximation, so measurement returns the best \(n\)-bit estimate with high probability. More counting qubits buy more bits of precision.</p>
+
+<div class="example">
+  <span class="example-label">Sanity check: a phase that is exactly representable</span>
+  <p>Let \(n=3\) and \(\varphi = 0.101_2 = 5/8\). The controlled powers write \(\tfrac{1}{\sqrt8}\sum_k e^{2\pi i (5/8) k}|k\rangle\), which is precisely \(\text{QFT}|5\rangle\). The inverse QFT maps it back to \(|5\rangle = |101\rangle\), measured with certainty. Read off \(\varphi = 5/8\). No sampling noise, because the answer fit exactly in 3 bits.</p>
+</div>
+
+<h2>Why it matters: Shor and chemistry</h2>
+
+<p>Phase estimation is the reason quantum computers threaten RSA. <strong>Shor's factoring algorithm</strong> reduces factoring to finding the period of the modular-exponentiation map, and that period is exactly an eigenphase of a unitary you can build - QPE extracts it, and the QFT inside makes it efficient. The same subroutine estimates the <strong>ground-state energy</strong> of a molecule: encode the Hamiltonian's time-evolution as \(U = e^{-iHt}\), prepare an approximate eigenstate, and QPE reads off the energy eigenvalue. Two of the field's flagship applications are, at their core, this one circuit.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>Phase estimation = (Hadamards) + (controlled-\(U^{2^j}\) that kick the eigenphase into the counting register as a QFT) + (inverse QFT to decode) + (measure). It converts an invisible eigenphase \(\varphi\) into a readable \(n\)-bit number, and it is the core of Shor's algorithm and quantum chemistry.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>QPE estimates the phase \(\varphi\) in \(U|u\rangle = e^{2\pi i\varphi}|u\rangle\) to \(n\) bits of precision.</li>
+    <li>Controlled-\(U^{2^j}\) powers use phase kickback to write \(\tfrac{1}{\sqrt{2^n}}\sum_k e^{2\pi i\varphi k}|k\rangle\) into the counting register - the QFT of the answer.</li>
+    <li>The inverse QFT decodes that into a measurable integer \(x \approx 2^n\varphi\); more qubits mean more precision.</li>
+    <li>QPE is the core subroutine behind Shor's factoring and quantum-chemistry energy estimation.</li>
+  </ul>
+</div>

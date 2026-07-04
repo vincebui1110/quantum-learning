@@ -1,0 +1,62 @@
+<p>In 1985 David Deutsch asked a small, almost silly question - and its answer was the first proof that a quantum computer can do something with certainty that a classical one cannot do in a single shot. This lesson works that original algorithm all the way through, then scales it up to the \(n\)-bit <strong>Deutsch-Jozsa</strong> problem.</p>
+
+<h2>The problem: constant or balanced?</h2>
+
+<p>You are given an oracle for a one-bit function \(f:\{0,1\}\to\{0,1\}\). There are four such functions, and they split into two kinds. A function is <strong>constant</strong> if \(f(0)=f(1)\) (both outputs the same), and <strong>balanced</strong> if \(f(0)\neq f(1)\) (outputs differ). The task: decide which kind you hold.</p>
+
+<p>Classically this is easy but not free - you must learn <em>both</em> \(f(0)\) and \(f(1)\), because knowing one tells you nothing about the other. That is <strong>two</strong> queries. Deutsch's algorithm decides it in <strong>one</strong>.</p>
+
+<h2>The single-bit algorithm, worked fully</h2>
+
+<p>Use two qubits: an input starting in \(|0\rangle\) and a target starting in \(|1\rangle\). The circuit is: Hadamard on both, then the oracle \(U_f\), then Hadamard on the input, then measure the input.</p>
+
+<p><strong>Step 1 - Hadamards.</strong> \(H|0\rangle=|+\rangle\) and \(H|1\rangle=|-\rangle\), so the state becomes</p>
+
+\[ |+\rangle|-\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle+|1\rangle\big)\,|-\rangle. \]
+
+<p><strong>Step 2 - the oracle, via phase kickback.</strong> With the target in \(|-\rangle\), each input term picks up \((-1)^{f(x)}\):</p>
+
+\[ U_f\,|+\rangle|-\rangle = \tfrac{1}{\sqrt2}\Big((-1)^{f(0)}|0\rangle + (-1)^{f(1)}|1\rangle\Big)|-\rangle. \]
+
+<p>Factor out the overall sign \((-1)^{f(0)}\). The bracket becomes \(|0\rangle + (-1)^{f(0)\oplus f(1)}|1\rangle\). The single number \(f(0)\oplus f(1)\) - which is \(0\) for constant, \(1\) for balanced - now controls the relative phase of the input register.</p>
+
+<p><strong>Step 3 - final Hadamard.</strong> If \(f(0)\oplus f(1)=0\) the input is \(|+\rangle\), and \(H|+\rangle=|0\rangle\). If \(f(0)\oplus f(1)=1\) the input is \(|-\rangle\), and \(H|-\rangle=|1\rangle\). Up to an irrelevant global sign, the input register is exactly</p>
+
+\[ (-1)^{f(0)}\,\big|\,f(0)\oplus f(1)\,\big\rangle. \]
+
+<p><strong>Step 4 - measure.</strong> Outcome \(0\) means constant; outcome \(1\) means balanced. One query, one measurement, zero uncertainty.</p>
+
+<div class="example">
+  <span class="example-label">Concrete check: the balanced identity function</span>
+  <p>Let \(f(x)=x\), so \(f(0)=0,\,f(1)=1\) (balanced). Kickback gives \(\tfrac{1}{\sqrt2}(|0\rangle - |1\rangle)=|-\rangle\) on the input. Then \(H|-\rangle=|1\rangle\), and we measure \(1\). Correct - the algorithm reports "balanced." For the constant \(f(x)=0\), no signs flip, the input stays \(|+\rangle\), and \(H|+\rangle=|0\rangle\) gives \(0\).</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Why it works: interference</span>
+  <p>The final Hadamard makes the two amplitude paths interfere. When \(f\) is constant they add up on \(|0\rangle\) and cancel on \(|1\rangle\); when balanced, the reverse. The single query loaded both function values into phases, and interference read out their <em>relationship</em> - exactly the thing we were asked about.</p>
+</div>
+
+<h2>Scaling up: Deutsch-Jozsa</h2>
+
+<p>Now \(f:\{0,1\}^n\to\{0,1\}\) comes with a promise: it is either <strong>constant</strong> (same output for all \(2^n\) inputs) or <strong>balanced</strong> (output \(0\) on exactly half the inputs, \(1\) on the other half). No other functions are allowed. The generalized circuit uses \(n\) input qubits: Hadamard all of them, query \(U_f\) once (target in \(|-\rangle\)), Hadamard all of them again, and measure.</p>
+
+<p>The result is beautifully sharp. The probability of measuring the all-zeros string \(|0\dots0\rangle\) is</p>
+
+\[ \Big|\,\tfrac{1}{2^n}\sum_{x}(-1)^{f(x)}\Big|^2 = \begin{cases} 1 & f \text{ constant},\\[2pt] 0 & f \text{ balanced}. \end{cases} \]
+
+<p>If \(f\) is constant every term has the same sign and they add to \(\pm1\); if balanced the \(+1\)s and \(-1\)s cancel exactly. So: measure all zeros \(\Rightarrow\) constant; measure anything else \(\Rightarrow\) balanced. One query settles it with certainty. A deterministic classical algorithm might need up to \(2^{n-1}+1\) queries in the worst case - an exponential gap.</p>
+
+<div class="callout warn">
+  <span class="callout-label">An honest caveat</span>
+  <p>The problem is contrived: the promise (constant-or-balanced, nothing in between) is exactly what makes the interference perfect. And if we allow a tiny error probability, a classical algorithm can decide it in a few random samples. The value of Deutsch-Jozsa is not practical - it is the first clean, <em>provable</em> separation between exact quantum and exact classical query complexity, and the template every later algorithm imitates.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Constant means \(f(0)=f(1)\); balanced means they differ. Classically the one-bit case needs 2 queries.</li>
+    <li>Deutsch's algorithm - H, oracle (kickback), H, measure - decides it in one query; the input ends in \(|f(0)\oplus f(1)\rangle\).</li>
+    <li>Deutsch-Jozsa generalizes to \(n\) bits: all-zeros outcome \(\Rightarrow\) constant, else balanced, with certainty in one query.</li>
+    <li>The separation is provable but contrived - its worth is as a proof of principle, not a useful task.</li>
+  </ul>
+</div>

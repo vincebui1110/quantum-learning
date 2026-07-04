@@ -1,0 +1,58 @@
+<p>States are vectors; the last piece of the foundation is the thing that <em>changes</em> a state. In quantum computing every operation on a qubit - every "gate" - is a <strong>matrix</strong> acting on the state vector. This lesson shows how a \(2\times 2\) matrix transforms a qubit, works the multiplication out by hand, and explains the one property such matrices must have: they are <strong>unitary</strong>.</p>
+
+<h2>A matrix acting on a state</h2>
+
+<p>An operation on a single qubit is a \(2\times 2\) matrix \(U\). Applying it to a state \(|\psi\rangle\) means ordinary matrix-vector multiplication, producing a new state \(U|\psi\rangle\). Recall the rule: each entry of the output is a row of \(U\) dotted with the input column.</p>
+
+\[ U = \begin{pmatrix} a & b \\ c & d \end{pmatrix}, \qquad U\begin{pmatrix}\alpha\\\beta\end{pmatrix} = \begin{pmatrix} a\alpha + b\beta \\ c\alpha + d\beta \end{pmatrix}. \]
+
+<p>Because a state is a column vector, a gate is just a linear recipe for producing new amplitudes from old ones. "Linear" means \(U(x|\psi\rangle + y|\phi\rangle) = xU|\psi\rangle + yU|\phi\rangle\): the map respects superposition, which is why the whole framework is called linear algebra.</p>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>The quantum <strong>NOT</strong> gate is \(X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\). Apply it to \(|0\rangle = \begin{pmatrix}1\\0\end{pmatrix}\):</p>
+  \[ X|0\rangle = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix}1\\0\end{pmatrix} = \begin{pmatrix} 0\cdot 1 + 1\cdot 0 \\ 1\cdot 1 + 0\cdot 0 \end{pmatrix} = \begin{pmatrix}0\\1\end{pmatrix} = |1\rangle. \]
+  <p>By the same arithmetic \(X|1\rangle = |0\rangle\). So \(X\) swaps \(|0\rangle\) and \(|1\rangle\) - exactly the quantum analogue of a classical NOT, now expressed as a matrix.</p>
+</div>
+
+<h2>What "unitary" means</h2>
+
+<p>Not every \(2\times 2\) matrix is a legal quantum operation. A physical gate must keep a valid state valid: if \(|\psi\rangle\) has unit length, so must \(U|\psi\rangle\). The matrices that do this are precisely the <strong>unitary</strong> ones. Writing \(U^\dagger\) for the conjugate transpose of \(U\) (transpose, then conjugate every entry), \(U\) is unitary when</p>
+
+\[ U^\dagger U = U U^\dagger = I, \]
+
+<p>where \(I = \begin{pmatrix}1&0\\0&1\end{pmatrix}\) is the identity. Equivalently, the inverse of \(U\) is just its conjugate transpose, \(U^{-1} = U^\dagger\). Two consequences follow immediately, and both are physical requirements, not accidents.</p>
+
+<ul>
+  <li><strong>Normalization is preserved.</strong> Unitary maps keep inner products fixed: \(\langle U\psi | U\psi\rangle = \langle\psi|U^\dagger U|\psi\rangle = \langle\psi|\psi\rangle\). So a unit vector stays a unit vector, and total probability stays \(1\). A non-unitary matrix could stretch or shrink the state, making probabilities sum to something other than one - physically meaningless.</li>
+  <li><strong>Reversibility.</strong> Because \(U^{-1} = U^\dagger\) always exists, every gate can be undone. This matches a deep fact: quantum evolution (everything except measurement) is reversible. No information is destroyed by a gate.</li>
+</ul>
+
+<div class="callout warn">
+  <span class="callout-label">Common trap</span>
+  <p>Unitary is <em>not</em> the same as "entries are real" or "symmetric". \(X\) above is real and symmetric and happens to be unitary, but many gates have complex entries. The only test that matters is \(U^\dagger U = I\).</p>
+</div>
+
+<h2>A quick unitarity check</h2>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Verify \(X\) is unitary. Here \(X\) has real entries and equals its own transpose, so \(X^\dagger = X\). Then</p>
+  \[ X^\dagger X = X X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I. \ \checkmark \]
+  <p>So \(X\) is unitary - as every legitimate gate must be. Notice it is also its own inverse: applying NOT twice returns the original state, consistent with \(X^{-1} = X^\dagger = X\).</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>Every single-qubit operation is a \(2\times 2\) matrix acting on the state vector, and it must be unitary (\(U^\dagger U = I\)). Unitarity is exactly what preserves normalization and guarantees reversibility - so quantum gates are the reversible, length-preserving maps of \(\mathbb{C}^2\).</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>A single-qubit gate is a \(2\times 2\) matrix; applying it is matrix-vector multiplication \(U|\psi\rangle\).</li>
+    <li>The NOT gate \(X = \big(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\big)\) swaps \(|0\rangle\) and \(|1\rangle\).</li>
+    <li>A valid gate is unitary: \(U^\dagger U = I\), so \(U^{-1} = U^\dagger\).</li>
+    <li>Unitarity preserves normalization (total probability 1) and makes every operation reversible - which previews the gates of the next module.</li>
+  </ul>
+</div>

@@ -1,0 +1,54 @@
+<p>Các thuật toán oracle tới giờ dùng một vòng Hadamard để giao thoa biên độ. <strong>Biến đổi Fourier lượng tử</strong> (QFT) là bản tổng quát mạnh hơn nhiều của bước đó - một phép đổi cơ sở xáo lại các biên độ theo tần số của chúng. Nó là động cơ bên trong ước lượng pha và thuật toán Shor, nên xứng đáng có một bài riêng.</p>
+
+<h2>Biến đổi Fourier cổ điển, trong một dòng</h2>
+
+<p>Biến đổi Fourier rời rạc (DFT) lấy một danh sách \(N\) số \(a_0,\dots,a_{N-1}\) và tạo ra một danh sách mới cùng độ dài,</p>
+
+\[ b_k = \frac{1}{\sqrt N}\sum_{x=0}^{N-1} a_x\, e^{2\pi i\, xk/N}, \]
+
+<p>để lộ những tần số có mặt trong dữ liệu gốc. Biến đổi Fourier nhanh (FFT) tính cả \(N\) đầu ra trong \(O(N\log N)\) phép toán số học - vốn đã xuất sắc, và là xương sống của xử lý tín hiệu hiện đại.</p>
+
+<h2>Phiên bản lượng tử: biến đổi các biên độ</h2>
+
+<p>QFT làm đúng phép toán ấy, nhưng trên \(2^n = N\) biên độ của một trạng thái \(n\) qubit. Tác động của nó lên một trạng thái cơ sở tính toán \(|x\rangle\) được định nghĩa bởi</p>
+
+\[ \text{QFT}\,|x\rangle = \frac{1}{\sqrt N}\sum_{k=0}^{N-1} e^{2\pi i\, xk/N}\,|k\rangle, \qquad N = 2^n. \]
+
+<p>Các pha \(e^{2\pi i\, xk/N}\) chính là nhân DFT ở trên. Theo tính tuyến tính, khi áp lên một trạng thái tổng quát \(\sum_x a_x|x\rangle\), QFT đưa danh sách biên độ \((a_x)\) về biến đổi Fourier rời rạc \((b_k)\) của nó - nó biến đổi Fourier chính các biên độ.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải: QFT một qubit chính là Hadamard</span>
+  <p>Lấy \(n=1\), nên \(N=2\). Công thức cho \(\text{QFT}|x\rangle = \tfrac{1}{\sqrt2}\sum_{k=0}^{1} e^{2\pi i\, xk/2}|k\rangle = \tfrac{1}{\sqrt2}\sum_k (-1)^{xk}|k\rangle\). Với \(x=0\): \(\tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)=|+\rangle\). Với \(x=1\): \(\tfrac{1}{\sqrt2}(|0\rangle-|1\rangle)=|-\rangle\). Đó đúng là cổng Hadamard. QFT trên một qubit <em>chính là</em> \(H\) - vậy nên mọi lớp Hadamard bạn đã gặp đều là một biến đổi Fourier tí hon.</p>
+</div>
+
+<h2>Dạng tích và số cổng</h2>
+
+<p>Một sự thật đáng chú ý làm QFT hiệu quả: tổng lớn trông có vẻ rối lại phân tích thành một tích của các trạng thái đơn qubit, mỗi cái giữ một chữ số nhị phân của \(x\) trong pha của nó:</p>
+
+\[ \text{QFT}\,|x_1\dots x_n\rangle = \frac{1}{\sqrt N}\bigotimes_{j=1}^{n}\Big(|0\rangle + e^{2\pi i\, 0.x_j x_{j+1}\dots x_n}|1\rangle\Big), \]
+
+<p>trong đó \(0.x_j x_{j+1}\dots\) là một phân số nhị phân. Chính cấu trúc tích này cho phép một mạch gồm Hadamard và các phép quay pha có điều khiển dựng QFT chỉ với</p>
+
+\[ O(n^2)\ \text{cổng}. \]
+
+<p>Hãy so sánh. FFT cổ điển cần \(O(N\log N) = O(n\,2^n)\) phép toán để biến đổi \(N=2^n\) số; QFT chỉ cần \(O(n^2)\) cổng cho biến đổi cùng cỡ - một lợi thế <em>hàm mũ</em> về số cổng.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Điểm bẫy: bạn không đọc được phổ</span>
+  <p>Lợi thế hàm mũ về số cổng đó không có nghĩa bạn nhận được các hệ số Fourier miễn phí. Sau QFT, các biên độ \(b_k\) nằm bên trong trạng thái lượng tử, nhưng phép đo chỉ <em>lấy mẫu</em> một kết quả \(k\) với xác suất \(|b_k|^2\) - nó không bao giờ trao cho bạn chính các số \(b_k\). Vậy QFT không phải một bản thay thế trực tiếp cho FFT: nó là một chương trình con phải được nhúng vào một thuật toán lớn hơn, thiết kế sao cho <em>phép đo</em> lộ ra thứ hữu ích (một chu kỳ, một pha). Ước lượng pha, bài sau, là ví dụ kinh điển.</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>QFT là DFT tác động lên biên độ lượng tử: \(|x\rangle \to \tfrac{1}{\sqrt N}\sum_k e^{2\pi i xk/N}|k\rangle\). Nó chạy trong \(O(n^2)\) cổng - ít hơn FFT theo hàm mũ - nhưng bạn vẫn phải đo, nên nó là một viên gạch xây dựng, không phải máy đọc phổ.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>QFT biến đổi Fourier các biên độ của một trạng thái: \(|x\rangle \to \tfrac{1}{\sqrt N}\sum_k e^{2\pi i xk/N}|k\rangle\), \(N=2^n\).</li>
+    <li>Trên một qubit, QFT đúng bằng cổng Hadamard.</li>
+    <li>Một dạng tích cho phép một mạch thực hiện nó trong \(O(n^2)\) cổng, so với \(O(N\log N)\) của FFT cổ điển.</li>
+    <li>Phép đo chỉ lấy mẫu trạng thái đã biến đổi - bản thân QFT không cho ra một phổ Fourier đọc được.</li>
+  </ul>
+</div>

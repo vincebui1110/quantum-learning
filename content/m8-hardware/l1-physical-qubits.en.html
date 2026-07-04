@@ -1,0 +1,59 @@
+<p>Every earlier module treated a qubit as a clean mathematical object: a vector \(\alpha|0\rangle + \beta|1\rangle\) that we rotate and measure at will. This module comes down to earth. A qubit has to be built out of real matter, and matter is stubborn. This lesson surveys the four leading ways people make physical qubits today, how each one encodes \(|0\rangle\) and \(|1\rangle\), and the honest trade-offs between them. There is no winner yet - that is the whole point.</p>
+
+<h2>What every physical qubit needs</h2>
+
+<p>Whatever the technology, a usable qubit must offer the same four things: two clean, addressable quantum states to serve as \(|0\rangle\) and \(|1\rangle\); a way to prepare, rotate, and entangle those states (gates); a way to read the state out; and enough isolation from the environment that the delicate superposition survives long enough to compute. Hold those four requirements in mind - each platform below satisfies them differently, and each pays a different price.</p>
+
+<h2>Superconducting transmons</h2>
+
+<p>The most industrially mature approach - used by Google and IBM - cools a small superconducting circuit to near absolute zero (around 15 millikelvin). At that temperature the circuit behaves like an artificial atom: an <strong>anharmonic oscillator</strong> whose energy levels are unevenly spaced. The lowest two levels become \(|0\rangle\) and \(|1\rangle\); the uneven spacing lets microwave pulses address that bottom transition without accidentally climbing higher.</p>
+
+<div class="callout note">
+  <span class="callout-label">Why "anharmonic" matters</span>
+  <p>A perfect harmonic oscillator has equally spaced levels, so any pulse that drives \(|0\rangle\to|1\rangle\) would equally drive \(|1\rangle\to|2\rangle\) - you could never keep the qubit inside two levels. The transmon's slight anharmonicity is what makes it a usable qubit.</p>
+</div>
+
+<p><strong>Pros:</strong> extremely fast gates (tens of nanoseconds), built with familiar chip-fabrication techniques, and the most qubits demonstrated on a single processor so far. <strong>Cons:</strong> short coherence (roughly a millisecond at best today), a demanding dilution-refrigerator, and limited connectivity - a qubit typically talks only to its near neighbours on the chip.</p>
+
+<h2>Trapped ions</h2>
+
+<p>Here the qubit is a single charged atom (such as ytterbium or calcium) suspended in a vacuum by electromagnetic fields. \(|0\rangle\) and \(|1\rangle\) are two internal electronic energy levels of the ion, controlled with laser or microwave pulses.</p>
+
+<p><strong>Pros:</strong> every ion is identical (nature manufactures them), coherence times are very long (seconds, sometimes far more), and any ion in a trap can interact with any other - <em>all-to-all connectivity</em>, which many algorithms love. <strong>Cons:</strong> gates are much slower than superconducting ones, and scaling to very large numbers of ions in one trap is hard, pushing designs toward networks of smaller traps.</p>
+
+<h2>Neutral atoms</h2>
+
+<p>A cousin of ion traps: neutral atoms are held in a grid of <em>optical tweezers</em> (tightly focused laser beams). \(|0\rangle\) and \(|1\rangle\) are again atomic states, and two-qubit gates are switched on by exciting atoms to large, strongly-interacting <strong>Rydberg</strong> states. <strong>Pros:</strong> hundreds of atoms arranged in flexible 2D and 3D patterns, long coherence, and reconfigurable connectivity. <strong>Cons:</strong> a younger technology, with gate fidelities and readout still maturing.</p>
+
+<h2>Photonics</h2>
+
+<p>Photonic qubits encode information in single particles of light - for example in a photon's <strong>polarization</strong> (horizontal = \(|0\rangle\), vertical = \(|1\rangle\)) or which of two paths it travels. <strong>Pros:</strong> photons barely interact with the environment (so little decoherence), fly at light speed, and are the natural carrier for quantum communication. <strong>Cons:</strong> that same weak interaction makes two-photon gates hard; many schemes are probabilistic and lean heavily on producing and detecting single photons reliably.</p>
+
+<div class="callout key">
+  <span class="callout-label">The comparison at a glance</span>
+  <table>
+    <thead><tr><th>Platform</th><th>Encodes |0⟩/|1⟩ in</th><th>Coherence</th><th>Gate speed</th><th>Connectivity</th></tr></thead>
+    <tbody>
+      <tr><td>Superconducting</td><td>Circuit energy levels</td><td>Short (~ms)</td><td>Very fast (ns)</td><td>Nearest-neighbour</td></tr>
+      <tr><td>Trapped ions</td><td>Atomic energy levels</td><td>Very long (s)</td><td>Slow</td><td>All-to-all</td></tr>
+      <tr><td>Neutral atoms</td><td>Atomic states (Rydberg gates)</td><td>Long</td><td>Moderate</td><td>Reconfigurable</td></tr>
+      <tr><td>Photonics</td><td>Photon polarization/path</td><td>Very long</td><td>Fast, but probabilistic gates</td><td>Flexible</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="callout warn">
+  <span class="callout-label">Read numbers with care</span>
+  <p>The figures above are order-of-magnitude and move every year as records are broken. Treat them as the <em>shape</em> of the trade-offs, not fixed constants. The one durable lesson is that no platform dominates on all axes at once.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>A physical qubit needs two clean states, controllable gates, readout, and isolation from noise.</li>
+    <li>Superconducting transmons use the lowest two levels of an anharmonic circuit: fast gates, short coherence, limited connectivity.</li>
+    <li>Trapped ions use internal atomic levels: long coherence and all-to-all connectivity, but slower gates.</li>
+    <li>Neutral atoms (Rydberg gates) and photonics (polarization/path) each bring their own strengths and open problems.</li>
+    <li>There is no universally best modality - each trades speed, coherence, connectivity, and scalability differently.</li>
+  </ul>
+</div>

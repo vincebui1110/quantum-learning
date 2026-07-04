@@ -1,0 +1,65 @@
+<p>Một cổng đơn lẻ hiếm khi tự nó làm gì thú vị. Mạch lượng tử thực tế áp dụng một <em>chuỗi</em> cổng lên một qubit, cái này nối tiếp cái kia. Bài này giải thích cách tính kết quả của một chuỗi - và vì sao <strong>thứ tự</strong> áp dụng cổng thực sự làm thay đổi đáp án.</p>
+
+<h2>Ghép chuỗi = nhân ma trận</h2>
+
+<p>Giả sử bạn áp dụng cổng \(A\) lên \(|\psi\rangle\), rồi áp dụng cổng \(B\) lên kết quả. Từng bước:</p>
+
+\[ |\psi\rangle \;\xrightarrow{A}\; A|\psi\rangle \;\xrightarrow{B}\; B\big(A|\psi\rangle\big) = (BA)\,|\psi\rangle. \]
+
+<p>Vậy hiệu ứng gộp của "\(A\) rồi \(B\)" là một ma trận duy nhất \(BA\) - tích của các ma trận cổng. Ghép cổng chẳng qua là nhân các ma trận của chúng.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Chú ý thứ tự: từ phải sang trái</span>
+  <p>Cổng áp dụng <em>trước</em> nằm ở <em>bên phải</em> của tích, gần trạng thái \(|\psi\rangle\) nhất. Bạn <strong>đọc mạch từ trái sang phải</strong> (theo thứ tự thời gian), nhưng <strong>viết tích ma trận từ phải sang trái</strong>. "\(A\) rồi \(B\)" là \(BA\), không phải \(AB\). Sự đảo ngược này khiến gần như ai cũng nhầm lúc đầu.</p>
+</div>
+
+<h2>Đọc một mạch một qubit</h2>
+
+<p>Đây là một mạch hai cổng. Qubit đi vào từ bên trái là \(|0\rangle\), qua \(X\), rồi qua \(H\):</p>
+
+<p style="text-align:center;font-family:monospace">|0⟩ ──[ X ]──[ H ]──&nbsp; trạng thái cuối</p>
+
+<p>Thời gian chảy từ trái sang phải, nên \(X\) tác động trước và \(H\) tác động sau. Do đó trạng thái cuối là \(H\,(X|0\rangle) = (HX)|0\rangle\) - chú ý \(H\) ở bên trái vì nó tác động cuối cùng.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải: thứ tự quan trọng</span>
+  <p><strong>Mạch 1 - \(X\) rồi \(H\)</strong>, áp dụng lên \(|0\rangle\). Tính từ trong ra:</p>
+  \[ X|0\rangle = |1\rangle, \qquad H|1\rangle = \tfrac{1}{\sqrt2}(|0\rangle - |1\rangle) = |-\rangle. \]
+  <p>Vậy \((HX)|0\rangle = |-\rangle\).</p>
+  <p><strong>Mạch 2 - \(H\) rồi \(X\)</strong> (cùng hai cổng, đảo ngược):</p>
+  \[ H|0\rangle = \tfrac{1}{\sqrt2}(|0\rangle + |1\rangle) = |+\rangle, \qquad X|+\rangle = |+\rangle. \]
+  <p>Vậy \((XH)|0\rangle = |+\rangle\). Hai mạch dùng hai cổng y hệt nhau nhưng đạt tới các trạng thái <em>khác nhau</em>, \(|-\rangle\) so với \(|+\rangle\). Thứ tự không phải chi tiết ghi sổ; nó là vật lý.</p>
+</div>
+
+<h2>Vì sao thứ tự quan trọng: ma trận không giao hoán</h2>
+
+<p>Lý do là phép nhân ma trận nói chung <strong>không giao hoán</strong>: \(BA \neq AB\) nói chung. Ta thấy điều đó trực tiếp với \(H\) và \(X\):</p>
+
+\[ HX = \frac{1}{\sqrt2}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \frac{1}{\sqrt2}\begin{pmatrix} 1 & 1 \\ -1 & 1 \end{pmatrix}, \]
+
+\[ XH = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\frac{1}{\sqrt2}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix} = \frac{1}{\sqrt2}\begin{pmatrix} 1 & -1 \\ 1 & 1 \end{pmatrix}. \]
+
+<p>Hai ma trận này khác nhau, nên \(HX \neq XH\), khớp với hai kết quả vật lý khác nhau ở trên. Một số cặp cổng <em>có</em> giao hoán (ví dụ \(Z\) và \(S\), đều là ma trận chéo), nhưng bạn không bao giờ được mặc định điều đó - luôn tôn trọng thứ tự đã cho.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Để tìm trạng thái cuối của một mạch, nhân các ma trận cổng theo thứ tự thời gian đảo ngược rồi áp dụng tích lên đầu vào: với "\(A\), rồi \(B\), rồi \(C\)", tính \(CBA|\psi\rangle\). Vì ma trận nói chung không giao hoán, chuỗi có vai trò quan trọng.</p>
+</div>
+
+<h2>Dựng những mạch dài hơn</h2>
+
+<p>Cùng quy tắc mở rộng cho độ dài bất kỳ. Với các cổng \(G_1, G_2, \ldots, G_k\) áp dụng theo thứ tự thời gian đó, cả mạch là một unita duy nhất</p>
+
+\[ U = G_k \cdots G_2\, G_1, \]
+
+<p>và đầu ra là \(U|\psi\rangle\). Bạn có thể nhân tất cả ma trận trước để được \(U\), rồi áp dụng một lần, hoặc áp dụng từng cổng một lên trạng thái đang biến đổi - cả hai cho cùng đáp án. Đây là toàn bộ động cơ tính toán của một mạch một qubit: một tích các unita tác động lên một vector trạng thái.</p>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Áp dụng cổng theo chuỗi là nhân các ma trận của chúng: "\(A\) rồi \(B\)" là ma trận \(BA\).</li>
+    <li>Đọc mạch từ trái sang phải theo thời gian, nhưng viết tích từ phải sang trái - cổng đầu tiên nằm ngoài cùng bên phải.</li>
+    <li>Thứ tự quan trọng vì ma trận nói chung không giao hoán: \(HX \neq XH\), cho \((HX)|0\rangle=|-\rangle\) nhưng \((XH)|0\rangle=|+\rangle\).</li>
+    <li>Cả một mạch một qubit là một unita duy nhất \(U = G_k\cdots G_1\), và đầu ra là \(U|\psi\rangle\).</li>
+  </ul>
+</div>

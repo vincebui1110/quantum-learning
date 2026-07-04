@@ -1,0 +1,53 @@
+<p>Nếu phải chọn một cổng duy nhất làm biểu tượng của điện toán lượng tử, đó sẽ là <strong>cổng Hadamard</strong>, viết là \(H\). Nó là cổng biến sự xác định thành chồng chập và ngược lại. Gần như mọi thuật toán lượng tử đều mở đầu bằng một lớp Hadamard, vì chúng là thứ đưa một qubit vào trạng thái "cả hai cùng lúc" mà tính song song lượng tử khai thác.</p>
+
+<h2>Ma trận</h2>
+
+\[ H = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}. \]
+
+<p>Hệ số \(\tfrac{1}{\sqrt2}\) có ở đó để giữ nó unita (và giữ trạng thái được chuẩn hoá). Chú ý \(H\) là ma trận thực và đối xứng, bằng chính chuyển vị liên hợp của nó, nên \(H^{\dagger} = H\).</p>
+
+<h2>Nó làm gì với các trạng thái cơ sở</h2>
+
+<p>Áp dụng \(H\) lên cơ sở tính toán tạo ra hai chồng chập đều mà bạn đã gặp ở module trước:</p>
+
+\[ H|0\rangle = \frac{1}{\sqrt2}(|0\rangle + |1\rangle) = |+\rangle, \qquad H|1\rangle = \frac{1}{\sqrt2}(|0\rangle - |1\rangle) = |-\rangle. \]
+
+<p>Đây là bước then chốt: một qubit đang nằm xác định ở \(|0\rangle\) được biến thành một pha trộn cân bằng của \(|0\rangle\) và \(|1\rangle\). Khác biệt duy nhất giữa \(H|0\rangle\) và \(H|1\rangle\) là dấu trước \(|1\rangle\) - pha tương đối - đúng là thông tin mà các bài trước đã nói phép đo trong cơ sở chuẩn không thấy được.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Tính \(H|1\rangle\) tường minh, với \(|1\rangle = \begin{pmatrix}0\\1\end{pmatrix}\):</p>
+  \[ H|1\rangle = \frac{1}{\sqrt2}\begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}\begin{pmatrix} 0 \\ 1 \end{pmatrix} = \frac{1}{\sqrt2}\begin{pmatrix} 1 \\ -1 \end{pmatrix} = \frac{1}{\sqrt2}(|0\rangle - |1\rangle) = |-\rangle. \]
+  <p>Phần tử trên là \(1\cdot 0 + 1\cdot 1 = 1\); phần tử dưới là \(1\cdot 0 + (-1)\cdot 1 = -1\). Kết quả là \(|-\rangle\), đã chuẩn hoá và mang dấu trừ đặc trưng.</p>
+</div>
+
+<h2>Hadamard là nghịch đảo của chính nó</h2>
+
+<p>Một sự thật đáng chú ý và hữu ích: áp dụng \(H\) hai lần thì không làm gì cả. Vì \(H^{\dagger} = H\) và \(H\) unita,</p>
+
+\[ H^2 = H^{\dagger}H = I. \]
+
+<p>Cụ thể, \(H\) tự hoàn tác. Đưa \(|0\rangle\) thành \(|+\rangle\), rồi áp dụng \(H\) lần nữa:</p>
+
+\[ H|+\rangle = \frac{1}{\sqrt2}\big(H|0\rangle + H|1\rangle\big) = \frac{1}{\sqrt2}\big(|+\rangle + |-\rangle\big) = |0\rangle. \]
+
+<p>Phần \(|1\rangle\) của \(|+\rangle\) và \(|-\rangle\) triệt tiêu nhau trong khi phần \(|0\rangle\) cộng hưởng. Đây là <strong>giao thoa</strong> đang hoạt động - và là bằng chứng sắc bén nhất rằng chồng chập không chỉ là "ta chưa biết cái nào". Một đồng xu cổ điển tung hai lần vẫn ngẫu nhiên; một qubit qua hai cổng Hadamard trở lại tính chắc chắn.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>\(H\) là cổng <em>tạo</em> chồng chập (\(|0\rangle \to |+\rangle\)) và, áp dụng lần nữa, <em>gỡ bỏ</em> nó (\(|+\rangle \to |0\rangle\)). Nó chuyển qua lại giữa cơ sở chuẩn \(\{|0\rangle,|1\rangle\}\) và cơ sở "chéo" \(\{|+\rangle,|-\rangle\}\).</p>
+</div>
+
+<h2>Vì sao nó quan trọng</h2>
+
+<p>Vì \(H\) ánh xạ một trạng thái xác định đơn thành một chồng chập đều, một cổng Hadamard trên mỗi qubit trong \(n\) qubit tạo ra chồng chập trên cả \(2^n\) chuỗi bit khả dĩ cùng một lúc. Đó là bệ phóng cho các thuật toán như Deutsch-Jozsa, Grover, và Shor: đưa mọi thứ vào chồng chập bằng Hadamard, để giao thoa thực hiện việc tính toán, rồi đo. Trên mặt cầu Bloch, \(H\) là một phép quay 180° quanh trục chéo nằm giữa x và z, đó là lý do nó tráo vai trò của hướng \(x\) và hướng \(z\) - biến thông tin pha thành thông tin bit đo được và ngược lại.</p>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>\(H = \tfrac{1}{\sqrt2}\bigl(\begin{smallmatrix}1&1\\1&-1\end{smallmatrix}\bigr)\) là cổng Hadamard.</li>
+    <li>\(H|0\rangle = |+\rangle\) và \(H|1\rangle = |-\rangle\): nó tạo các chồng chập đều.</li>
+    <li>\(H\) tự nghịch đảo, \(H^2 = I\), nên \(H|+\rangle = |0\rangle\) - cổng \(H\) thứ hai gỡ bỏ chồng chập bằng giao thoa.</li>
+    <li>Hadamard là cách chuẩn để phóng thuật toán lượng tử vào chồng chập trên mọi đầu vào.</li>
+  </ul>
+</div>

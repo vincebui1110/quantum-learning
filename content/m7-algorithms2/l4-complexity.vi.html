@@ -1,0 +1,61 @@
+<p>Sau Grover và Shor, người ta dễ kết luận rằng máy tính lượng tử đơn giản là "nhanh hơn ở mọi thứ" hoặc "thử mọi đáp án cùng lúc". Cả hai câu đều sai, và câu thứ hai là ngộ nhận tai hại nhất trong lĩnh vực này. Bài này vẽ một bản đồ trung thực: những tăng tốc lượng tử ta thực sự biết, vì sao chúng là ngoại lệ chứ không phải quy luật, và cơ chế thật sự - <strong>giao thoa</strong> - rốt cuộc là gì.</p>
+
+<h2>Ba lớp độ phức tạp, một cách trực giác</h2>
+
+<p>Lý thuyết độ phức tạp phân loại bài toán theo cách tài nguyên cần thiết tăng theo kích thước đầu vào \(n\).</p>
+
+<ul>
+  <li><strong>P</strong> - các bài toán máy cổ điển <em>giải</em> được hiệu quả, trong thời gian đa thức theo \(n\) (ví dụ sắp xếp, phép nhân).</li>
+  <li><strong>NP</strong> - các bài toán mà một đáp án đề xuất có thể <em>kiểm tra</em> hiệu quả, dù việc tìm ra nó có vẻ khó (ví dụ Sudoku, bài toán quyết định người bán hàng du lịch). Khó nhất là <strong>NP-đầy đủ</strong>; liệu \(\text{P}=\text{NP}\) là câu hỏi mở nổi tiếng.</li>
+  <li><strong>BQP</strong> - <em>thời gian đa thức lượng tử sai số bị chặn</em>: các bài toán máy lượng tử giải được hiệu quả, với xác suất đúng cao. Đây là định nghĩa chính xác của "giải được hiệu quả bởi máy lượng tử".</li>
+</ul>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Ta biết \(\text{P} \subseteq \text{BQP}\): máy lượng tử làm được hiệu quả mọi thứ máy cổ điển làm được. Phân tích số nằm trong \(\text{BQP}\) (nhờ Shor) nhưng <em>chưa biết</em> có thuộc \(\text{P}\) hay không. Khoảng cách đó chính là nơi lợi thế lượng tử tồn tại.</p>
+</div>
+
+<h2>Ngộ nhận: "máy lượng tử thử mọi đáp án cùng lúc"</h2>
+
+<p>Câu chuyện quyến rũ diễn ra thế này: đưa \(n\) qubit vào một chồng chập của tất cả \(2^n\) đầu vào, tính bài toán trên toàn bộ chồng chập "song song", rồi đọc ra đáp án. Hai bước đầu là thật; bước cuối là bất khả. Khi bạn <strong>đo</strong> một chồng chập của \(2^n\) khả năng, bạn nhận đúng <em>một</em> kết quả, chọn ngẫu nhiên theo quy tắc Born. Bạn không được thấy cả \(2^n\) kết quả.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Vì sao song song vét cạn thất bại</span>
+  <p>Một chồng chập \(\tfrac{1}{\sqrt{2^n}}\sum_x |x\rangle|f(x)\rangle\) đúng là chứa mọi \(f(x)\), nhưng phép đo làm nó sập về một \((x, f(x))\) ngẫu nhiên duy nhất. Tự nó việc đó không hơn gì chọn ngẫu nhiên một \(x\) theo lối cổ điển. Sự bùng nổ hàm mũ của các biên độ không phải tính toán miễn phí - nó chỉ hữu ích nếu bạn khiến các biên độ <em>giao thoa</em> được.</p>
+</div>
+
+<h2>Cơ chế thật sự: giao thoa</h2>
+
+<p>Biên độ là các số phức có thể cộng vào hoặc triệt tiêu nhau. Một thuật toán lượng tử chỉ giành được tăng tốc khi nó được thiết kế sao cho biên độ của các đáp án <em>sai</em> triệt tiêu (giao thoa triệt tiêu) trong khi biên độ của đáp án <em>đúng</em> tăng cường (giao thoa tăng cường) - để kết quả đo được duy nhất rất có khả năng là cái bạn muốn.</p>
+
+\[ \underbrace{\tfrac{1}{2}+\left(-\tfrac{1}{2}\right)}_{\text{đáp án sai triệt tiêu}} = 0, \qquad \underbrace{\tfrac{1}{2}+\tfrac{1}{2}}_{\text{đáp án đúng tăng cường}} = 1. \]
+
+<p>Đây đúng là điều ta đã thấy: bước khuếch tán của Grover dàn dựng giao thoa để tăng biên độ mục tiêu; QFT của Shor làm biên độ giao thoa sao cho chỉ các tần số liên quan tới chu kỳ sống sót. Giao thoa cần <em>cấu trúc</em> trong bài toán mới hoạt động - một tính tuần hoàn ẩn, một quan hệ đại số. Bài toán không cấu trúc chẳng cho gì để giao thoa, đó là lý do Grover chỉ đạt được lợi thế bậc hai, không phải hàm mũ.</p>
+
+<div class="example">
+  <span class="example-label">Toàn cảnh các tăng tốc đã biết</span>
+  <ul>
+    <li><strong>Hàm mũ</strong> (hiếm, cần cấu trúc mạnh): phân tích số và logarit rời rạc (Shor), và mô phỏng hệ lượng tử - hoá học, vật liệu - có lẽ là ứng dụng quan trọng nhất về mặt thực tiễn.</li>
+    <li><strong>Đa thức / bậc hai</strong> (rộng nhưng khiêm tốn): tìm kiếm Grover và khuếch đại biên độ, cho \(O(\sqrt{N})\) cho nhiều tác vụ dạng tìm kiếm.</li>
+    <li><strong>Chưa biết tăng tốc</strong>: các bài toán NP-đầy đủ nói chung. Cách lượng tử tổng quát tốt nhất về cơ bản là Grover trên các ứng viên lời giải - cải thiện bậc hai, không phải hàm mũ.</li>
+  </ul>
+</div>
+
+<h2>Máy lượng tử không được tin là bẻ được bài toán NP-đầy đủ</h2>
+
+<p>Có một ngộ nhận phổ biến rằng máy lượng tử sẽ giải hiệu quả mọi bài toán tối ưu khó hoặc NP-đầy đủ. Niềm tin đồng thuận trong giới lý thuyết độ phức tạp là <strong>BQP không chứa các bài toán NP-đầy đủ</strong> - tức là máy lượng tử <em>không</em> cho một tăng tốc hàm mũ tổng quát cho NP. Tăng tốc bậc hai của Grover đúng là áp dụng được (tìm trong \(2^n\) ứng viên bằng \(2^{n/2}\) bước), điều đó có ý nghĩa nhưng vẫn hàm mũ theo \(n\). Lợi thế lượng tử là con dao mổ cho các bài toán có cấu trúc đặc biệt, không phải cái búa tạ cho mọi bài toán khó.</p>
+
+<div class="callout note">
+  <span class="callout-label">Góc nhìn</span>
+  <p>Lợi ích thực tế gần nhất không phải bẻ mã mà là <em>mô phỏng</em>: mô hình hoá phân tử và vật liệu lượng tử, nơi không gian trạng thái hàm mũ của máy lượng tử khớp với không gian trạng thái hàm mũ của bài toán. Động lực gốc năm 1981 của Richard Feynman cho điện toán lượng tử chính là điều này.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>BQP là lớp các bài toán máy lượng tử giải hiệu quả (thời gian đa thức, sai số bị chặn); \(\text{P}\subseteq\text{BQP}\).</li>
+    <li>Máy lượng tử <strong>không</strong> được tin là giải hiệu quả các bài toán NP-đầy đủ nói chung - chưa có tăng tốc hàm mũ nào cho chúng.</li>
+    <li>Các tăng tốc đã biết là hẹp: <strong>hàm mũ</strong> cho vài bài toán có cấu trúc (phân tích số, mô phỏng) và <strong>bậc hai</strong> cho tìm kiếm.</li>
+    <li>Cơ chế là <strong>giao thoa</strong> - biên độ đáp án sai triệt tiêu và đáp án đúng tăng cường - không phải "thử mọi đáp án cùng lúc".</li>
+  </ul>
+</div>

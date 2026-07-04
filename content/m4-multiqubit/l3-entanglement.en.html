@@ -1,0 +1,66 @@
+<p>Entanglement is the feature that most sharply separates quantum from classical computing. It is often described in mystical terms, but the definition is precise and almost anticlimactic: an entangled state is simply one that cannot be factored into independent parts. This lesson makes that exact, then builds the most famous entangled states - the Bell states - from gates you already know.</p>
+
+<h2>Product states versus entangled states</h2>
+
+<p>A two-qubit state is a <strong>product state</strong> (or <em>separable</em>) if it can be written as a tensor product of two single-qubit states:</p>
+
+\[ |\psi\rangle = |a\rangle \otimes |b\rangle. \]
+
+<p>In a product state each qubit has its own definite state; describing them separately loses nothing. A state that is <strong>not</strong> separable - one for which no choice of \(|a\rangle,|b\rangle\) works - is called <strong>entangled</strong>. For an entangled pair, neither qubit has a state of its own; only the pair, together, is fully described.</p>
+
+<div class="callout note">
+  <span class="callout-label">A quick separability test</span>
+  <p>Expand \(|a\rangle\otimes|b\rangle = (a_0|0\rangle+a_1|1\rangle)(b_0|0\rangle+b_1|1\rangle)\). The amplitudes of \(|00\rangle,|01\rangle,|10\rangle,|11\rangle\) are \(a_0b_0,\ a_0b_1,\ a_1b_0,\ a_1b_1\). A product state must therefore satisfy \(\alpha\delta = \beta\gamma\) (both equal \(a_0b_0a_1b_1\)). If \(\alpha\delta \neq \beta\gamma\), the state is entangled.</p>
+</div>
+
+<h2>Deriving the Bell state, step by step</h2>
+
+<p>Take the standard Bell circuit: start in \(|00\rangle\), apply a Hadamard to qubit 0, then a CNOT with qubit 0 as control and qubit 1 as target. Recall \(H|0\rangle = \tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\).</p>
+
+<p><strong>Step 1 - Hadamard on qubit 0.</strong> The second qubit is untouched:</p>
+
+\[ |00\rangle \ \xrightarrow{\ H\otimes I\ }\ \tfrac{1}{\sqrt2}\big(|0\rangle+|1\rangle\big)\otimes|0\rangle = \tfrac{1}{\sqrt2}\big(|00\rangle + |10\rangle\big). \]
+
+<p><strong>Step 2 - CNOT (control 0, target 1).</strong> Apply the rule "flip target iff control = 1" to each term. The \(|00\rangle\) term has control 0, so it is unchanged; the \(|10\rangle\) term has control 1, so its target flips to give \(|11\rangle\):</p>
+
+\[ \tfrac{1}{\sqrt2}\big(|00\rangle + |10\rangle\big) \ \xrightarrow{\ \mathrm{CNOT}\ }\ \tfrac{1}{\sqrt2}\big(|00\rangle + |11\rangle\big) \equiv |\Phi^+\rangle. \]
+
+<p>Is \(|\Phi^+\rangle\) entangled? Its amplitudes are \(\alpha=\tfrac{1}{\sqrt2},\ \beta=0,\ \gamma=0,\ \delta=\tfrac{1}{\sqrt2}\). The separability test needs \(\alpha\delta=\beta\gamma\), but here \(\alpha\delta = \tfrac12 \neq 0 = \beta\gamma\). No factorization exists: <strong>\(|\Phi^+\rangle\) is entangled.</strong> Two ordinary gates, acting on an unentangled input, have produced genuine entanglement.</p>
+
+<h2>The four Bell states</h2>
+
+<p>Feeding the same H-then-CNOT circuit the four different inputs \(|00\rangle,|01\rangle,|10\rangle,|11\rangle\) produces four maximally entangled states, the <strong>Bell basis</strong>:</p>
+
+\[ |\Phi^{\pm}\rangle = \tfrac{1}{\sqrt2}\big(|00\rangle \pm |11\rangle\big), \qquad |\Psi^{\pm}\rangle = \tfrac{1}{\sqrt2}\big(|01\rangle \pm |10\rangle\big). \]
+
+<p>These four states are mutually orthogonal and form a complete basis for the two-qubit space - a basis made entirely of entangled states, in which no single qubit has a definite value.</p>
+
+<h2>Correlation without a hidden pre-set value</h2>
+
+<p>Measure the first qubit of \(|\Phi^+\rangle\) in the standard basis. Because only \(|00\rangle\) and \(|11\rangle\) appear, the outcome is 50/50, but whatever you get, the second qubit is instantly determined to match: 0 forces 0, 1 forces 1. The two results are <em>perfectly correlated</em>.</p>
+
+<div class="example">
+  <span class="example-label">Why this is more than a classical correlation</span>
+  <p>Two gloves in two boxes are also perfectly correlated: open one, learn the other. But the gloves had fixed identities all along. The Bell pair does not - its correlations hold in <em>every</em> measurement basis at once, a stronger constraint no fixed hidden values can reproduce. Module 5 turns this into the Bell inequality, an experiment that rules out the "hidden pre-set value" picture entirely.</p>
+</div>
+
+<div class="callout warn">
+  <span class="callout-label">Common misconception</span>
+  <p>The instant determination of the far qubit does <em>not</em> transmit information. Your local outcome is random and uncontrollable, so you cannot use it to send a message. Entanglement gives correlation, not communication - the theme of the next lesson.</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>A state is entangled when it cannot be written as \(|a\rangle\otimes|b\rangle\). Applying \(H\) then CNOT to \(|00\rangle\) yields the entangled Bell state \(|\Phi^+\rangle=\tfrac{1}{\sqrt2}(|00\rangle+|11\rangle)\), in which measuring one qubit instantly fixes the other.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>A product (separable) state factors as \(|a\rangle\otimes|b\rangle\); an entangled state does not.</li>
+    <li>Separability test: a product state needs \(\alpha\delta=\beta\gamma\); \(|\Phi^+\rangle\) fails it, so it is entangled.</li>
+    <li>\(H\) on qubit 0 then CNOT(0\(\to\)1) turns \(|00\rangle\) into \(|\Phi^+\rangle=\tfrac{1}{\sqrt2}(|00\rangle+|11\rangle)\).</li>
+    <li>The four Bell states \(|\Phi^\pm\rangle,|\Psi^\pm\rangle\) form an orthonormal basis of maximally entangled states.</li>
+    <li>Measuring one qubit determines the other, but this correlation cannot send a signal.</li>
+  </ul>
+</div>

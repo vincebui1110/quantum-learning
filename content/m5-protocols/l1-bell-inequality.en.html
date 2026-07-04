@@ -1,0 +1,67 @@
+<p>The previous module built entangled states like the Bell pair \(|\Phi^+\rangle = \tfrac{1}{\sqrt2}(|00\rangle + |11\rangle)\). Entanglement looks strange on paper, but a sceptic could always ask: maybe the two particles simply agreed on their answers in advance, like twins who dressed alike before leaving home. This lesson explains how a single, testable inequality - due to John Bell - rules that story out, and how real experiments have confirmed nature's verdict.</p>
+
+<h2>The local-hidden-variable idea</h2>
+
+<p>A <strong>local hidden variable</strong> (LHV) theory says every measurement outcome is fixed in advance by some shared information \(\lambda\) the particles carry. "Local" means a measurement here cannot instantly influence a result far away. This is the common-sense worldview: correlations between distant events come from a shared past, not spooky links. Einstein favoured exactly this picture.</p>
+
+<p>Bell's genius was to make the disagreement <em>quantitative</em>. If LHV is correct, certain combinations of correlations obey a hard ceiling. Quantum mechanics predicts a higher value. So we do not have to argue philosophy - we can measure.</p>
+
+<h2>The CHSH game</h2>
+
+<p>The cleanest version is the CHSH game (Clauser-Horne-Shimony-Holt). Two players, Alice and Bob, are placed far apart and cannot communicate once the game starts. A referee sends Alice a random bit \(x \in \{0,1\}\) and Bob a random bit \(y \in \{0,1\}\). Each must answer with a bit - Alice returns \(a\), Bob returns \(b\). They <strong>win</strong> the round when</p>
+
+\[ a \oplus b = x \cdot y, \]
+
+<p>where \(\oplus\) is XOR. In words: they must give equal answers unless both got the input \(1\), in which case they must differ.</p>
+
+<div class="callout note">
+  <span class="callout-label">The strategy is fixed in advance</span>
+  <p>Alice and Bob may agree on any plan and share any data beforehand - that is the LHV resource. What they cannot do is signal during the round. The question is how often the best possible plan wins.</p>
+</div>
+
+<h3>The classical ceiling</h3>
+
+<p>Consider any deterministic classical strategy. Each player's answer depends only on their own input. One can enumerate all such strategies; the very best win at most \(3\) of the \(4\) equally likely input pairs, giving a success probability of \(75\%\). Shared randomness averages strategies but never beats the best one. Expressed as a correlation sum \(S\), this is the <strong>CHSH inequality</strong>:</p>
+
+\[ S = \langle A_0 B_0\rangle + \langle A_0 B_1\rangle + \langle A_1 B_0\rangle - \langle A_1 B_1\rangle \le 2. \]
+
+<p>Every local-hidden-variable world - no matter how clever - obeys \(|S| \le 2\). This is not a claim about our ignorance; it is a hard mathematical bound on that class of theories.</p>
+
+<h2>The quantum value: beating the bound</h2>
+
+<p>Now give Alice and Bob a shared Bell pair. Each chooses, based on their input, which of two measurement directions to apply to their qubit. With measurement angles separated by \(45^\circ\), each correlator equals \(\tfrac{1}{\sqrt2}\) in magnitude, and the four terms add up to</p>
+
+\[ S = 4 \cdot \frac{1}{\sqrt2} = 2\sqrt2 \approx 2.828. \]
+
+<p>This is the <strong>Tsirelson bound</strong> - the maximum quantum value, about \(41\%\) above the classical ceiling of \(2\). The winning probability rises to \(\cos^2(22.5^\circ) \approx 85\%\). No pre-agreed classical script can reach this; the entangled pair genuinely does better.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>Local hidden variables force \(|S| \le 2\). Quantum entanglement reaches \(2\sqrt2\). Because these numbers differ, the debate is settled in a laboratory, not an armchair.</p>
+</div>
+
+<div class="example">
+  <span class="example-label">Why 45° is special</span>
+  <p>For three of the four input pairs the two measurement directions are \(45^\circ\) apart, giving correlation \(+\tfrac{1}{\sqrt2}\); for the fourth (the \(x=y=1\) case) they are arranged so the term contributes \(+\tfrac{1}{\sqrt2}\) after the minus sign. Summing four equal magnitudes \(\tfrac{1}{\sqrt2}\) yields \(2\sqrt2\). Pushing the angles further does not help - Tsirelson proved \(2\sqrt2\) is the absolute quantum maximum.</p>
+</div>
+
+<h2>What the experiments established</h2>
+
+<p>Alain Aspect's experiments in the early 1980s measured \(S > 2\), but left "loopholes": maybe the detectors were too slow, or the settings not truly independent. In <strong>2015</strong>, groups in Delft, Vienna and at NIST closed the locality and detection loopholes <em>simultaneously</em> - the first loophole-free violations. The Delft experiment recorded \(S \approx 2.42\), safely above \(2\).</p>
+
+<p>In <strong>2022</strong>, Aspect, John Clauser and Anton Zeilinger shared the Nobel Prize in Physics for this body of work. The verdict is now experimental fact: no local-hidden-variable theory can reproduce nature. Entanglement is real, and it is genuinely non-classical.</p>
+
+<div class="callout warn">
+  <span class="callout-label">A common misreading</span>
+  <p>Violating Bell's inequality does <em>not</em> mean signals travel faster than light. The correlations only become visible when Alice and Bob later compare notes over an ordinary classical channel. No usable message crosses the gap during the measurements.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>A local-hidden-variable theory says outcomes are pre-set by shared data, with no distant influence.</li>
+    <li>The CHSH inequality bounds any such theory: \(|S| \le 2\).</li>
+    <li>An entangled pair reaches the Tsirelson bound \(S = 2\sqrt2 \approx 2.828\), beating the classical limit.</li>
+    <li>Loophole-free experiments (2015) and the 2022 Nobel Prize confirm entanglement cannot be explained classically.</li>
+  </ul>
+</div>

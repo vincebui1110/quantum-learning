@@ -1,0 +1,56 @@
+<p>Quantum mechanics is a probabilistic theory: measuring a qubit gives a random outcome. It is tempting to conclude that a qubit is "just a coin we haven't looked at yet." That intuition is wrong, and understanding <em>why</em> is the sharpest dividing line between classical and quantum thinking. The difference comes down to one word: <strong>amplitudes</strong>.</p>
+
+<h2>Classical probability: a quick refresher</h2>
+
+<p>A classical random bit is described by a <strong>probability distribution</strong>: a list of non-negative numbers that sum to one. For a single bit,</p>
+
+\[ p_0 \ge 0, \quad p_1 \ge 0, \quad p_0 + p_1 = 1. \]
+
+<p>Here \(p_0\) is the probability of \(0\) and \(p_1\) of \(1\). Two facts define the classical world. Probabilities are <em>never negative</em>, and to combine independent ways of reaching an outcome you simply <em>add</em> the probabilities. Because you only ever add non-negative numbers, the chance of an outcome can only grow or hold as you find more paths to it - it can never shrink to zero through combination.</p>
+
+<h2>Quantum: amplitudes come first, probabilities second</h2>
+
+<p>A qubit is described not by probabilities but by complex <strong>amplitudes</strong>:</p>
+
+\[ |\psi\rangle = \alpha\,|0\rangle + \beta\,|1\rangle, \qquad \alpha,\beta \in \mathbb{C}. \]
+
+<p>Amplitudes are the fundamental quantity, and they carry information a probability cannot: a sign and, more generally, a complex phase. Probabilities are <em>derived</em> from them, one squaring step later, by the <strong>Born rule</strong>:</p>
+
+\[ \Pr(\text{outcome } 0) = |\alpha|^2, \qquad \Pr(\text{outcome } 1) = |\beta|^2. \]
+
+<p>Normalization \(|\alpha|^2 + |\beta|^2 = 1\) guarantees these are a valid distribution. Squaring a magnitude always yields something non-negative, so the probabilities behave classically - but the amplitudes underneath do not.</p>
+
+<div class="callout key">
+  <span class="callout-label">The crucial difference</span>
+  <p>Classical states combine <em>probabilities</em>, which are non-negative and can only add. Quantum states combine <em>amplitudes</em>, which are complex and can <strong>cancel</strong>. Probabilities can never interfere; amplitudes can.</p>
+</div>
+
+<h2>Interference: where the two worlds part</h2>
+
+<p>The single most important consequence is that amplitudes for the same outcome can point in "opposite directions" and destroy each other. Suppose two computational paths both lead to a given outcome, one contributing amplitude \(+\tfrac{1}{\sqrt2}\) and the other \(-\tfrac{1}{\sqrt2}\). You do <em>not</em> add their probabilities. You add their <em>amplitudes</em> first, then square:</p>
+
+\[ \left| \tfrac{1}{\sqrt2} + \left(-\tfrac{1}{\sqrt2}\right) \right|^2 = |0|^2 = 0. \]
+
+<p>The outcome becomes impossible. This is <strong>destructive interference</strong>, and nothing like it can happen classically: a classical calculation would give \(\tfrac12 + \tfrac12 = 1\), full certainty, the exact opposite answer. Constructive interference is the mirror image - two amplitudes with the same sign reinforce, pushing a probability up.</p>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Compare a classical mixture with a quantum superposition, both "50/50" in the standard basis.</p>
+  <p><strong>Classical.</strong> A coin is 0 or 1 with \(p_0 = p_1 = \tfrac12\). If you could route it through two stages that each reshuffle, the probabilities just keep averaging; the randomness never sharpens back into certainty.</p>
+  <p><strong>Quantum.</strong> The state \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle + |1\rangle)\) also measures 50/50. But its amplitudes carry signs. A well-chosen operation can steer the two amplitudes for the "0" outcome to add (\(+\tfrac{1}{\sqrt2}+\tfrac{1}{\sqrt2}\) contributions building up) while the two for "1" cancel - collapsing the 50/50 back to a <em>certain</em> 0. Recovering certainty from a superposition is a signature no classical coin can fake.</p>
+</div>
+
+<div class="callout note">
+  <span class="callout-label">Looking ahead</span>
+  <p>The Born rule - probability equals squared amplitude - is the bridge from the abstract state vector to what a measurement actually reports. The next module studies measurement in full; here the point is only that squaring is <em>where</em> phase information gets discarded, which is why phase must do its work <em>before</em> you measure.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Classical bits carry probabilities: non-negative numbers summing to one, which only ever add.</li>
+    <li>Qubits carry complex amplitudes; probabilities come from them via the Born rule, \(\Pr = |\text{amplitude}|^2\).</li>
+    <li>Amplitudes can cancel (destructive interference); probabilities never can - this is the core quantum difference.</li>
+    <li>You add amplitudes first and square second; squaring first (the classical move) misses interference.</li>
+  </ul>
+</div>

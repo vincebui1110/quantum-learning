@@ -1,0 +1,76 @@
+<p>Biên độ lượng tử (amplitude) là các <strong>số phức</strong> (complex number), nên cả môn học đứng trên một chút số học phức. Tin vui: bạn cần ít hơn nhiều so với một khoá học đầy đủ. Bài này cho bạn đúng những mảnh sẽ tái xuất ở mọi trang sau - và không hơn.</p>
+
+<h2>Đơn vị ảo và dạng a + bi</h2>
+
+<p><strong>Đơn vị ảo</strong> (imaginary unit) \(i\) được định nghĩa bởi một tính chất duy nhất:</p>
+
+\[ i^2 = -1. \]
+
+<p>Không có số thực nào bình phương ra số âm, nên \(i\) là một đối tượng thực sự mới. Một <strong>số phức</strong> tổng quát viết là</p>
+
+\[ z = a + bi, \qquad a,b \in \mathbb{R}, \]
+
+<p>trong đó \(a\) là <strong>phần thực</strong> và \(b\) là <strong>phần ảo</strong>. Bạn cộng và nhân số phức đúng như đại số thường, dùng \(i^2 = -1\) mỗi khi nó xuất hiện. Ví dụ \((1+i)(2-i) = 2 - i + 2i - i^2 = 2 + i + 1 = 3 + i.\)</p>
+
+<h2>Liên hợp phức, modulus, và |z|²</h2>
+
+<p><strong>Liên hợp phức</strong> (complex conjugate) của \(z = a + bi\) đổi dấu phần ảo:</p>
+
+\[ z^* = a - bi. \]
+
+<p><strong>Modulus</strong> (hay độ lớn) \(|z|\) đo khoảng cách từ \(z\) tới gốc trong mặt phẳng phức. Bình phương của nó có dạng đặc biệt gọn, và chính đại lượng bình phương này sẽ được quy tắc Born biến thành xác suất:</p>
+
+\[ |z|^2 = z\,z^* = (a+bi)(a-bi) = a^2 + b^2, \qquad |z| = \sqrt{a^2 + b^2}. \]
+
+<p>Chú ý \(z z^*\) luôn là một số <em>thực</em> không âm, dù bản thân \(z\) là số phức. Đó chính là lý do lý thuyết lượng tử bình phương biên độ để lấy xác suất: phép bình phương "làm sạch" một biên độ phức thành một số thực, không âm, hợp lệ.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Cho \(z = 3 + 4i\). Khi đó</p>
+  \[ z^* = 3 - 4i, \qquad |z|^2 = z z^* = 3^2 + 4^2 = 9 + 16 = 25, \qquad |z| = \sqrt{25} = 5. \]
+  <p>Nếu đây là một biên độ (chưa chuẩn hoá), trọng số <em>chưa chuẩn hoá</em> của kết quả sẽ là \(25\). So với biên độ thứ hai \(w = i\): ở đây \(|w|^2 = 0^2 + 1^2 = 1\), nên \(w = i\) có trọng số đơn vị đầy đủ dù chẳng có phần thực nào.</p>
+</div>
+
+<h2>Dạng cực và công thức Euler</h2>
+
+<p>Mọi số phức cũng viết được bằng khoảng cách tới gốc và góc của nó. Nếu \(r = |z|\) và \(\theta\) là góc so với trục thực dương, thì</p>
+
+\[ z = r(\cos\theta + i\sin\theta). \]
+
+<p>Phần trong ngoặc có một tên gọn nổi tiếng qua <strong>công thức Euler</strong>:</p>
+
+\[ e^{i\theta} = \cos\theta + i\sin\theta, \qquad\text{nên}\qquad z = r\,e^{i\theta}. \]
+
+<p>Một hệ quả then chốt: vì \(\cos^2\theta + \sin^2\theta = 1\), số \(e^{i\theta}\) luôn nằm trên đường tròn đơn vị, nghĩa là</p>
+
+\[ \left| e^{i\theta} \right| = 1 \quad\text{với mọi } \theta \text{ thực.} \]
+
+<div class="callout note">
+  <span class="callout-label">Kiểm tra nhanh</span>
+  <p>Cho \(\theta = \pi\) ta được \(e^{i\pi} = \cos\pi + i\sin\pi = -1\), chính là đẳng thức lừng danh \(e^{i\pi} + 1 = 0\). Cho \(\theta = \pi/2\) ta được \(e^{i\pi/2} = i\).</p>
+</div>
+
+<h2>Vì sao pha quan trọng</h2>
+
+<p>Một hệ số dạng \(e^{i\theta}\) gọi là một <strong>pha</strong> (phase). Vì \(|e^{i\theta}| = 1\), nhân một biên độ đơn với một pha không bao giờ đổi độ lớn của biên độ đó - nên nếu nó là biên độ duy nhất, nó sẽ không bao giờ đổi xác suất nào. Vì thế một pha <em>toàn cục</em> (global) là vô hình về mặt vật lý.</p>
+
+<p>Điểm tinh tế - và là toàn bộ động cơ của điện toán lượng tử - là pha <strong>tương đối</strong> (relative) giữa hai biên độ. Xét việc cộng hai biên độ cùng độ lớn nhưng khác pha:</p>
+
+\[ \tfrac{1}{\sqrt2}\big(1\big) + \tfrac{1}{\sqrt2}\big(e^{i\theta}\big). \]
+
+<p>Khi \(\theta = 0\) hai số hạng cộng hưởng; khi \(\theta = \pi\) ta có \(e^{i\pi} = -1\) và chúng <em>triệt tiêu chính xác</em>, cho kết quả bằng không. Độ lớn không hề đổi, vậy mà kết quả đảo từ đầy đủ sang trống rỗng. Cú lật ấy - điều khiển thuần bằng pha - là giao thoa (interference), và là thứ mà một bài sau dùng để dựng nên mọi thuật toán lượng tử.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Với một biên độ \(z\), đại lượng có ý nghĩa vật lý là \(|z|^2 = a^2 + b^2\), một số thực không âm. Một pha \(e^{i\theta}\) có độ lớn 1 nên tự nó vô hình, nhưng một pha <em>tương đối</em> giữa các biên độ điều khiển giao thoa.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Đơn vị ảo thoả \(i^2 = -1\); một số phức là \(z = a + bi\).</li>
+    <li>Liên hợp là \(z^* = a - bi\), và \(|z|^2 = z z^* = a^2 + b^2\) là số thực, không âm.</li>
+    <li>Công thức Euler: \(e^{i\theta} = \cos\theta + i\sin\theta\), với \(|e^{i\theta}| = 1\) cho mọi \(\theta\) thực.</li>
+    <li>Một pha tự nó vô hình nhưng có tính quyết định khi là pha <em>tương đối</em>, nơi nó dẫn dắt giao thoa.</li>
+  </ul>
+</div>

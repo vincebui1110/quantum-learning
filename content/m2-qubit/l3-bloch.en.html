@@ -1,0 +1,60 @@
+<p>We said amplitudes are complex numbers, and promised that would matter. Here is where it pays off. A complex amplitude carries not just a magnitude but a <strong>phase</strong>, and phase is what separates a qubit's geometry - the famous <strong>Bloch sphere</strong> - from a boring line segment.</p>
+
+<h2>Global phase: the part that does not matter</h2>
+
+<p>Consider multiplying an entire state by a complex number of magnitude one, \(e^{i\gamma}\):</p>
+
+\[ |\psi\rangle \;\longrightarrow\; e^{i\gamma}|\psi\rangle. \]
+
+<p>Does any experiment notice? Measure in any basis: every outcome probability is a squared magnitude, and \(|e^{i\gamma}\alpha|^2 = |e^{i\gamma}|^2|\alpha|^2 = |\alpha|^2\), because \(|e^{i\gamma}|=1\). The phase cancels everywhere. A <strong>global phase</strong> is therefore physically meaningless - \(|\psi\rangle\) and \(e^{i\gamma}|\psi\rangle\) are the same state.</p>
+
+<h2>Relative phase: the part that does matter</h2>
+
+<p>Now compare \(|+\rangle\) and \(|-\rangle\):</p>
+
+\[ |+\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle + |1\rangle\big), \qquad |-\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle - |1\rangle\big). \]
+
+<p>The only difference is a minus sign on the \(|1\rangle\) term - a <strong>relative phase</strong> between the two amplitudes. In the computational basis they are indistinguishable: both give 50/50. But this phase is not a global phase you can factor out, and it is absolutely real. Apply a Hadamard gate (module 3) and \(|+\rangle \to |0\rangle\) while \(|-\rangle \to |1\rangle\) - opposite, certain outcomes. Relative phase is observable; global phase is not.</p>
+
+<div class="callout note">
+  <span class="callout-label">The distinction in one line</span>
+  <p>Multiply the <em>whole</em> state by \(e^{i\gamma}\): invisible. Change the phase of <em>one amplitude relative to the other</em>: physical, and detectable in the right basis.</p>
+</div>
+
+<h2>Packaging it all: the Bloch sphere</h2>
+
+<p>A qubit has two complex amplitudes (four real numbers). Normalization removes one, and discarding the meaningless global phase removes another. That leaves exactly <strong>two real parameters</strong> - which is why every pure qubit state can be written as a point on the surface of a sphere:</p>
+
+\[ |\psi\rangle = \cos\!\tfrac{\theta}{2}\,|0\rangle + e^{i\varphi}\sin\!\tfrac{\theta}{2}\,|1\rangle, \qquad \theta \in [0,\pi],\ \varphi \in [0,2\pi). \]
+
+<p>Here \(\theta\) is the polar angle (how much \(|0\rangle\) vs \(|1\rangle\)) and \(\varphi\) is the azimuthal angle (the relative phase). The landmarks:</p>
+
+<div class="table-scroll">
+<table>
+  <thead><tr><th>Point on sphere</th><th>State</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td>North pole (\(\theta=0\))</td><td>\(|0\rangle\)</td><td>definite 0</td></tr>
+    <tr><td>South pole (\(\theta=\pi\))</td><td>\(|1\rangle\)</td><td>definite 1</td></tr>
+    <tr><td>Equator, \(\varphi=0\)</td><td>\(|+\rangle\)</td><td>equal, phase 0</td></tr>
+    <tr><td>Equator, \(\varphi=\pi\)</td><td>\(|-\rangle\)</td><td>equal, phase \(\pi\)</td></tr>
+    <tr><td>Equator, \(\varphi=\tfrac{\pi}{2}\)</td><td>\(|{+}i\rangle\)</td><td>equal, phase \(\tfrac{\pi}{2}\)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>The Bloch sphere is not decoration: in module 3 you will see that every single-qubit gate is literally a rotation of this sphere. It turns abstract algebra into geometry you can picture - and you can rotate it yourself in the Practice Lab.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>A pure qubit state is two real parameters, \((\theta,\varphi)\), and lives on the surface of the Bloch sphere. Latitude \(\theta\) sets the measurement probabilities; longitude \(\varphi\) is the relative phase. Global phase is exactly the coordinate the sphere throws away.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Global phase \(e^{i\gamma}\) multiplies the whole state and is physically undetectable.</li>
+    <li>Relative phase between amplitudes is real and observable in the right basis (e.g. after a Hadamard).</li>
+    <li>Every pure qubit state is a point on the Bloch sphere, \(\cos\tfrac{\theta}{2}|0\rangle + e^{i\varphi}\sin\tfrac{\theta}{2}|1\rangle\).</li>
+    <li>\(|0\rangle\) and \(|1\rangle\) are the poles; equal superpositions live on the equator, separated by their phase \(\varphi\).</li>
+  </ul>
+</div>

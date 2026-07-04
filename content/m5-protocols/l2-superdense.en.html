@@ -1,0 +1,72 @@
+<p>How much classical information can one qubit carry? A single qubit measured in a fixed basis yields just one bit, and a deep result (the Holevo bound) says you can never extract more than one classical bit from one qubit on its own. <strong>Superdense coding</strong> shows a beautiful loophole: if Alice and Bob <em>pre-share</em> an entangled pair, Alice can send <strong>two</strong> classical bits by transmitting only <strong>one</strong> qubit. Entanglement, set up in advance, doubles the channel.</p>
+
+<h2>The setup: a shared Bell pair</h2>
+
+<p>Before any message exists, a source prepares the Bell state</p>
+
+\[ |\Phi^+\rangle = \frac{1}{\sqrt2}\big(|00\rangle + |11\rangle\big), \]
+
+<p>and hands the first qubit to Alice and the second to Bob. They can now walk to opposite ends of the world. Alice holds one half; Bob holds the other. Neither qubit alone carries any message yet - the pair is just a shared resource, like two ends of a pre-laid cable.</p>
+
+<div class="callout note">
+  <span class="callout-label">This must happen first</span>
+  <p>The entanglement is distributed <em>before</em> Alice decides what to say. When she later chooses her 2-bit message, she acts only on her own qubit.</p>
+</div>
+
+<h2>Encoding: one Pauli per message</h2>
+
+<p>Alice wants to send one of four messages: \(00, 01, 10, 11\). She applies a single-qubit gate to <em>her</em> half of the pair, chosen from \(\{I, X, Z, XZ\}\):</p>
+
+\[
+\begin{array}{c|c|c}
+\text{message} & \text{Alice applies} & \text{resulting pair state}\\ \hline
+00 & I & |\Phi^+\rangle = \tfrac{1}{\sqrt2}(|00\rangle+|11\rangle)\\
+01 & X & |\Psi^+\rangle = \tfrac{1}{\sqrt2}(|10\rangle+|01\rangle)\\
+10 & Z & |\Phi^-\rangle = \tfrac{1}{\sqrt2}(|00\rangle-|11\rangle)\\
+11 & XZ & |\Psi^-\rangle = \tfrac{1}{\sqrt2}(|01\rangle-|10\rangle)
+\end{array}
+\]
+
+<p>Each Pauli rotates the shared state into a <em>different</em> one of the four <strong>Bell states</strong>. These four states are mutually orthogonal, so they are perfectly distinguishable. Crucially, Alice touched only her own qubit, yet the whole two-qubit state moved.</p>
+
+<div class="example">
+  <span class="example-label">Worked step: the X encoding</span>
+  <p>Start from \(|\Phi^+\rangle = \tfrac{1}{\sqrt2}(|00\rangle + |11\rangle)\). Alice applies \(X\) to her (first) qubit, which flips \(|0\rangle \leftrightarrow |1\rangle\):</p>
+  \[ (X\otimes I)|\Phi^+\rangle = \tfrac{1}{\sqrt2}(|10\rangle + |01\rangle) = |\Psi^+\rangle. \]
+  <p>The pair is now in a distinct Bell state. Bob, once he has both qubits, will be able to tell it apart from the other three with certainty.</p>
+</div>
+
+<h2>Transmission and decoding</h2>
+
+<p>Alice now sends her single qubit to Bob. He holds both halves and must identify which Bell state they are in - a <strong>Bell measurement</strong>. The standard circuit is: apply <strong>CNOT</strong> (Alice's qubit as control, Bob's as target), then <strong>H</strong> on Alice's qubit, then measure both in the computational basis. This maps the four Bell states back to the four plain outcomes:</p>
+
+\[ |\Phi^+\rangle \to 00, \quad |\Psi^+\rangle \to 01, \quad |\Phi^-\rangle \to 10, \quad |\Psi^-\rangle \to 11. \]
+
+<p>The two measured bits are exactly Alice's message. Two classical bits recovered - from a channel over which only one qubit travelled.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>Superdense coding sends 2 classical bits using 1 transmitted qubit, but only because a Bell pair was shared in advance. The pre-shared entanglement is the second "half" of the channel - without it, one qubit gives at most one bit.</p>
+</div>
+
+<h2>Why this is not free lunch</h2>
+
+<p>It is tempting to say one qubit "became" two bits, but the bookkeeping is honest. Setting up the Bell pair already required sending one qubit (Bob's half) earlier. Counted over the whole protocol, two qubits move in total to deliver two bits. What superdense coding buys you is <em>timing</em>: the expensive entanglement can be distributed in advance, during quiet periods, so that at message time only a single qubit need cross the channel.</p>
+
+<div class="callout warn">
+  <span class="callout-label">No faster-than-light messaging</span>
+  <p>Bob learns nothing until Alice's qubit physically arrives. The shared entanglement by itself carries no information; the message rides on the transmitted qubit, which travels no faster than light.</p>
+</div>
+
+<p>Superdense coding and teleportation (next lesson) are mirror images: here one qubit carries two classical bits; there two classical bits carry one qubit. Both spend one shared Bell pair.</p>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Superdense coding sends 2 classical bits by transmitting only 1 qubit.</li>
+    <li>It requires a pre-shared Bell pair - the entanglement is the enabling resource.</li>
+    <li>Alice encodes with one of \(\{I, X, Z, XZ\}\), rotating the pair into one of the four Bell states.</li>
+    <li>Bob decodes with CNOT + H then measures, reading out the 2 bits with certainty.</li>
+    <li>No faster-than-light signalling: Bob learns nothing until Alice's qubit arrives.</li>
+  </ul>
+</div>

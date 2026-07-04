@@ -1,0 +1,47 @@
+<p>Bài 2 để lại cho ta một phép tính u ám: lỗi cổng nhân lên, nên một qubit vật lý với độ trung thực \(0.999\) không thể gánh nổi một tính toán dù chỉ vài nghìn cổng. Lối thoát là <strong>sửa lỗi lượng tử</strong> (QEC): dựng một qubit <em>logic</em> cực kỳ tin cậy từ nhiều qubit <em>vật lý</em> không tin cậy. Bài này giải thích vì sao mẹo cổ điển hiển nhiên lại thất bại, ý tưởng khôn ngoan thay thế nó, và sơ đồ thực tiễn hàng đầu - <strong>mã bề mặt</strong> (surface code) - cùng cái giá đắt đỏ của nó.</p>
+
+<h2>Vì sao mẹo cổ điển bị cấm ở đây</h2>
+
+<p>Về mặt cổ điển, sửa lỗi rất dễ: để bảo vệ một bit, sao nó ra. Lưu <code>000</code> thay vì <code>0</code>; nếu một bản lật thành <code>010</code>, bỏ phiếu đa số khôi phục lại. Tính toán lượng tử không làm được điều này, vì hai lý do độc lập.</p>
+
+<p>Thứ nhất, <strong>định lý không sao chép</strong> (từ module 5) chứng minh không có phép toán nào sao một trạng thái lượng tử chưa biết \(|\psi\rangle \to |\psi\rangle|\psi\rangle\). Bạn thực sự không thể tạo các bản sao lưu. Thứ hai, ngay cả nếu soi được các qubit, việc <em>đo</em> một chồng chập sẽ làm sập nó - nên cách ngây thơ "nhìn từng bản rồi bỏ phiếu" sẽ phá đúng cái trạng thái bạn đang bảo vệ. Lỗi lượng tử cũng tệ hơn lỗi cổ điển: một qubit có thể chịu lật bit (\(|0\rangle\leftrightarrow|1\rangle\)), lật pha (dấu giữa \(|0\rangle\) và \(|1\rangle\)), hoặc bất kỳ hỗn hợp liên tục nào của cả hai.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Hai vấn đề, cần một lời giải</span>
+  <p>QEC phải (1) bảo vệ thông tin mà không sao chép nó, và (2) phát hiện lỗi mà không đo dữ liệu được bảo vệ. Nghe có vẻ bất khả. Lời giải là rối lượng tử cộng với một loại phép đo được chọn cực kỳ cẩn thận.</p>
+</div>
+
+<h2>Mã hoá: trải ra, đừng sao</h2>
+
+<p>Thay vì sao chép, QEC <strong>trải rộng</strong> (delocalize) một qubit logic qua một khối rối gồm nhiều qubit vật lý. Các trạng thái logic \(|0\rangle_L\) và \(|1\rangle_L\) là những mẫu rối phức tạp; không một qubit vật lý nào giữ câu trả lời. Vì thông tin bị trải ra, một nhiễu loạn cục bộ lên một qubit vật lý không lập tức làm hỏng giá trị logic - có chỗ để nhận ra và hoàn tác trước khi nó lan rộng.</p>
+
+<h2>Phép đo hội chứng: bắt lỗi, không bắt dữ liệu</h2>
+
+<p>Mẹo trung tâm là phép đo <strong>stabilizer</strong> (hay <em>hội chứng</em>, syndrome). Bên cạnh các qubit dữ liệu là những qubit <em>phụ trợ</em> (ancilla). Mỗi ancilla rối với một cụm nhỏ qubit dữ liệu rồi được đo, nhưng phép đo được thiết kế để chỉ lộ ra một <strong>kiểm tra chẵn lẻ</strong> - ví dụ "có một số lẻ trong bốn qubit này bị lật không?" - và không gì về việc qubit logic là \(|0\rangle_L\) hay \(|1\rangle_L\).</p>
+
+<div class="callout key">
+  <span class="callout-label">Trái tim của QEC</span>
+  <p>Một phép đo stabilizer trả về một <strong>hội chứng</strong>: một mẫu kết quả chẵn lẻ vẽ dấu vân tay <em>lỗi nào</em> đã xảy ra và đại khái <em>ở đâu</em>, mà không cho biết gì về giá trị được mã hoá. Vì nó giao hoán với thông tin logic, nó không làm sập chồng chập bạn đang tính toán. Một thuật toán cổ điển - <em>bộ giải mã</em> (decoder) - đọc hội chứng và tính ra cách sửa cần áp dụng.</p>
+</div>
+
+<p>Đây là cách QEC hoá giải nghịch lý: bạn không bao giờ nhìn dữ liệu, chỉ nhìn các quan hệ chẵn lẻ giữa các qubit. Một lỗi lượng tử liên tục thậm chí bị <em>rời rạc hoá</em> bởi phép đo này - hành động kiểm tra chẵn lẻ ép lỗi lộn xộn phải chốt vào một lật bit hoặc lật pha xác định mà bộ giải mã xử lý được.</p>
+
+<h2>Mã bề mặt và chi phí của nó</h2>
+
+<p>Mã <strong>bề mặt</strong> (surface code) là ứng viên dẫn đầu hôm nay vì nó chỉ cần một lưới qubit 2D nói chuyện với hàng xóm gần nhất - rất hợp với chip siêu dẫn. Qubit dữ liệu và ancilla xen kẽ trên lưới, và các ancilla liên tục đo các kiểm tra chẵn lẻ bit và chẵn lẻ pha cục bộ. Độ bền của nó do <strong>khoảng cách mã</strong> (code distance) \(d\) quyết định: mã sửa được tới \(\lfloor (d-1)/2 \rfloor\) lỗi, và một mã bề mặt khoảng cách \(d\) dùng cỡ \(d^2\) qubit vật lý cho mỗi qubit logic.</p>
+
+<div class="example">
+  <span class="example-label">Cái giá là có thật</span>
+  <p>Dưới một ngưỡng lỗi phần cứng, tỷ lệ lỗi logic giảm mạnh khi \(d\) tăng - đại khái \(p_L \sim (p/p_{\text{th}})^{d/2}\), với \(p\) là tỷ lệ lỗi vật lý và \(p_{\text{th}}\) là ngưỡng. Nhưng trả cho một \(d\) lớn hơn nghĩa là nhiều qubit vật lý cho mỗi qubit logic. Một cột mốc gần đây dùng mã bề mặt khoảng cách 7 trải trên 101 qubit vật lý để bảo vệ một qubit logic, và các máy chịu lỗi tương lai được dự kiến cần cỡ hàng trăm tới một nghìn qubit vật lý cho mỗi qubit logic chất lượng cao. Chi phí phụ trội này là cái giá của độ tin cậy, và thu nhỏ nó là một mục tiêu nghiên cứu lớn.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Sao-và-bỏ-phiếu kiểu cổ điển là bất khả với qubit: định lý không sao chép cấm sao, và đo sẽ làm sập trạng thái.</li>
+    <li>QEC thay vào đó trải rộng (delocalize) một qubit logic qua một khối rối gồm nhiều qubit vật lý.</li>
+    <li>Phép đo stabilizer/hội chứng lộ ra dấu vân tay chẵn lẻ của lỗi mà không đo - nên không làm sập - dữ liệu được mã hoá.</li>
+    <li>Một bộ giải mã cổ điển đọc hội chứng và suy ra cách sửa; lỗi liên tục bị rời rạc hoá thành lật bit và lật pha sửa được.</li>
+    <li>Mã bề mặt dùng một lưới 2D hàng xóm gần với cỡ \(d^2\) qubit vật lý cho mỗi qubit logic - mạnh nhưng chi phí phụ trội nặng.</li>
+  </ul>
+</div>

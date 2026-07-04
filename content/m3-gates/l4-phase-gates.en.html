@@ -1,0 +1,50 @@
+<p>The Pauli-\(Z\) gate flips the phase of \(|1\rangle\) by a full \(180°\) (multiplying it by \(-1\)). But we often want <em>finer</em> control over phase. The <strong>phase gates</strong> \(S\) and \(T\) do exactly that: they add a smaller, controllable relative phase to the \(|1\rangle\) component. They are the tools that let us reach every possible single-qubit gate, not just the handful of special ones.</p>
+
+<h2>The matrices</h2>
+
+\[ S = \begin{pmatrix} 1 & 0 \\ 0 & i \end{pmatrix}, \qquad T = \begin{pmatrix} 1 & 0 \\ 0 & e^{i\pi/4} \end{pmatrix}. \]
+
+<p>Both are diagonal, so they leave \(|0\rangle\) completely alone and only touch \(|1\rangle\):</p>
+
+\[ S|1\rangle = i\,|1\rangle = e^{i\pi/2}|1\rangle, \qquad T|1\rangle = e^{i\pi/4}|1\rangle. \]
+
+<p>The \(S\) gate adds a relative phase of \(90°\) (since \(i = e^{i\pi/2}\)); the \(T\) gate adds \(45°\) (since \(e^{i\pi/4}\)). Neither changes the <em>magnitude</em> of any amplitude, so neither changes standard-basis measurement probabilities - they act purely on phase. On the Bloch sphere both are rotations about the z-axis: \(S\) by \(90°\), \(T\) by \(45°\).</p>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Apply \(S\) to \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle + |1\rangle)\):</p>
+  \[ S|+\rangle = \begin{pmatrix} 1 & 0 \\ 0 & i \end{pmatrix}\frac{1}{\sqrt2}\begin{pmatrix} 1 \\ 1 \end{pmatrix} = \frac{1}{\sqrt2}\begin{pmatrix} 1 \\ i \end{pmatrix} = \frac{1}{\sqrt2}(|0\rangle + i\,|1\rangle). \]
+  <p>The magnitudes are untouched (still \(\tfrac{1}{\sqrt2}\) each, so measurement is still 50/50), but the \(|1\rangle\) component now carries a phase \(i\). This new state sits on the equator of the Bloch sphere, a quarter-turn around from \(|+\rangle\).</p>
+</div>
+
+<h2>They nest inside one another</h2>
+
+<p>The two phase gates and \(Z\) form a neat tower, each the square of the next-smaller one:</p>
+
+\[ T^2 = S, \qquad S^2 = Z, \qquad \text{hence } \; T^4 = Z. \]
+
+<p>Check the first: \(T^2\) multiplies \(|1\rangle\) by \((e^{i\pi/4})^2 = e^{i\pi/2} = i\), which is exactly \(S\). Check the second: \(S^2\) multiplies \(|1\rangle\) by \(i^2 = -1\), which is exactly \(Z\). Each gate is a smaller step of z-axis rotation: \(T\) is \(45°\), \(S\) is \(90°\), \(Z\) is \(180°\).</p>
+
+<h2>Why these gates matter</h2>
+
+<p>The Pauli and Hadamard gates alone can only reach a finite set of states - a rigid scaffolding of special points. To build an <em>arbitrary</em> single-qubit gate, you need to be able to dial in phases of any angle, and \(S\) and \(T\) are the practical building blocks for doing so. In particular, the combination of Hadamard and \(T\) can approximate any single-qubit rotation to any desired accuracy (a result known as the Solovay-Kitaev theorem).</p>
+
+<div class="callout warn">
+  <span class="callout-label">The T gate is special (kept honest)</span>
+  <p>\(X, Y, Z, H, S\) are all <strong>Clifford</strong> gates - a family that, on its own, can be simulated efficiently by a classical computer and gives no quantum advantage. The \(T\) gate is <strong>non-Clifford</strong>. Adding \(T\) to the Clifford gates produces a <em>universal</em> gate set (Clifford + T). That extra power has a price: on real error-corrected hardware, \(T\) gates are much more expensive to perform reliably than Clifford gates, so a major goal of circuit design is to use as few \(T\) gates as possible.</p>
+</div>
+
+<div class="callout note">
+  <span class="callout-label">Note</span>
+  <p>\(S\) is sometimes called the "phase gate" and written \(P(\pi/2)\); \(T\) is the "\(\pi/8\) gate," a name that comes from an equivalent form where the phase \(e^{i\pi/4}\) is split symmetrically as \(e^{\pm i\pi/8}\) across the diagonal.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>\(S = \bigl(\begin{smallmatrix}1&0\\0&i\end{smallmatrix}\bigr)\) adds a \(90°\) relative phase to \(|1\rangle\); \(T = \bigl(\begin{smallmatrix}1&0\\0&e^{i\pi/4}\end{smallmatrix}\bigr)\) adds \(45°\).</li>
+    <li>Both leave \(|0\rangle\) fixed and change only phase, so measurement probabilities are unaffected.</li>
+    <li>They nest: \(T^2 = S\), \(S^2 = Z\), so \(T^4 = Z\) - progressively smaller z-axis rotations.</li>
+    <li>\(T\) is non-Clifford; Clifford + T is a universal set, but \(T\) is the costly gate on real hardware.</li>
+  </ul>
+</div>

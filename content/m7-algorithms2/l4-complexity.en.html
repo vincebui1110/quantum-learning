@@ -1,0 +1,61 @@
+<p>After Grover and Shor it is tempting to conclude that quantum computers are simply "faster at everything" or that they "try all answers at once." Both statements are wrong, and the second is the single most damaging myth in the field. This lesson draws an honest map: what quantum speed-ups we actually know, why they are the exception rather than the rule, and what the true mechanism - <strong>interference</strong> - really is.</p>
+
+<h2>Three complexity classes, intuitively</h2>
+
+<p>Complexity theory sorts problems by how the resources needed grow with the input size \(n\).</p>
+
+<ul>
+  <li><strong>P</strong> - problems a classical computer can <em>solve</em> efficiently, in time polynomial in \(n\) (e.g. sorting, multiplication).</li>
+  <li><strong>NP</strong> - problems whose proposed answer can be <em>checked</em> efficiently, even if finding it seems hard (e.g. Sudoku, the travelling-salesman decision problem). The hardest ones are <strong>NP-complete</strong>; whether \(\text{P}=\text{NP}\) is the famous open question.</li>
+  <li><strong>BQP</strong> - <em>bounded-error quantum polynomial time</em>: problems a quantum computer can solve efficiently, with high probability of being correct. This is the precise definition of "efficiently solvable by a quantum computer."</li>
+</ul>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>We know \(\text{P} \subseteq \text{BQP}\): a quantum computer can do anything a classical one can, efficiently. Factoring sits in \(\text{BQP}\) (thanks to Shor) but is <em>not known</em> to be in \(\text{P}\). That gap is exactly where quantum advantage lives.</p>
+</div>
+
+<h2>The myth: "quantum computers try all answers at once"</h2>
+
+<p>The seductive story goes: put \(n\) qubits into a superposition of all \(2^n\) inputs, evaluate the problem on the whole superposition "in parallel," and read off the answer. The first two steps are real; the last is impossible. When you <strong>measure</strong> a superposition of \(2^n\) possibilities, you get exactly <em>one</em> outcome, chosen at random according to the Born rule. You do not get to see all \(2^n\) results.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Why brute-force parallelism fails</span>
+  <p>A superposition \(\tfrac{1}{\sqrt{2^n}}\sum_x |x\rangle|f(x)\rangle\) does contain every \(f(x)\), but measurement collapses it to a single random \((x, f(x))\). By itself that is no better than picking one \(x\) at random classically. The exponential blow-up of amplitudes is not free computation - it is only useful if you can make the amplitudes <em>interfere</em>.</p>
+</div>
+
+<h2>The real mechanism: interference</h2>
+
+<p>Amplitudes are complex numbers that can add or cancel. A quantum algorithm earns a speed-up only when it is designed so that amplitudes for <em>wrong</em> answers cancel (destructive interference) while amplitudes for the <em>right</em> answer reinforce (constructive interference) - so that the single measured outcome is very likely the one you want.</p>
+
+\[ \underbrace{\tfrac{1}{2}+\left(-\tfrac{1}{2}\right)}_{\text{wrong answers cancel}} = 0, \qquad \underbrace{\tfrac{1}{2}+\tfrac{1}{2}}_{\text{right answer reinforces}} = 1. \]
+
+<p>This is exactly what we saw: Grover's diffusion step engineers interference to grow the marked amplitude; Shor's QFT makes amplitudes interfere so that only frequencies related to the period survive. Interference needs <em>structure</em> in the problem to work - a hidden periodicity, an algebraic relationship. Unstructured problems offer nothing to interfere with, which is why Grover manages only a quadratic, not exponential, gain.</p>
+
+<div class="example">
+  <span class="example-label">The landscape of known speed-ups</span>
+  <ul>
+    <li><strong>Exponential</strong> (rare, needs strong structure): factoring and discrete log (Shor), and simulating quantum systems - chemistry, materials - which is arguably the most practically important.</li>
+    <li><strong>Polynomial / quadratic</strong> (broad but modest): Grover search and amplitude amplification, giving \(O(\sqrt{N})\) for many search-like tasks.</li>
+    <li><strong>No known speed-up</strong>: general NP-complete problems. The best general quantum approach is roughly Grover over candidate solutions - a quadratic, not exponential, improvement.</li>
+  </ul>
+</div>
+
+<h2>Quantum computers are not believed to crack NP-complete problems</h2>
+
+<p>It is a widespread misconception that a quantum computer will efficiently solve every hard optimization or NP-complete problem. The consensus belief among complexity theorists is that <strong>BQP does not contain the NP-complete problems</strong> - i.e. quantum computers do <em>not</em> give a general exponential speed-up for NP. Grover's quadratic speed-up does apply (search the \(2^n\) candidates in \(2^{n/2}\) steps), which is meaningful but still exponential in \(n\). Quantum advantage is a scalpel for specially structured problems, not a sledgehammer for all hard problems.</p>
+
+<div class="callout note">
+  <span class="callout-label">Perspective</span>
+  <p>The realistic near-term payoff is not code-breaking but <em>simulation</em>: modelling molecules and quantum materials, where a quantum computer's exponential state space matches the problem's exponential state space. Richard Feynman's original 1981 motivation for quantum computing was exactly this.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>BQP is the class of problems a quantum computer solves efficiently (polynomial time, bounded error); \(\text{P}\subseteq\text{BQP}\).</li>
+    <li>Quantum computers are <strong>not</strong> believed to solve NP-complete problems efficiently in general - there is no known exponential speed-up for them.</li>
+    <li>Known speed-ups are narrow: <strong>exponential</strong> for a few structured problems (factoring, simulation) and <strong>quadratic</strong> for search.</li>
+    <li>The mechanism is <strong>interference</strong> - amplitudes for wrong answers cancel and the right answer reinforces - not "trying all answers at once."</li>
+  </ul>
+</div>

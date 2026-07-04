@@ -1,0 +1,56 @@
+<p>Full error correction, from the last lesson, is the destination. But it demands hundreds or thousands of physical qubits per logical qubit - hardware we do not yet have. So what can today's imperfect machines actually do? This lesson names the current era, <strong>NISQ</strong>, and explains the class of algorithms designed to squeeze value out of it: <strong>variational</strong> methods, above all <strong>VQE</strong> and <strong>QAOA</strong>.</p>
+
+<h2>What NISQ means</h2>
+
+<p>In 2018 the physicist <strong>John Preskill</strong> coined the term <strong>NISQ</strong> - <em>Noisy Intermediate-Scale Quantum</em> - to describe the machines we would realistically have for years to come. Unpack the name:</p>
+
+<ul>
+  <li><strong>Noisy:</strong> no error correction, so decoherence and gate errors limit circuits to modest depth (recall the compounding of lesson 2).</li>
+  <li><strong>Intermediate-Scale:</strong> roughly 50 to a few thousand qubits - too many to simulate trivially on a laptop, too few to run error correction.</li>
+  <li><strong>Quantum:</strong> genuinely quantum, just not fault-tolerant.</li>
+</ul>
+
+<div class="callout note">
+  <span class="callout-label">The name is a warning label</span>
+  <p>"Noisy" sits at the front of NISQ on purpose. Preskill's framing was deliberately sober: these devices are interesting scientific instruments, not yet general-purpose supercomputers. Any claim that ignores the "N" should be read with suspicion.</p>
+</div>
+
+<h2>The core constraint, and the escape</h2>
+
+<p>The binding limit is <strong>circuit depth</strong>. A long circuit accumulates too much error to trust, so NISQ algorithms must use <em>short</em> circuits. Textbook algorithms like Shor's need deep, precise circuits, so they are out of reach for now. The workaround is to stop asking the quantum computer to do everything and to pair it with a classical computer in a loop. These are <strong>hybrid quantum-classical variational algorithms</strong>.</p>
+
+<div class="callout key">
+  <span class="callout-label">The variational loop</span>
+  <p>A variational algorithm runs a short, parameterized circuit - an <em>ansatz</em> \(U(\vec{\theta})\) with tunable knobs \(\vec\theta\) - to prepare a trial state \(|\psi(\vec\theta)\rangle\). The quantum computer measures a cost \(C(\vec\theta)\). A <em>classical optimizer</em> then adjusts \(\vec\theta\) to lower the cost and hands the new values back to the quantum computer. Repeat until the cost stops improving.</p>
+  \[ \vec\theta^{\,*} = \arg\min_{\vec\theta}\; C(\vec\theta). \]
+</div>
+
+<p>The short quantum circuit stays inside the coherence budget; the heavy lifting of optimization is offloaded to well-understood classical hardware. The quantum computer's job is only to evaluate a cost that would be hard to compute classically.</p>
+
+<h2>VQE: finding ground-state energies</h2>
+
+<p>The <strong>Variational Quantum Eigensolver</strong> estimates the lowest energy - the <em>ground-state energy</em> - of a quantum system such as a molecule. The cost function is the energy itself, \(C(\vec\theta) = \langle \psi(\vec\theta)| H |\psi(\vec\theta)\rangle\), where \(H\) encodes the molecule's physics. A foundational principle of quantum mechanics, the <em>variational principle</em>, guarantees this expectation can never dip below the true ground energy \(E_0\):</p>
+
+\[ \langle \psi(\vec\theta)| H |\psi(\vec\theta)\rangle \;\ge\; E_0. \]
+
+<p>So driving the cost down is guaranteed to move toward the right answer. Because molecular energies govern chemistry, VQE is a natural early target in chemistry and materials science - though on today's noisy hardware it has been demonstrated mainly on small molecules.</p>
+
+<h2>QAOA: combinatorial optimization</h2>
+
+<p>The <strong>Quantum Approximate Optimization Algorithm</strong> attacks <em>combinatorial</em> problems - choosing the best option from a huge discrete set, such as max-cut on a graph or routing and scheduling tasks. The cost function encodes "how good is this candidate solution," and the same variational loop searches for parameters that make good solutions the most likely measurement outcomes. QAOA's shallow, tunable circuits are a deliberate fit for NISQ depth limits.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Where advantage honestly stands</span>
+  <p>Be careful here. Variational algorithms are promising and heavily studied, but a clear, practical, commercially useful quantum advantage from VQE or QAOA on real NISQ hardware has <em>not</em> been convincingly established. Noise limits circuit depth, and classical algorithms keep improving as competition. The honest present status: valuable research direction, real experimental demonstrations on small instances, but not yet a settled win over the best classical methods.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>NISQ = Noisy Intermediate-Scale Quantum, coined by Preskill (2018): ~50-1000+ qubits, no error correction, limited circuit depth.</li>
+    <li>The binding constraint is circuit depth, so NISQ favours short circuits inside hybrid quantum-classical variational loops.</li>
+    <li>A variational algorithm runs a parameterized ansatz on the quantum computer while a classical optimizer tunes the parameters to minimize a cost.</li>
+    <li>VQE estimates molecular ground-state energies, protected by the variational principle \(\langle H\rangle \ge E_0\); QAOA targets combinatorial optimization.</li>
+    <li>These methods are promising but a decisive, useful quantum advantage on real NISQ hardware is not yet established - read claims with care.</li>
+  </ul>
+</div>

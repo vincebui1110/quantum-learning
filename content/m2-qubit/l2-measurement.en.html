@@ -1,0 +1,48 @@
+<p>The previous lesson said a qubit's amplitudes \(\alpha,\beta\) are its complete description. But amplitudes are hidden - you cannot read them off directly. The only way to get information out of a qubit is to <strong>measure</strong> it, and measurement is where quantum mechanics stops being like anything classical.</p>
+
+<h2>The Born rule</h2>
+
+<p>Take a qubit in state \(|\psi\rangle = \alpha|0\rangle + \beta|1\rangle\) and measure it in the computational basis. The result is one bit, \(0\) or \(1\), governed by the <strong>Born rule</strong>:</p>
+
+\[ \Pr(\text{outcome } 0) = |\alpha|^2, \qquad \Pr(\text{outcome } 1) = |\beta|^2. \]
+
+<p>This is the precise reason normalization \(|\alpha|^2+|\beta|^2=1\) was required: the two probabilities must sum to one. Notice what you do <em>not</em> get: you never observe \(\alpha\) or \(\beta\) themselves, only one classical bit drawn from these probabilities. A single measurement reveals almost nothing about the amplitudes.</p>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>For \(|\psi\rangle = \tfrac{3}{5}|0\rangle + \tfrac{4}{5}|1\rangle\), a computational-basis measurement gives</p>
+  \[ \Pr(0) = \left(\tfrac{3}{5}\right)^2 = \tfrac{9}{25} = 36\%, \qquad \Pr(1) = \left(\tfrac{4}{5}\right)^2 = \tfrac{16}{25} = 64\%. \]
+  <p>Run one qubit through and you get a single 0 or 1. To <em>estimate</em> these percentages you must prepare and measure many identical copies and count - the statistics, not one shot, reveal the state.</p>
+</div>
+
+<h2>Collapse: measurement changes the state</h2>
+
+<p>Classically, reading a value leaves it unchanged. Quantum measurement does the opposite: it <strong>collapses</strong> the state onto whatever outcome it found. If you measure \(|\psi\rangle\) and get \(0\), the qubit is now in state \(|0\rangle\) - not approximately, exactly. Measure again and you get \(0\) with certainty. The original superposition is gone, and no measurement can recover it.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Common trap</span>
+  <p>"Measure it a few times to learn the amplitudes." You cannot. The first measurement destroys the superposition. Learning a state's amplitudes requires many freshly-prepared copies, and even then you only recover probabilities (and, with cleverer measurements, phases) - never a single copy's exact \(\alpha,\beta\).</p>
+</div>
+
+<h2>Measurement depends on the basis you choose</h2>
+
+<p>"Measuring in the computational basis" is a choice. You can also measure in the \(\{|+\rangle, |-\rangle\}\) basis, where</p>
+
+\[ |+\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle + |1\rangle\big), \qquad |-\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle - |1\rangle\big). \]
+
+<p>The state \(|0\rangle\), which is perfectly definite in the computational basis, is <em>maximally uncertain</em> in the \(\{|+\rangle,|-\rangle\}\) basis: written as \(|0\rangle = \tfrac{1}{\sqrt2}(|+\rangle + |-\rangle)\), it gives \(+\) or \(-\) with equal 50/50 probability. There is no basis in which every state is definite. This basis-dependence is the seed of quantum key distribution and of the uncertainty principle.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>Measurement is probabilistic (Born rule), irreversible (collapse), and relative to a chosen basis. It is the one-way bridge from the rich, hidden world of amplitudes to a single classical bit you can actually read.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>The Born rule: outcome probabilities are the squared amplitude magnitudes, \(|\alpha|^2\) and \(|\beta|^2\).</li>
+    <li>A single measurement yields one classical bit and reveals almost nothing about the amplitudes.</li>
+    <li>Measurement collapses the state onto the result; the superposition is irreversibly destroyed.</li>
+    <li>Measurement is basis-dependent - a state definite in one basis can be maximally random in another.</li>
+  </ul>
+</div>

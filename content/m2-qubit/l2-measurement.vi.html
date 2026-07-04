@@ -1,0 +1,48 @@
+<p>Bài trước nói rằng các biên độ \(\alpha,\beta\) là mô tả đầy đủ của qubit. Nhưng biên độ bị ẩn - bạn không đọc thẳng ra được. Cách duy nhất để lấy thông tin từ một qubit là <strong>đo</strong> nó, và phép đo chính là nơi cơ học lượng tử không còn giống bất cứ điều gì cổ điển.</p>
+
+<h2>Quy tắc Born</h2>
+
+<p>Lấy một qubit ở trạng thái \(|\psi\rangle = \alpha|0\rangle + \beta|1\rangle\) và đo trong cơ sở tính toán. Kết quả là một bit, \(0\) hoặc \(1\), tuân theo <strong>quy tắc Born</strong>:</p>
+
+\[ \Pr(\text{kết quả } 0) = |\alpha|^2, \qquad \Pr(\text{kết quả } 1) = |\beta|^2. \]
+
+<p>Đây chính là lý do chính xác vì sao cần chuẩn hoá \(|\alpha|^2+|\beta|^2=1\): hai xác suất phải cộng lại bằng một. Chú ý điều bạn <em>không</em> nhận được: bạn không bao giờ quan sát được \(\alpha\) hay \(\beta\), chỉ một bit cổ điển rút ra từ các xác suất này. Một lần đo tiết lộ gần như không gì về biên độ.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Với \(|\psi\rangle = \tfrac{3}{5}|0\rangle + \tfrac{4}{5}|1\rangle\), đo trong cơ sở tính toán cho</p>
+  \[ \Pr(0) = \left(\tfrac{3}{5}\right)^2 = \tfrac{9}{25} = 36\%, \qquad \Pr(1) = \left(\tfrac{4}{5}\right)^2 = \tfrac{16}{25} = 64\%. \]
+  <p>Cho một qubit đi qua thì bạn được một bit 0 hoặc 1 duy nhất. Để <em>ước lượng</em> các phần trăm này, bạn phải chuẩn bị và đo nhiều bản sao giống hệt rồi đếm - thống kê, chứ không phải một lần đo, mới tiết lộ trạng thái.</p>
+</div>
+
+<h2>Sập trạng thái: phép đo làm thay đổi trạng thái</h2>
+
+<p>Cổ điển, đọc một giá trị không làm nó đổi. Phép đo lượng tử thì ngược lại: nó <strong>làm sập</strong> (collapse) trạng thái về đúng kết quả tìm được. Nếu bạn đo \(|\psi\rangle\) và được \(0\), qubit giờ ở trạng thái \(|0\rangle\) - không phải xấp xỉ, mà đúng bằng. Đo lại thì được \(0\) một cách chắc chắn. Chồng chập ban đầu đã mất, và không phép đo nào lấy lại được.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Bẫy thường gặp</span>
+  <p>"Đo vài lần để học biên độ." Không được. Lần đo đầu đã phá huỷ chồng chập. Muốn học biên độ của một trạng thái cần nhiều bản sao mới chuẩn bị, và ngay cả khi đó bạn chỉ lấy lại được xác suất (và, với phép đo khéo hơn, pha) - không bao giờ lấy được \(\alpha,\beta\) chính xác của một bản sao đơn lẻ.</p>
+</div>
+
+<h2>Phép đo phụ thuộc vào cơ sở bạn chọn</h2>
+
+<p>"Đo trong cơ sở tính toán" là một lựa chọn. Bạn cũng có thể đo trong cơ sở \(\{|+\rangle, |-\rangle\}\), với</p>
+
+\[ |+\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle + |1\rangle\big), \qquad |-\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle - |1\rangle\big). \]
+
+<p>Trạng thái \(|0\rangle\), vốn hoàn toàn xác định trong cơ sở tính toán, lại <em>bất định tối đa</em> trong cơ sở \(\{|+\rangle,|-\rangle\}\): viết \(|0\rangle = \tfrac{1}{\sqrt2}(|+\rangle + |-\rangle)\), nó cho \(+\) hoặc \(-\) với xác suất 50/50 bằng nhau. Không có cơ sở nào mà trong đó mọi trạng thái đều xác định. Sự phụ thuộc cơ sở này là mầm mống của phân phối khoá lượng tử và của nguyên lý bất định.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Phép đo mang tính xác suất (quy tắc Born), không thể đảo ngược (sập trạng thái), và tương đối theo cơ sở đã chọn. Nó là cây cầu một chiều từ thế giới phong phú, ẩn giấu của biên độ sang một bit cổ điển duy nhất mà bạn thực sự đọc được.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Quy tắc Born: xác suất kết quả là bình phương độ lớn biên độ, \(|\alpha|^2\) và \(|\beta|^2\).</li>
+    <li>Một lần đo cho một bit cổ điển và tiết lộ gần như không gì về biên độ.</li>
+    <li>Phép đo làm sập trạng thái về kết quả; chồng chập bị phá huỷ không đảo ngược được.</li>
+    <li>Phép đo phụ thuộc cơ sở - một trạng thái xác định trong cơ sở này có thể ngẫu nhiên tối đa trong cơ sở khác.</li>
+  </ul>
+</div>

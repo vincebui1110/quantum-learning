@@ -1,0 +1,54 @@
+<p>The last modules built the machinery: qubits, gates, entanglement. Now we ask the question that made quantum computing famous - <em>when can a quantum computer beat a classical one, and by how much?</em> The cleanest answers come from a simple setting called the <strong>query model</strong>, and they all lean on one recurring trick: <strong>phase kickback</strong>. This lesson sets up both.</p>
+
+<h2>The oracle: a function you can only ask</h2>
+
+<p>Imagine a function \(f\) that turns an \(n\)-bit input into a single bit, \(f:\{0,1\}^n \to \{0,1\}\). We are not told a formula for \(f\). Instead we are handed a black box - an <strong>oracle</strong> - that we can query: feed it an input, get back the output. The only cost we count is the number of queries. Everything else (preparing states, applying Hadamards, measuring) is "free." This is the <strong>query complexity</strong> way of measuring an algorithm, and it is where the first provable quantum speed-ups live.</p>
+
+<p>A quantum computer cannot use a box that simply overwrites its input with \(f(x)\), because that would not be reversible - and every quantum gate must be a reversible unitary. The standard fix uses a second register, the <strong>target</strong>, and stores the answer with an XOR:</p>
+
+\[ U_f\,|x\rangle|y\rangle = |x\rangle\,|y \oplus f(x)\rangle. \]
+
+<p>Here \(|x\rangle\) is the \(n\)-qubit input register, \(|y\rangle\) is a single target qubit, and \(\oplus\) is addition mod 2 (XOR). Applying \(U_f\) twice returns \(y\) to its start, confirming the operation is its own inverse - a genuine unitary.</p>
+
+<div class="callout note">
+  <span class="callout-label">Why the XOR</span>
+  <p>Set \(y=0\): then \(U_f|x\rangle|0\rangle = |x\rangle|f(x)\rangle\), the "obvious" behaviour. The XOR form is the reversible version that also works when \(y=1\) and, crucially, when \(y\) is in a superposition - which is the whole point.</p>
+</div>
+
+<h2>The trick that powers everything: phase kickback</h2>
+
+<p>Instead of feeding the target qubit a definite \(0\) or \(1\), prepare it in the minus state \(|-\rangle = \tfrac{1}{\sqrt2}(|0\rangle - |1\rangle)\). Watch what \(U_f\) does to a single input basis state \(|x\rangle\):</p>
+
+\[ U_f\,|x\rangle|-\rangle = |x\rangle\,\tfrac{1}{\sqrt2}\big(|0 \oplus f(x)\rangle - |1 \oplus f(x)\rangle\big). \]
+
+<p>Now split into cases. If \(f(x)=0\), the target is unchanged: \(\tfrac{1}{\sqrt2}(|0\rangle-|1\rangle) = |-\rangle\). If \(f(x)=1\), the two labels swap: \(\tfrac{1}{\sqrt2}(|1\rangle-|0\rangle) = -|-\rangle\). Both cases fold into a single tidy formula:</p>
+
+\[ U_f\,|x\rangle|-\rangle = (-1)^{f(x)}\,|x\rangle\,|-\rangle. \]
+
+<p>The target register comes out exactly as it went in - still \(|-\rangle\) - but the value \(f(x)\) has jumped onto the <em>input</em> register as a phase \((-1)^{f(x)}\). This is <strong>phase kickback</strong>: because \(|-\rangle\) is an eigenstate of the bit-flip \(X\) with eigenvalue \(-1\), XOR-ing anything into it just multiplies the whole term by \(\pm 1\).</p>
+
+<div class="example">
+  <span class="example-label">Worked step</span>
+  <p>Take \(n=1\) and query the superposed input \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\), with the target in \(|-\rangle\). By linearity we apply kickback term by term:</p>
+  \[ U_f\,|+\rangle|-\rangle = \tfrac{1}{\sqrt2}\Big((-1)^{f(0)}|0\rangle + (-1)^{f(1)}|1\rangle\Big)|-\rangle. \]
+  <p>A single query has stamped both values \(f(0)\) and \(f(1)\) into the signs of one input state. No classical single evaluation sees two outputs at once - this parallel-in-phase encoding is the raw material every algorithm in this module refines.</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>With the target in \(|-\rangle\), the oracle acts as \(|x\rangle \to (-1)^{f(x)}|x\rangle\). The function's output becomes a relative phase on the input register. Interference will later turn those phases into a measurable answer.</p>
+</div>
+
+<h2>Query complexity vs gate complexity</h2>
+
+<p>Be honest about what "speed-up" means here. The query model counts <em>oracle calls</em>. A one-query quantum algorithm may still use many ordinary gates around that single call, and building a real oracle for a real function itself costs gates. So a dramatic query separation is not automatically a dramatic runtime win. Keep the two ideas separate: <strong>query complexity</strong> (how many times we ask the box) and <strong>gate complexity</strong> (total elementary operations). The algorithms ahead give clean, provable query separations; whether they translate into practical speed depends on how cheaply the oracle can be built.</p>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>An oracle is a reversible black box: \(U_f|x\rangle|y\rangle = |x\rangle|y\oplus f(x)\rangle\).</li>
+    <li>The query model counts oracle calls only; this is where the first provable quantum advantages appear.</li>
+    <li>Phase kickback: with the target in \(|-\rangle\), \(U_f|x\rangle|-\rangle = (-1)^{f(x)}|x\rangle|-\rangle\).</li>
+    <li>Query complexity is not the same as gate complexity - a query separation is a provable statement, not automatically a wall-clock speed-up.</li>
+  </ul>
+</div>

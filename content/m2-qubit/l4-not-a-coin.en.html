@@ -1,0 +1,45 @@
+<p>It is tempting to shrink all of this into a comfortable classical picture: "a qubit in superposition is really already 0 or 1, we just don't know which until we look - like a coin under a cup." This lesson dismantles that picture, because seeing exactly why it fails is what makes the rest of the course meaningful.</p>
+
+<h2>The coin-under-a-cup model</h2>
+
+<p>The classical story is one of <strong>ignorance</strong>: the coin has a definite value; measurement merely reveals a fact that was already settled. If that were all a qubit is, quantum computing would offer nothing new - a probabilistic classical computer already models "unknown but definite" bits perfectly well.</p>
+
+<h2>The experiment that breaks it: interference</h2>
+
+<p>Here is a two-step process you can run (and try yourself in the Practice Lab). Start with a definite \(|0\rangle\). Apply a Hadamard gate \(H\), producing the equal superposition:</p>
+
+\[ H\,|0\rangle = |+\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle + |1\rangle\big). \]
+
+<p>If you measured now, you would get 0 or 1 with equal probability - so far, consistent with the coin story. But <em>don't</em> measure. Apply a second Hadamard. Because \(H\) is its own inverse (\(H^2 = I\)):</p>
+
+\[ H\,|+\rangle = H H\,|0\rangle = |0\rangle. \]
+
+<p>Now measure: you get \(0\) with <strong>certainty</strong>. The randomness vanished.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Why this is fatal to the coin model</span>
+  <p>If the qubit after the first \(H\) were secretly a definite 0 or 1 (a coin already landed), the second \(H\) could not un-randomize it - a fair coin flipped, hidden, then "flipped" again is still 50/50. Certainty re-emerging proves the qubit was <em>not</em> secretly one value. Both amplitudes were genuinely present, and the second \(H\) let them <strong>interfere</strong>: the paths leading to \(|1\rangle\) cancelled, the paths to \(|0\rangle\) reinforced.</p>
+</div>
+
+<h2>What made cancellation possible</h2>
+
+<p>Interference works only because amplitudes carry signs (and, in general, complex phases). In the second Hadamard, the \(|1\rangle\) outcome receives contributions of \(+\tfrac{1}{2}\) and \(-\tfrac{1}{2}\), which sum to zero. Probabilities - being non-negative - can never cancel like this. This is the entire reason a qubit is more than a random bit: it is described by amplitudes, and amplitudes can destructively interfere.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>A qubit in superposition is not "secretly 0 or 1." Its two amplitudes are simultaneously real and can cancel or reinforce. Every quantum algorithm - Deutsch-Jozsa, Grover, Shor - is an orchestration of exactly this interference to make wrong answers cancel and right answers reinforce.</p>
+</div>
+
+<h2>Where this course goes next</h2>
+
+<p>You now have the complete conceptual toolkit for a single qubit: state vectors, amplitudes, normalization, measurement and the Born rule, phase, the Bloch sphere, and the interference that makes it all non-classical. The next modules give you the operations (gates), then a second qubit (entanglement), and from there the protocols and algorithms that turn these ideas into computational power.</p>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>The "secretly already 0 or 1" model is testable - and interference refutes it.</li>
+    <li>Applying \(H\) twice to \(|0\rangle\) returns \(|0\rangle\) with certainty; a hidden classical bit could never do this.</li>
+    <li>Interference is possible because amplitudes have signs/phases and can cancel; probabilities cannot.</li>
+    <li>Harnessed interference is the engine of every quantum algorithm you will meet later.</li>
+  </ul>
+</div>

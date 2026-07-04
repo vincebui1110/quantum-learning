@@ -1,0 +1,62 @@
+<p>Grover's quadratic speed-up is nice; <strong>Shor's algorithm</strong> (Peter Shor, 1994) is the earthquake. It factors an \(n\)-bit integer in time polynomial in \(n\) - an <em>exponential</em> speed-up over the best known classical methods. Because the security of RSA and much of the internet rests on factoring being hard, Shor turned quantum computing from a curiosity into a subject that governments and standards bodies plan around. This lesson traces the reduction from factoring to period-finding and is honest about what today's hardware can and cannot do.</p>
+
+<h2>The key reduction: factoring becomes period-finding</h2>
+
+<p>We want to factor a composite \(N\). Pick a random integer \(a\) with \(1 < a < N\). First compute \(\gcd(a, N)\) classically (fast, via Euclid's algorithm). If it is not \(1\), we already found a factor by luck - done. Otherwise \(a\) is coprime to \(N\), and we study the function</p>
+
+\[ f(x) = a^x \bmod N. \]
+
+<p>This function is <strong>periodic</strong>: there is a smallest positive integer \(r\), the <em>order</em> of \(a\), with \(a^r \equiv 1 \pmod N\), so \(f(x+r) = f(x)\). Finding \(r\) is the whole ball game. Given an even \(r\) with \(a^{r/2} \not\equiv -1 \pmod N\), we have</p>
+
+\[ a^r - 1 \equiv 0 \;\Rightarrow\; (a^{r/2}-1)(a^{r/2}+1) \equiv 0 \pmod N, \]
+
+<p>so \(\gcd(a^{r/2}-1,\,N)\) and \(\gcd(a^{r/2}+1,\,N)\) are (with good probability) non-trivial factors of \(N\). Both gcds are classical. The <em>only</em> hard step is finding the period \(r\).</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>Shor does not factor directly. It reduces factoring to finding the period of \(a^x \bmod N\), then solves that period-finding problem exponentially faster than any known classical method - using quantum phase estimation and the Quantum Fourier Transform.</p>
+</div>
+
+<h2>The quantum part: period-finding via phase estimation and the QFT</h2>
+
+<p>Classically, finding \(r\) is as hard as factoring itself - you would essentially have to evaluate \(f\) until it repeats. Quantumly we exploit interference. Prepare a superposition over many inputs \(x\), compute \(a^x \bmod N\) into a second register, and the input register is left in a state whose amplitudes are periodic with period \(r\). Applying the <strong>Quantum Fourier Transform</strong> then concentrates amplitude on values related to \(1/r\):</p>
+
+\[ \text{QFT}:\quad |x\rangle \longmapsto \frac{1}{\sqrt{M}}\sum_{y=0}^{M-1} e^{2\pi i\,xy/M}\,|y\rangle. \]
+
+<p>The QFT is exactly the tool that turns a periodic pattern into sharp peaks - the quantum analogue of reading off a frequency. This is the same machinery as <strong>quantum phase estimation</strong> applied to the operator "multiply by \(a\) mod \(N\)": its eigenphases encode \(r\). Measuring the transformed register yields a value \(y\) close to a multiple of \(M/r\).</p>
+
+<h2>Back to classical: continued fractions</h2>
+
+<p>The measured \(y\) gives an approximation \(y/M \approx k/r\) for some unknown integer \(k\). To extract \(r\) from this ratio we run the <strong>continued fractions</strong> algorithm classically, which recovers the fraction \(k/r\) in lowest terms and hence a candidate \(r\). We check whether \(a^r \equiv 1\); if not (or if \(r\) is odd, or \(a^{r/2}\equiv -1\)), we retry with a new random \(a\). A few repetitions succeed with high probability.</p>
+
+<div class="example">
+  <span class="example-label">Worked example (small)</span>
+  <p>Factor \(N = 15\) with \(a = 7\). Compute the powers mod 15: \(7^1=7,\ 7^2=49\equiv 4,\ 7^3\equiv 13,\ 7^4\equiv 1\). The period is \(r = 4\) (even). Then</p>
+  \[ a^{r/2} = 7^2 = 49 \equiv 4 \pmod{15}, \]
+  \[ \gcd(4-1,15)=\gcd(3,15)=3, \qquad \gcd(4+1,15)=\gcd(5,15)=5. \]
+  <p>So \(15 = 3 \times 5\). Everything here except the period-finding is elementary classical arithmetic; the quantum computer's sole job was to hand us \(r = 4\).</p>
+</div>
+
+<h2>Why this matters: RSA and post-quantum cryptography</h2>
+
+<p>RSA encryption is secure precisely because factoring a large \(N\) (a product of two big primes) is believed classically intractable - the best known classical algorithm, the general number field sieve, runs in <em>sub-exponential</em> but super-polynomial time. Shor's polynomial-time factoring would break RSA outright, and a close cousin breaks elliptic-curve cryptography (ECC) via the discrete-logarithm problem. This is why standards bodies (e.g. NIST) have been selecting <strong>post-quantum cryptography</strong> - classical algorithms based on problems (like lattices) with no known quantum speed-up.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Reality check</span>
+  <p>Shor's algorithm is proven correct, but running it on a <em>cryptographically relevant</em> key is far beyond today's hardware. Breaking 2048-bit RSA is estimated to need on the order of millions of physical qubits with full error correction; current devices have at most hundreds to a few thousand noisy qubits, and public demonstrations factor only tiny numbers like 15 or 21. The threat is why "harvest now, decrypt later" is taken seriously - but no real key has been broken.</p>
+</div>
+
+<div class="callout history">
+  <span class="callout-label">History</span>
+  <p>Peter Shor announced the algorithm in 1994 at AT&amp;T Bell Labs. It was the first convincing example of an exponential quantum advantage for a problem people deeply cared about, and it single-handedly turned quantum computing into a serious, well-funded field.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Shor reduces factoring \(N\) to finding the period \(r\) of \(a^x \bmod N\); gcd and continued fractions are the classical glue.</li>
+    <li>The quantum core is period-finding via phase estimation and the Quantum Fourier Transform - an <strong>exponential</strong> speed-up over the best known classical factoring.</li>
+    <li>Given an even period with \(a^{r/2}\not\equiv -1\), the factors are \(\gcd(a^{r/2}\pm 1,\,N)\).</li>
+    <li>Shor threatens RSA and ECC, driving post-quantum cryptography - but current hardware cannot yet factor real keys.</li>
+  </ul>
+</div>

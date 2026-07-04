@@ -1,0 +1,60 @@
+<p>Ta đã nói biên độ là số phức, và hứa rằng điều đó sẽ quan trọng. Đây là chỗ nó phát huy tác dụng. Một biên độ phức mang không chỉ độ lớn mà còn một <strong>pha</strong>, và pha chính là thứ tách hình học của qubit - <strong>mặt cầu Bloch</strong> nổi tiếng - khỏi một đoạn thẳng nhàm chán.</p>
+
+<h2>Pha toàn cục: phần không quan trọng</h2>
+
+<p>Xét việc nhân toàn bộ trạng thái với một số phức có độ lớn bằng một, \(e^{i\gamma}\):</p>
+
+\[ |\psi\rangle \;\longrightarrow\; e^{i\gamma}|\psi\rangle. \]
+
+<p>Có thí nghiệm nào nhận ra không? Đo trong bất kỳ cơ sở nào: mọi xác suất kết quả đều là bình phương độ lớn, và \(|e^{i\gamma}\alpha|^2 = |e^{i\gamma}|^2|\alpha|^2 = |\alpha|^2\), vì \(|e^{i\gamma}|=1\). Pha triệt tiêu ở khắp nơi. Vậy nên một <strong>pha toàn cục</strong> là vô nghĩa về vật lý - \(|\psi\rangle\) và \(e^{i\gamma}|\psi\rangle\) là cùng một trạng thái.</p>
+
+<h2>Pha tương đối: phần thực sự quan trọng</h2>
+
+<p>Giờ so sánh \(|+\rangle\) và \(|-\rangle\):</p>
+
+\[ |+\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle + |1\rangle\big), \qquad |-\rangle = \tfrac{1}{\sqrt2}\big(|0\rangle - |1\rangle\big). \]
+
+<p>Khác biệt duy nhất là dấu trừ ở số hạng \(|1\rangle\) - một <strong>pha tương đối</strong> giữa hai biên độ. Trong cơ sở tính toán chúng không phân biệt được: cả hai cho 50/50. Nhưng pha này không phải pha toàn cục để bạn rút ra ngoài được, và nó hoàn toàn thật. Áp dụng cổng Hadamard (module 3) thì \(|+\rangle \to |0\rangle\) còn \(|-\rangle \to |1\rangle\) - kết quả chắc chắn và ngược nhau. Pha tương đối quan sát được; pha toàn cục thì không.</p>
+
+<div class="callout note">
+  <span class="callout-label">Phân biệt trong một dòng</span>
+  <p>Nhân <em>toàn bộ</em> trạng thái với \(e^{i\gamma}\): vô hình. Đổi pha của <em>một biên độ so với biên độ kia</em>: có tính vật lý, và phát hiện được trong cơ sở phù hợp.</p>
+</div>
+
+<h2>Gói tất cả lại: mặt cầu Bloch</h2>
+
+<p>Một qubit có hai biên độ phức (bốn số thực). Chuẩn hoá loại đi một, và bỏ đi pha toàn cục vô nghĩa loại thêm một nữa. Còn lại đúng <strong>hai tham số thực</strong> - đó là lý do mọi trạng thái qubit thuần khiết đều viết được thành một điểm trên bề mặt một hình cầu:</p>
+
+\[ |\psi\rangle = \cos\!\tfrac{\theta}{2}\,|0\rangle + e^{i\varphi}\sin\!\tfrac{\theta}{2}\,|1\rangle, \qquad \theta \in [0,\pi],\ \varphi \in [0,2\pi). \]
+
+<p>Ở đây \(\theta\) là góc cực (bao nhiêu \(|0\rangle\) so với \(|1\rangle\)) và \(\varphi\) là góc phương vị (pha tương đối). Các mốc:</p>
+
+<div class="table-scroll">
+<table>
+  <thead><tr><th>Điểm trên cầu</th><th>Trạng thái</th><th>Ý nghĩa</th></tr></thead>
+  <tbody>
+    <tr><td>Cực bắc (\(\theta=0\))</td><td>\(|0\rangle\)</td><td>chắc chắn 0</td></tr>
+    <tr><td>Cực nam (\(\theta=\pi\))</td><td>\(|1\rangle\)</td><td>chắc chắn 1</td></tr>
+    <tr><td>Xích đạo, \(\varphi=0\)</td><td>\(|+\rangle\)</td><td>cân bằng, pha 0</td></tr>
+    <tr><td>Xích đạo, \(\varphi=\pi\)</td><td>\(|-\rangle\)</td><td>cân bằng, pha \(\pi\)</td></tr>
+    <tr><td>Xích đạo, \(\varphi=\tfrac{\pi}{2}\)</td><td>\(|{+}i\rangle\)</td><td>cân bằng, pha \(\tfrac{\pi}{2}\)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>Mặt cầu Bloch không phải trang trí: ở module 3 bạn sẽ thấy mọi cổng một-qubit theo đúng nghĩa đen là một phép quay của hình cầu này. Nó biến đại số trừu tượng thành hình học mà bạn hình dung được - và bạn có thể tự xoay nó trong Phòng thực hành.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Một trạng thái qubit thuần khiết là hai tham số thực \((\theta,\varphi)\), nằm trên bề mặt mặt cầu Bloch. Vĩ độ \(\theta\) quyết định xác suất đo; kinh độ \(\varphi\) là pha tương đối. Pha toàn cục chính là toạ độ mà hình cầu bỏ đi.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Pha toàn cục \(e^{i\gamma}\) nhân toàn bộ trạng thái và không thể phát hiện về vật lý.</li>
+    <li>Pha tương đối giữa các biên độ là thật và quan sát được trong cơ sở phù hợp (ví dụ sau một cổng Hadamard).</li>
+    <li>Mọi trạng thái qubit thuần khiết là một điểm trên mặt cầu Bloch, \(\cos\tfrac{\theta}{2}|0\rangle + e^{i\varphi}\sin\tfrac{\theta}{2}|1\rangle\).</li>
+    <li>\(|0\rangle\) và \(|1\rangle\) là hai cực; các chồng chập cân bằng nằm trên xích đạo, phân biệt bởi pha \(\varphi\).</li>
+  </ul>
+</div>

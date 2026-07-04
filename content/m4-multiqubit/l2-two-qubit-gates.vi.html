@@ -1,0 +1,62 @@
+<p>Cổng một qubit xoay từng qubit một và không bao giờ tạo được tương quan giữa các qubit. Để dựng những mạch thú vị, ta cần các cổng cho phép giá trị của một qubit ảnh hưởng tới qubit khác. Đó là các <strong>cổng hai qubit</strong>, và quan trọng nhất trong số đó là CNOT.</p>
+
+<h2>CNOT: cổng NOT có điều khiển</h2>
+
+<p>CNOT có một qubit <strong>điều khiển</strong> (control) và một qubit <strong>đích</strong> (target). Quy tắc của nó gói gọn một câu: <em>lật đích khi và chỉ khi điều khiển bằng 1.</em> Trên bốn trạng thái cơ sở (điều khiển ghi trước):</p>
+
+\[ |00\rangle\to|00\rangle,\quad |01\rangle\to|01\rangle,\quad |10\rangle\to|11\rangle,\quad |11\rangle\to|10\rangle. \]
+
+<p>Điều khiển không bao giờ đổi; chỉ đích mới có thể lật. Sắp cơ sở theo thứ tự \((|00\rangle,|01\rangle,|10\rangle,|11\rangle)\), CNOT là ma trận \(4\times4\)</p>
+
+\[ \mathrm{CNOT} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & 1 & 0 \end{pmatrix}. \]
+
+<p>Khối \(2\times2\) trên-trái là ma trận đơn vị (điều khiển = 0: để yên đích); khối dưới-phải là ma trận NOT \(\begin{pmatrix}0&1\\1&0\end{pmatrix}\) (điều khiển = 1: lật đích). Trong mạch, điều khiển là chấm đặc \(\bullet\) và đích là \(\oplus\), nối bằng một đường thẳng đứng.</p>
+
+<div class="callout note">
+  <span class="callout-label">Đọc bảng chân trị</span>
+  <p>Viết dưới dạng bit cổ điển \((c,t)\), CNOT đưa \((c,t)\to(c,\,t\oplus c)\), với \(\oplus\) là phép XOR. Đây chính là cổng XOR thuận nghịch cổ điển - nhưng khi áp lên chồng chập lượng tử, nó làm được nhiều hơn hẳn, như bài sau sẽ chỉ ra.</p>
+</div>
+
+<h2>CZ: cổng Z có điều khiển</h2>
+
+<p>CZ áp một cổng \(Z\) lên đích khi điều khiển bằng 1. Vì \(Z\) để yên \(|0\rangle\) và đưa \(|1\rangle\to-|1\rangle\), CZ không làm gì ngoài việc gắn một dấu trừ vào đúng một trạng thái cơ sở \(|11\rangle\):</p>
+
+\[ \mathrm{CZ} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & -1 \end{pmatrix}. \]
+
+<p>Vì CZ chỉ tác động khi <em>cả hai</em> qubit bằng 1, nó đối xử với chúng đối xứng: đổi vai điều khiển và đích cho nhau vẫn cho đúng cổng đó. Chính tính đối xứng này khiến CZ xuất hiện rất thường trong phần cứng, nơi tương tác gốc giữa hai qubit vốn tự nhiên đối xứng.</p>
+
+<h2>SWAP: hoán đổi hai qubit</h2>
+
+<p>SWAP đơn giản hoán đổi trạng thái của hai qubit: \(|ab\rangle\to|ba\rangle\). Nó giữ nguyên \(|00\rangle\) và \(|11\rangle\), và tráo \(|01\rangle\leftrightarrow|10\rangle\):</p>
+
+\[ \mathrm{SWAP} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}. \]
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải: CNOT với điều khiển ở chồng chập</span>
+  <p>Áp CNOT lên \(\tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\otimes|0\rangle = \tfrac{1}{\sqrt2}(|00\rangle+|10\rangle)\). Tác động lên từng số hạng theo quy tắc "lật đích khi điều khiển = 1":</p>
+  \[ \tfrac{1}{\sqrt2}\big(|00\rangle + |10\rangle\big) \ \xrightarrow{\ \mathrm{CNOT}\ }\ \tfrac{1}{\sqrt2}\big(|00\rangle + |11\rangle\big). \]
+  <p>Số hạng \(|00\rangle\) không đổi (điều khiển 0); số hạng \(|10\rangle\) bị lật đích thành \(|11\rangle\). Đầu ra không viết được thành tích của hai trạng thái một qubit - CNOT đã tạo ra rối. Phần dẫn dắt đó là toàn bộ chủ đề của bài 3.</p>
+</div>
+
+<h2>Các phép toán có điều khiển tổng quát</h2>
+
+<p>Mẫu này tổng quát hoá được: với bất kỳ unitary một qubit \(U\) nào, cổng <strong>có điều khiển-\(U\)</strong> áp \(U\) lên đích chỉ khi điều khiển bằng 1, và không làm gì khi nó bằng 0. Dưới dạng khối,</p>
+
+\[ \mathrm{C}\text{-}U = \begin{pmatrix} I & 0 \\ 0 & U \end{pmatrix}, \]
+
+<p>trong đó \(I\) là ma trận đơn vị \(2\times2\) tác động lên không gian con điều-khiển-0, còn \(U\) tác động lên không gian con điều-khiển-1. CNOT là \(\mathrm{C}\text{-}X\) và CZ là \(\mathrm{C}\text{-}Z\). Kết hợp với các cổng một qubit, chỉ riêng CNOT đã đủ để xấp xỉ mọi tính toán lượng tử - nó thuộc một bộ cổng <em>phổ quát</em>.</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Cổng hai qubit ghép các qubit. CNOT lật đích khi và chỉ khi điều khiển bằng 1; CZ lật pha chỉ với \(|11\rangle\); SWAP hoán đổi hai qubit. Cổng có-điều-khiển-\(U\) áp \(U\) lên đích với điều kiện điều khiển bằng 1.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>CNOT \(=\begin{pmatrix}1&0&0&0\\0&1&0&0\\0&0&0&1\\0&0&1&0\end{pmatrix}\): lật đích khi và chỉ khi điều khiển bằng 1; cổ điển là \((c,t)\to(c,t\oplus c)\).</li>
+    <li>CZ gắn dấu trừ chỉ vào \(|11\rangle\) và đối xứng giữa hai qubit.</li>
+    <li>SWAP hoán đổi hai qubit: \(|ab\rangle\to|ba\rangle\).</li>
+    <li>Có-điều-khiển-\(U\) áp \(U\) lên đích khi điều khiển bằng 1; chấm điều khiển là \(\bullet\), đích là \(\oplus\).</li>
+  </ul>
+</div>

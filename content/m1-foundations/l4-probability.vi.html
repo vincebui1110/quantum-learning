@@ -1,0 +1,56 @@
+<p>Cơ học lượng tử là một lý thuyết xác suất: đo một qubit cho một kết quả ngẫu nhiên. Rất dễ kết luận rằng qubit "chỉ là một đồng xu ta chưa nhìn vào". Trực giác ấy sai, và hiểu <em>vì sao</em> chính là lằn ranh sắc nét nhất giữa tư duy cổ điển và lượng tử. Khác biệt quy về một từ: <strong>biên độ</strong> (amplitude).</p>
+
+<h2>Xác suất cổ điển: ôn nhanh</h2>
+
+<p>Một bit ngẫu nhiên cổ điển được mô tả bằng một <strong>phân bố xác suất</strong> (probability distribution): một danh sách các số không âm cộng lại bằng một. Với một bit đơn,</p>
+
+\[ p_0 \ge 0, \quad p_1 \ge 0, \quad p_0 + p_1 = 1. \]
+
+<p>Ở đây \(p_0\) là xác suất của \(0\) và \(p_1\) của \(1\). Hai sự thật định nghĩa thế giới cổ điển. Xác suất <em>không bao giờ âm</em>, và để gộp các cách độc lập đi tới một kết quả bạn chỉ việc <em>cộng</em> các xác suất. Vì bạn luôn chỉ cộng các số không âm, cơ hội của một kết quả chỉ có thể tăng hoặc giữ nguyên khi bạn tìm thêm đường tới nó - nó không bao giờ co về không nhờ việc gộp lại.</p>
+
+<h2>Lượng tử: biên độ trước, xác suất sau</h2>
+
+<p>Một qubit được mô tả không phải bằng xác suất mà bằng các <strong>biên độ</strong> phức:</p>
+
+\[ |\psi\rangle = \alpha\,|0\rangle + \beta\,|1\rangle, \qquad \alpha,\beta \in \mathbb{C}. \]
+
+<p>Biên độ là đại lượng nền tảng, và chúng mang thông tin mà xác suất không có: một dấu và, tổng quát hơn, một pha phức. Xác suất được <em>suy ra</em> từ chúng, sau một bước bình phương, qua <strong>quy tắc Born</strong> (Born rule):</p>
+
+\[ \Pr(\text{kết quả } 0) = |\alpha|^2, \qquad \Pr(\text{kết quả } 1) = |\beta|^2. \]
+
+<p>Chuẩn hoá \(|\alpha|^2 + |\beta|^2 = 1\) bảo đảm đây là một phân bố hợp lệ. Bình phương một độ lớn luôn cho một số không âm, nên xác suất hành xử như cổ điển - nhưng các biên độ bên dưới thì không.</p>
+
+<div class="callout key">
+  <span class="callout-label">Khác biệt then chốt</span>
+  <p>Trạng thái cổ điển gộp <em>xác suất</em>, vốn không âm và chỉ có thể cộng. Trạng thái lượng tử gộp <em>biên độ</em>, vốn phức và có thể <strong>triệt tiêu</strong>. Xác suất không bao giờ giao thoa; biên độ thì có.</p>
+</div>
+
+<h2>Giao thoa: nơi hai thế giới chia đôi</h2>
+
+<p>Hệ quả quan trọng nhất là biên độ cho cùng một kết quả có thể chỉ theo "hướng ngược nhau" và triệt tiêu lẫn nhau. Giả sử hai đường tính toán cùng dẫn tới một kết quả, một đường góp biên độ \(+\tfrac{1}{\sqrt2}\) và đường kia \(-\tfrac{1}{\sqrt2}\). Bạn <em>không</em> cộng xác suất của chúng. Bạn cộng <em>biên độ</em> trước, rồi bình phương:</p>
+
+\[ \left| \tfrac{1}{\sqrt2} + \left(-\tfrac{1}{\sqrt2}\right) \right|^2 = |0|^2 = 0. \]
+
+<p>Kết quả trở nên bất khả. Đây là <strong>giao thoa triệt tiêu</strong> (destructive interference), và không gì tương tự xảy ra được ở cổ điển: một phép tính cổ điển sẽ cho \(\tfrac12 + \tfrac12 = 1\), chắc chắn hoàn toàn, đúng đáp án ngược lại. Giao thoa cộng hưởng là hình ảnh gương - hai biên độ cùng dấu cộng hưởng, đẩy xác suất lên.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>So sánh một hỗn hợp cổ điển với một chồng chập lượng tử, cả hai đều "50/50" trong cơ sở chuẩn.</p>
+  <p><strong>Cổ điển.</strong> Một đồng xu là 0 hoặc 1 với \(p_0 = p_1 = \tfrac12\). Nếu bạn cho nó đi qua hai giai đoạn mỗi giai đoạn xáo lại, các xác suất cứ tiếp tục lấy trung bình; sự ngẫu nhiên không bao giờ sắc lại thành chắc chắn.</p>
+  <p><strong>Lượng tử.</strong> Trạng thái \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle + |1\rangle)\) cũng đo ra 50/50. Nhưng biên độ của nó mang dấu. Một phép toán chọn khéo có thể lái hai biên độ cho kết quả "0" cộng lại (các đóng góp \(+\tfrac{1}{\sqrt2}+\tfrac{1}{\sqrt2}\) chồng lên) trong khi hai biên độ cho "1" triệt tiêu - làm 50/50 sập về một kết quả 0 <em>chắc chắn</em>. Khôi phục sự chắc chắn từ một chồng chập là dấu ấn không đồng xu cổ điển nào giả được.</p>
+</div>
+
+<div class="callout note">
+  <span class="callout-label">Nhìn về phía trước</span>
+  <p>Quy tắc Born - xác suất bằng bình phương biên độ - là cầu nối từ vector trạng thái trừu tượng tới cái mà một phép đo thực sự báo về. Module sau nghiên cứu phép đo đầy đủ; ở đây điểm chính chỉ là bình phương là <em>nơi</em> thông tin pha bị bỏ đi, và vì thế pha phải làm việc của nó <em>trước</em> khi bạn đo.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Bit cổ điển mang xác suất: các số không âm cộng lại bằng một, và chỉ có thể cộng.</li>
+    <li>Qubit mang biên độ phức; xác suất đến từ chúng qua quy tắc Born, \(\Pr = |\text{biên độ}|^2\).</li>
+    <li>Biên độ có thể triệt tiêu (giao thoa triệt tiêu); xác suất thì không bao giờ - đây là khác biệt lượng tử cốt lõi.</li>
+    <li>Bạn cộng biên độ trước rồi bình phương sau; bình phương trước (nước đi cổ điển) bỏ lỡ giao thoa.</li>
+  </ul>
+</div>

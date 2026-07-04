@@ -1,0 +1,51 @@
+<p>Deutsch-Jozsa chứng minh máy tính lượng tử có thể thắng một câu hỏi có/không trong một truy vấn. Năm 1992, Ethan Bernstein và Umesh Vazirani nâng phần thưởng lên: thuật toán của họ rút ra toàn bộ một chuỗi ẩn \(n\) bit chỉ trong một truy vấn, trong khi mọi phương pháp cổ điển cần \(n\). Vẫn hình dạng mạch như trước - khác biệt là oracle giấu gì và giao thoa lộ ra gì.</p>
+
+<h2>Bài toán: tìm chuỗi ẩn</h2>
+
+<p>Có một chuỗi bí mật \(n\) bit \(s = s_1 s_2 \dots s_n\). Oracle tính <strong>tích vô hướng theo bit mod 2</strong>:</p>
+
+\[ f(x) = s \cdot x \bmod 2 = \big(s_1 x_1 \oplus s_2 x_2 \oplus \cdots \oplus s_n x_n\big). \]
+
+<p>Nhiệm vụ của bạn: xác định \(s\). Cổ điển, mỗi truy vấn chỉ trả về một bit thông tin, nên bạn phải khéo chọn đầu vào. Truy vấn chuỗi \(e_k\) toàn số không trừ một số \(1\) ở vị trí \(k\): khi đó \(f(e_k) = s_k\), trao cho bạn bit thứ \(k\). Để lấy cả \(n\) bit bạn lặp lại việc này \(n\) lần - <strong>\(n\) truy vấn</strong>, và bạn thực sự cần chúng.</p>
+
+<h2>Thuật toán lượng tử</h2>
+
+<p>Mạch giống hệt Deutsch-Jozsa: \(n\) qubit đầu vào ở \(|0\rangle\), đích ở \(|-\rangle\); Hadamard các đầu vào, truy vấn \(U_f\) một lần, Hadamard các đầu vào lần nữa, đo. Điều kỳ diệu là thứ rơi ra.</p>
+
+<p><strong>Bước 1.</strong> Hadamard lên \(|0\rangle^{\otimes n}\) dựng chồng chập đều:</p>
+
+\[ H^{\otimes n}|0\rangle^{\otimes n} = \frac{1}{\sqrt{2^n}}\sum_{x\in\{0,1\}^n}|x\rangle. \]
+
+<p><strong>Bước 2 - kickback.</strong> Oracle in vào mỗi số hạng dấu \((-1)^{f(x)} = (-1)^{s\cdot x}\):</p>
+
+\[ \frac{1}{\sqrt{2^n}}\sum_{x}(-1)^{s\cdot x}\,|x\rangle. \]
+
+<p><strong>Bước 3 - Hadamard thứ hai, và một đẳng thức gọn.</strong> Có một sự thật tiêu chuẩn: áp \(H^{\otimes n}\) lên trạng thái có hoa văn pha \(\sum_x (-1)^{s\cdot x}|x\rangle\) làm nó sập về đúng một trạng thái cơ sở \(|s\rangle\). Trực giác mà nói, hoa văn pha \((-1)^{s\cdot x}\) chính là "chữ ký" mà giao thoa Hadamard hội tụ tăng cường lên \(|s\rangle\) và triệt tiêu ở mọi nơi khác. Vậy thanh ghi trở thành</p>
+
+\[ H^{\otimes n}\!\left(\frac{1}{\sqrt{2^n}}\sum_{x}(-1)^{s\cdot x}|x\rangle\right) = |s\rangle. \]
+
+<p><strong>Bước 4 - đo.</strong> Kết quả <em>chính là</em> chuỗi \(s\), cả \(n\) bit cùng một lúc. Một truy vấn.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải: n = 3, s = 101</span>
+  <p>Ở đây \(f(x) = x_1 \oplus x_3\) (bit 2 bị che vì \(s_2=0\)). Sau kickback, các biên độ mang \((-1)^{x_1\oplus x_3}\). Theo dõi vài số hạng: \(|000\rangle\) được dấu \(+\), \(|100\rangle\) được \(-\), \(|001\rangle\) được \(-\), \(|101\rangle\) được \(+\). Đây đúng là hoa văn giao thoa mà \(H^{\otimes 3}\) biến thành \(|101\rangle\). Đo cho ra \(101 = s\). Cổ điển thì bạn phải truy vấn \(e_1=100,\,e_2=010,\,e_3=001\) để đọc \(s_1=1,\,s_2=0,\,s_3=1\) - ba lần gọi riêng cho cùng một đáp án.</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Phản hồi pha ghi \(s\) vào các biên độ dưới dạng hoa văn dấu \((-1)^{s\cdot x}\). Một lớp Hadamard là nghịch đảo đúng của hoa văn đó, nên một truy vấn cộng một vòng giao thoa đọc ra cả \(n\) bit cùng lúc.</p>
+</div>
+
+<h2>Tách biệt, phát biểu thành thật</h2>
+
+<p>Đây là một tách biệt truy vấn \(n\)-về-\(1\) gọn gàng: \(n\) truy vấn cổ điển so với \(1\) truy vấn lượng tử. Khác Deutsch-Jozsa, cận cổ điển \(n\) vẫn đúng ngay cả khi cho phép ngẫu nhiên và một sai số nhỏ - mỗi truy vấn cổ điển lộ nhiều nhất một bit của đáp án \(n\) bit, nên không thể vượt \(n\) tính trung bình. Dẫu vậy, hãy nhớ lưu ý trước đó: đây là một khẳng định về độ phức tạp <em>truy vấn</em>. Tăng tốc là thật và chứng minh được trong mô hình này, và Bernstein-Vazirani có ý nghĩa lịch sử như bậc thang tiến tới các tách biệt hàm mũ (bài toán Simon, rồi Shor) đã thúc đẩy cả lĩnh vực - nhưng bản thân oracle phải được dựng từ các cổng trước khi bất kỳ điều nào chạy trên phần cứng.</p>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Oracle giấu một chuỗi \(s\) qua \(f(x)=s\cdot x \bmod 2\); mục tiêu là lấy lại \(s\).</li>
+    <li>Cổ điển, mỗi truy vấn cho một bit của \(s\), nên cần \(n\) truy vấn.</li>
+    <li>Thuật toán lượng tử (H, oracle, H, đo) trả về \(|s\rangle\) trực tiếp - cả \(n\) bit trong một truy vấn.</li>
+    <li>Tách biệt \(n\)-về-1 chứng minh được và bền với sai số, một bậc thang quan trọng tiến tới Simon và Shor.</li>
+  </ul>
+</div>

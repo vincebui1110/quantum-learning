@@ -1,0 +1,84 @@
+<p>Suppose Alice holds a qubit in an unknown state \(|\psi\rangle = \alpha|0\rangle + \beta|1\rangle\) and wants Bob, far away, to end up holding that exact state. She cannot just measure it - measurement would collapse it and reveal almost nothing about \(\alpha\) and \(\beta\). She cannot copy it - the no-cloning theorem forbids that. Remarkably, <strong>quantum teleportation</strong> transfers the state anyway, using one shared Bell pair and two classical bits. The original is destroyed in the process, and no information travels faster than light.</p>
+
+<h2>The ingredients</h2>
+
+<p>Three qubits are in play:</p>
+<ul>
+  <li>Qubit 1: Alice's unknown state \(|\psi\rangle = \alpha|0\rangle + \beta|1\rangle\) - she does not know \(\alpha,\beta\).</li>
+  <li>Qubits 2 and 3: a shared Bell pair \(|\Phi^+\rangle_{23} = \tfrac{1}{\sqrt2}(|00\rangle+|11\rangle)\). Alice holds qubit 2, Bob holds qubit 3.</li>
+</ul>
+
+<p>The full three-qubit state before anything happens is</p>
+
+\[ |\psi\rangle_1 \otimes |\Phi^+\rangle_{23} = \tfrac{1}{\sqrt2}\big(\alpha|0\rangle + \beta|1\rangle\big)\big(|00\rangle + |11\rangle\big). \]
+
+<h2>Step 1: Alice's Bell measurement</h2>
+
+<p>Alice performs a <strong>Bell measurement</strong> on her two qubits (1 and 2): a CNOT with qubit 1 as control and qubit 2 as target, then a Hadamard on qubit 1, then measure both. The algebra rewrites the joint state as a sum over what her two measured bits \((m_1 m_2)\) can be. Expanding and regrouping:</p>
+
+\[
+|\psi\rangle_1|\Phi^+\rangle_{23} = \tfrac12\Big[
+|00\rangle(\alpha|0\rangle+\beta|1\rangle)
++ |01\rangle(\alpha|1\rangle+\beta|0\rangle)
+\]
+\[
++ |10\rangle(\alpha|0\rangle-\beta|1\rangle)
++ |11\rangle(\alpha|1\rangle-\beta|0\rangle)\Big].
+\]
+
+<p>Read this carefully: each of Alice's four equally likely outcomes \(00, 01, 10, 11\) leaves Bob's qubit in a state that is \(|\psi\rangle\) up to a known Pauli correction. The four possibilities are exactly \(I|\psi\rangle\), \(X|\psi\rangle\), \(Z|\psi\rangle\), and \(XZ|\psi\rangle\).</p>
+
+<div class="callout note">
+  <span class="callout-label">Notice what just happened</span>
+  <p>Alice's measurement destroyed her copy of \(|\psi\rangle\) - qubits 1 and 2 now hold definite measured bits, not the superposition. Meanwhile Bob's qubit suddenly carries \(\alpha\) and \(\beta\), scrambled by an unknown-to-him Pauli.</p>
+</div>
+
+<h2>Step 2: send two classical bits</h2>
+
+<p>Bob's qubit is close to \(|\psi\rangle\) but he does not yet know which of the four correction cases applies. Alice must tell him her two measurement outcomes \(m_1 m_2\). She sends these <strong>two classical bits</strong> over an ordinary channel - a phone call, an email, anything no faster than light.</p>
+
+<h2>Step 3: Bob's correction</h2>
+
+<p>Reading the two bits, Bob applies the matching inverse Pauli to his qubit:</p>
+
+\[
+\begin{array}{c|c}
+\text{Alice sends } m_1 m_2 & \text{Bob applies}\\ \hline
+00 & I \\
+01 & X \\
+10 & Z \\
+11 & XZ
+\end{array}
+\]
+
+<p>After the correction, Bob's qubit is exactly \(\alpha|0\rangle + \beta|1\rangle = |\psi\rangle\). The unknown state has arrived, perfectly, without Bob or Alice ever learning what \(\alpha\) and \(\beta\) were.</p>
+
+<div class="example">
+  <span class="example-label">Worked case: outcome 01</span>
+  <p>If Alice measures \(m_1 m_2 = 01\), the expansion shows Bob's qubit is \(\alpha|1\rangle + \beta|0\rangle\) - the amplitudes are swapped, which is exactly \(X|\psi\rangle\). Bob applies \(X\) (which swaps \(|0\rangle\leftrightarrow|1\rangle\)) and recovers \(\alpha|0\rangle + \beta|1\rangle = |\psi\rangle\). Done.</p>
+</div>
+
+<h2>Two things it does NOT do</h2>
+
+<div class="callout key">
+  <span class="callout-label">No cloning is violated</span>
+  <p>At the end there is exactly one copy of \(|\psi\rangle\), on Bob's side. Alice's original was destroyed by her Bell measurement. Teleportation <em>moves</em> a state; it never duplicates it. This is fully consistent with the no-cloning theorem.</p>
+</div>
+
+<div class="callout warn">
+  <span class="callout-label">No faster-than-light signalling</span>
+  <p>Before Alice's classical bits arrive, Bob's qubit is in a maximally mixed state - measuring it gives random noise carrying zero information. Only the two classical bits, travelling at light speed or slower, unlock the state. The entanglement alone transmits nothing. This is why teleportation cannot beat the speed of light.</p>
+</div>
+
+<p>Note the exchange rate, mirroring superdense coding: teleportation spends <strong>1 shared Bell pair + 2 classical bits</strong> to move <strong>1 qubit</strong> of quantum information. Entanglement and classical communication are both indispensable - remove either and the protocol fails.</p>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Teleportation moves an unknown qubit using 1 shared Bell pair + 2 classical bits.</li>
+    <li>Alice does a Bell measurement on her unknown qubit and her half of the pair, getting 2 bits.</li>
+    <li>Bob applies a correction \(I\), \(X\), \(Z\), or \(XZ\) selected by those 2 bits to recover \(|\psi\rangle\).</li>
+    <li>The original is destroyed - consistent with no-cloning (state moved, not copied).</li>
+    <li>The classical bits are essential, so there is no faster-than-light communication.</li>
+  </ul>
+</div>

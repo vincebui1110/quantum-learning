@@ -1,0 +1,47 @@
+<p>Lesson 2 left us with a grim arithmetic: gate errors multiply, so a physical qubit with fidelity \(0.999\) cannot support a computation of even a few thousand gates. The way out is <strong>quantum error correction</strong> (QEC): build a highly reliable <em>logical</em> qubit out of many unreliable <em>physical</em> ones. This lesson explains why the obvious classical trick fails, the clever idea that replaces it, and the leading practical scheme - the <strong>surface code</strong> - along with its steep cost.</p>
+
+<h2>Why the classical trick is illegal here</h2>
+
+<p>Classically, error correction is easy: to protect a bit, copy it. Store <code>000</code> instead of <code>0</code>; if one copy flips to <code>010</code>, a majority vote restores it. Quantum computing cannot do this, for two independent reasons.</p>
+
+<p>First, the <strong>no-cloning theorem</strong> (from module 5) proves there is no operation that copies an unknown quantum state \(|\psi\rangle \to |\psi\rangle|\psi\rangle\). You literally cannot make the backup copies. Second, even if you could inspect the qubits, <em>measuring</em> a superposition collapses it - so the naive "look at each copy and vote" would destroy the very state you are protecting. Quantum errors are also worse than classical ones: a qubit can suffer a bit-flip (\(|0\rangle\leftrightarrow|1\rangle\)), a phase-flip (the sign between \(|0\rangle\) and \(|1\rangle\)), or any continuous mixture of the two.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Two problems, one solution needed</span>
+  <p>QEC must (1) protect information without copying it, and (2) detect errors without measuring the protected data. That sounds impossible. The resolution is entanglement plus a very carefully chosen kind of measurement.</p>
+</div>
+
+<h2>Encoding: spread, don't copy</h2>
+
+<p>Instead of copying, QEC <strong>delocalizes</strong> one logical qubit across an entangled block of many physical qubits. The logical states \(|0\rangle_L\) and \(|1\rangle_L\) are elaborate entangled patterns; no single physical qubit holds the answer. Because the information is spread out, a local disturbance to one physical qubit does not immediately corrupt the logical value - there is room to notice and undo it before it spreads.</p>
+
+<h2>Syndrome measurement: catch the error, not the data</h2>
+
+<p>The central trick is the <strong>stabilizer</strong> (or <em>syndrome</em>) measurement. Alongside the data qubits sit extra <em>ancilla</em> qubits. Each ancilla is entangled with a small cluster of data qubits and then measured, but the measurement is engineered to reveal only a <strong>parity check</strong> - for example, "did an odd number of these four qubits flip?" - and nothing about whether the logical qubit is \(|0\rangle_L\) or \(|1\rangle_L\).</p>
+
+<div class="callout key">
+  <span class="callout-label">The heart of QEC</span>
+  <p>A stabilizer measurement returns a <strong>syndrome</strong>: a pattern of parity outcomes that fingerprints <em>which</em> error happened and roughly <em>where</em>, while telling you nothing about the encoded value. Because it commutes with the logical information, it does not collapse the superposition you are computing with. A classical algorithm - the <em>decoder</em> - reads the syndrome and works out the correction to apply.</p>
+</div>
+
+<p>This is how QEC squares the circle: you never look at the data, only at parity relationships among qubits. A continuous quantum error is even <em>discretized</em> by this measurement - the act of checking parity forces the messy error to snap into a definite bit-flip or phase-flip that the decoder can address.</p>
+
+<h2>The surface code and its overhead</h2>
+
+<p>The <strong>surface code</strong> is today's front-runner because it needs only a 2D grid of qubits talking to their nearest neighbours - a good fit for superconducting chips. Data and ancilla qubits alternate on the grid, and the ancillas continuously measure local bit-parity and phase-parity checks. Its robustness is set by the <strong>code distance</strong> \(d\): the code can correct up to \(\lfloor (d-1)/2 \rfloor\) errors, and a distance-\(d\) surface code uses on the order of \(d^2\) physical qubits per logical qubit.</p>
+
+<div class="example">
+  <span class="example-label">The cost is real</span>
+  <p>Below a hardware error threshold, the logical error rate drops sharply as \(d\) grows - roughly \(p_L \sim (p/p_{\text{th}})^{d/2}\), where \(p\) is the physical error rate and \(p_{\text{th}}\) the threshold. But paying for a larger \(d\) means many physical qubits per logical qubit. A recent milestone used a distance-7 surface code spanning 101 physical qubits to protect one logical qubit, and future fault-tolerant machines are expected to need on the order of hundreds to a thousand physical qubits per high-quality logical qubit. This overhead is the price of reliability, and shrinking it is a major research goal.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Classical copy-and-vote is impossible for qubits: the no-cloning theorem forbids copies, and measuring would collapse the state.</li>
+    <li>QEC instead spreads (delocalizes) one logical qubit across an entangled block of many physical qubits.</li>
+    <li>Stabilizer/syndrome measurements reveal a parity fingerprint of the error without measuring - or collapsing - the encoded data.</li>
+    <li>A classical decoder reads the syndrome and infers the correction; continuous errors get discretized into fixable bit- and phase-flips.</li>
+    <li>The surface code uses a 2D nearest-neighbour grid with roughly \(d^2\) physical qubits per logical qubit - powerful but with heavy overhead.</li>
+  </ul>
+</div>

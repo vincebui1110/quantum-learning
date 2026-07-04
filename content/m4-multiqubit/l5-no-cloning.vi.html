@@ -1,0 +1,61 @@
+<p>Thông tin cổ điển sao chép dễ như bỡn: mỗi tệp bạn lưu, mỗi byte chuyển tiếp qua mạng, đều là một bản sao. Người ta tự nhiên cho rằng thông tin lượng tử cũng vậy. Không phải. <strong>Định lý không nhân bản</strong> chứng minh rằng không cỗ máy nào sao chép được một trạng thái lượng tử tuỳ ý chưa biết - và chứng minh là một hệ quả ngắn gọn, gọn ghẽ của đúng một điều bạn đã biết: tiến hoá lượng tử là tuyến tính.</p>
+
+<h2>"Nhân bản" sẽ phải nghĩa là gì</h2>
+
+<p>Một thiết bị nhân bản sẽ là một unitary cố định \(U\) nhận bất kỳ trạng thái chưa biết \(|\psi\rangle\), kèm một qubit đích trống \(|0\rangle\), và tạo ra hai bản sao:</p>
+
+\[ U\big(|\psi\rangle \otimes |0\rangle\big) = |\psi\rangle \otimes |\psi\rangle \qquad \text{với mọi } |\psi\rangle. \]
+
+<p>Từ then chốt là <em>mọi</em>. Sao chép một trạng thái cơ sở <em>đã biết</em> thì dễ - một CNOT với đích trống làm đúng \(|0\rangle|0\rangle\to|0\rangle|0\rangle\) và \(|1\rangle|0\rangle\to|1\rangle|1\rangle\). Định lý nói về một cỗ máy duy nhất phải hoạt động cho mọi trạng thái cùng lúc, kể cả các chồng chập chưa biết.</p>
+
+<h2>Chứng minh bằng tính tuyến tính</h2>
+
+<p>Giả sử một \(U\) như thế tồn tại. Áp nó lên hai trạng thái cơ sở:</p>
+
+\[ U\big(|0\rangle|0\rangle\big) = |0\rangle|0\rangle, \qquad U\big(|1\rangle|0\rangle\big) = |1\rangle|1\rangle. \]
+
+<p>Giờ cho nó chồng chập \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle+|1\rangle)\). Ta tính kết quả theo hai cách khác nhau, và chúng buộc phải trùng nhau.</p>
+
+<p><strong>Cách 1 - dùng trực tiếp định nghĩa nhân bản.</strong> Theo định nghĩa, \(U\) phải sao chép \(|+\rangle\), cho</p>
+
+\[ U\big(|+\rangle|0\rangle\big) = |+\rangle|+\rangle = \tfrac{1}{2}\big(|00\rangle + |01\rangle + |10\rangle + |11\rangle\big). \]
+
+<p><strong>Cách 2 - dùng tính tuyến tính.</strong> Vì \(U\) tuyến tính, nó tác động lên từng số hạng của \(|+\rangle|0\rangle = \tfrac{1}{\sqrt2}(|0\rangle|0\rangle + |1\rangle|0\rangle)\):</p>
+
+\[ U\big(|+\rangle|0\rangle\big) = \tfrac{1}{\sqrt2}\Big(U|0\rangle|0\rangle + U|1\rangle|0\rangle\Big) = \tfrac{1}{\sqrt2}\big(|00\rangle + |11\rangle\big). \]
+
+<p>Hai cách mâu thuẫn nhau. Cách 1 cho phân bố đều trên cả bốn trạng thái cơ sở; Cách 2 cho trạng thái Bell rối \(\tfrac{1}{\sqrt2}(|00\rangle+|11\rangle)\), hoàn toàn không có số hạng \(|01\rangle\) hay \(|10\rangle\). Chúng không thể cùng là đầu ra của một phép toán:</p>
+
+\[ \tfrac{1}{2}\big(|00\rangle + |01\rangle + |10\rangle + |11\rangle\big) \ \neq\ \tfrac{1}{\sqrt2}\big(|00\rangle + |11\rangle\big). \]
+
+<p>Mâu thuẫn. Giả thiết duy nhất của ta là một cỗ máy nhân bản phổ quát \(U\) tồn tại, nên giả thiết đó sai. <strong>Không unitary như thế tồn tại.</strong></p>
+
+<div class="callout note">
+  <span class="callout-label">Lý do một dòng</span>
+  <p>Sao chép là <em>bậc hai</em> theo biên độ - các biên độ đầu ra là tích như \(\alpha^2, \alpha\beta\). Tiến hoá unitary thì hoàn toàn <em>tuyến tính</em>. Một ánh xạ tuyến tính không thể tái tạo một ánh xạ bậc hai, nên nhân bản là bất khả. Phép tính với \(|+\rangle\) ở trên chỉ là sự lệch pha đó được cụ thể hoá.</p>
+</div>
+
+<h2>Hệ quả</h2>
+
+<p>Định lý không nhân bản không phải chuyện lạ suông; nó định hình điều máy tính lượng tử làm được và không làm được.</p>
+
+<ul>
+  <li><strong>Bạn không sao lưu được một qubit.</strong> Không có "copy-paste" cho dữ liệu lượng tử chưa biết, và không có cách tạo bản sao dư thừa để chống nhiễu theo kiểu cổ điển. Sửa lỗi lượng tử phải lách qua điều này, trải thông tin lên nhiều qubit rối thay vì nhân đôi nó.</li>
+  <li><strong>Nó bảo mật phân phối khoá lượng tử (QKD).</strong> Kẻ nghe lén không thể lặng lẽ sao chép qubit đang truyền để đọc sau; mọi cố gắng chặn-rồi-gửi-lại đều làm nhiễu loạn trạng thái và bị phát hiện. Các giao thức như BB84 biến định lý không nhân bản trực tiếp thành bảo mật.</li>
+  <li><strong>Nó cấm một con đường tới truyền tín hiệu nhanh hơn ánh sáng.</strong> Nếu nhân bản được, bạn có thể tạo nhiều bản sao của một qubit trong cặp rối rồi đọc trạng thái của nó, phá vỡ nguyên lý không truyền tín hiệu. Định lý không nhân bản lặng lẽ bảo vệ cả tính nhất quán đó.</li>
+</ul>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Không unitary đơn nào sao chép được một trạng thái lượng tử tuỳ ý chưa biết. Chứng minh: giả sử một cỗ máy nhân bản hoạt động trên \(|0\rangle\) và \(|1\rangle\), áp tính tuyến tính lên \(|+\rangle\), rồi hai cách tính kết quả mâu thuẫn nhau - một nghịch lý.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Định lý không nhân bản cấm một unitary phổ quát \(U\) với \(U(|\psi\rangle|0\rangle)=|\psi\rangle|\psi\rangle\) cho mọi \(|\psi\rangle\).</li>
+    <li>Các trạng thái cơ sở đã biết sao chép được (CNOT); các chồng chập tuỳ ý chưa biết thì không.</li>
+    <li>Chứng minh dựa trên tính tuyến tính: áp một cỗ máy nhân bản giả định lên \(|+\rangle\) theo hai cách cho đầu ra mâu thuẫn.</li>
+    <li>Hệ quả: không sao lưu qubit, bảo mật cho QKD, và nhất quán với việc không truyền tín hiệu nhanh hơn ánh sáng.</li>
+  </ul>
+</div>

@@ -1,0 +1,55 @@
+<p>The previous lesson praised each platform's coherence time and then quietly admitted it was short. This lesson explains what coherence actually is, why losing it - <strong>decoherence</strong> - is the central enemy of quantum computing, and how engineers quantify the damage with two time constants, \(T_1\) and \(T_2\), and a single number called <em>gate fidelity</em>.</p>
+
+<h2>Why qubits are fragile</h2>
+
+<p>A classical bit is robust because it is redundant: a <code>1</code> is millions of electrons on a capacitor, and knocking a few loose changes nothing. A qubit is the opposite - its whole state lives in the fragile amplitudes and, crucially, the <em>relative phase</em> between \(|0\rangle\) and \(|1\rangle\). The environment is always watching: stray electromagnetic fields, thermal vibrations, nearby qubits, the readout wiring. Any uncontrolled interaction leaks information about the qubit into the environment, and the moment the environment "knows" something about the state, the qubit's clean superposition is spoiled. That leak is decoherence.</p>
+
+<div class="callout note">
+  <span class="callout-label">Decoherence = unwanted measurement</span>
+  <p>You can think of decoherence as the environment measuring your qubit a tiny bit, continuously, without asking. Since measurement collapses superpositions, this slow involuntary "measurement" gradually destroys exactly the quantum features you were trying to use.</p>
+</div>
+
+<h2>T1: energy relaxation</h2>
+
+<p>The first time constant, \(T_1\), measures <strong>relaxation</strong>: how long an excited qubit stays excited before it dumps its energy into the environment and decays from \(|1\rangle\) toward the lower-energy \(|0\rangle\). It is the quantum analogue of a hot object cooling down. If you prepare \(|1\rangle\) and wait, the probability of still finding \(|1\rangle\) falls off exponentially:</p>
+
+\[ P_1(t) = e^{-t/T_1}. \]
+
+<p>After one \(T_1\), only a fraction \(1/e \approx 37\%\) of the excitation survives. A longer \(T_1\) is better.</p>
+
+<h2>T2: dephasing</h2>
+
+<p>The second constant, \(T_2\), measures <strong>dephasing</strong>: how long the delicate relative phase between \(|0\rangle\) and \(|1\rangle\) stays well defined. Take the equal superposition \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle + |1\rangle)\). Tiny fluctuations in the qubit's energy make that phase drift randomly, so after a while the state is an unknown, smeared mixture rather than the crisp \(|+\rangle\) you prepared. Dephasing does not require the qubit to lose energy - the populations of \(|0\rangle\) and \(|1\rangle\) can stay put while the phase quietly scrambles.</p>
+
+<div class="callout key">
+  <span class="callout-label">The relationship between them</span>
+  <p>Energy relaxation also scrambles phase, so the two are linked by the inequality</p>
+  \[ T_2 \le 2\,T_1. \]
+  <p>In practice \(T_2\) is usually the shorter, more painful number, because pure dephasing piles on top of relaxation. And \(T_2\) governs the very phase that interference relies on - which is why dephasing is the quintessential quantum error.</p>
+</div>
+
+<h2>Why decoherence specifically breaks quantum algorithms</h2>
+
+<p>Recall the engine of quantum advantage: an algorithm arranges amplitudes so that paths leading to wrong answers <em>interfere destructively</em> (cancel) while paths to the right answer <em>interfere constructively</em> (add). That choreography depends entirely on well-defined relative phases. Dephasing randomizes those phases, so the careful cancellations blur, the peak of probability at the right answer flattens, and the machine slides back toward a noisy classical device that just outputs junk. Decoherence does not merely add a little noise - it attacks the exact resource that made the computer quantum.</p>
+
+<h2>Gate errors, readout errors, and fidelity</h2>
+
+<p>Decoherence is the passive enemy; there are active ones too. Every gate is a physical pulse that is never perfectly calibrated, so it lands slightly off target - a <strong>gate error</strong>. Reading a qubit out can also misreport \(|0\rangle\) as \(|1\rangle\) or vice versa - a <strong>readout error</strong>. Engineers summarize how close an operation is to ideal with <strong>gate fidelity</strong> \(F\), a number between 0 and 1 where 1 is perfect. A convenient companion is the error rate per gate,</p>
+
+\[ \varepsilon = 1 - F. \]
+
+<div class="example">
+  <span class="example-label">Why small errors still doom long circuits</span>
+  <p>Suppose each gate has fidelity \(F = 0.999\), so \(\varepsilon = 0.001\). Errors compound: after \(n\) gates the chance of getting through untouched is about \(F^{\,n} = 0.999^{\,n}\). By \(n = 1000\) gates that is \(0.999^{1000} \approx 0.37\) - roughly a one-in-three chance of a clean run. At \(n = 5000\) it collapses below \(1\%\). This multiplication is precisely why deep algorithms are out of reach today, and why the next two lessons exist.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>Decoherence is the environment leaking information out of a qubit - effectively an unwanted, continuous measurement.</li>
+    <li>\(T_1\) (relaxation) measures energy decay from \(|1\rangle\) toward \(|0\rangle\), falling as \(e^{-t/T_1}\).</li>
+    <li>\(T_2\) (dephasing) measures how long the relative phase survives, with \(T_2 \le 2\,T_1\); it is usually the shorter, more damaging number.</li>
+    <li>Decoherence is uniquely harmful because it destroys the phase information that interference - the source of quantum advantage - depends on.</li>
+    <li>Gate and readout errors add on top; fidelity \(F\) (and error rate \(\varepsilon = 1-F\)) compounds over a circuit, so small errors still ruin long computations.</li>
+  </ul>
+</div>

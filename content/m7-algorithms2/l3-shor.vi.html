@@ -1,0 +1,62 @@
+<p>Tăng tốc bậc hai của Grover thì hay; <strong>thuật toán Shor</strong> (Peter Shor, 1994) mới là cơn địa chấn. Nó phân tích một số nguyên \(n\)-bit trong thời gian đa thức theo \(n\) - một sự tăng tốc <em>hàm mũ</em> so với các phương pháp cổ điển tốt nhất đã biết. Vì độ an toàn của RSA và phần lớn Internet dựa vào việc phân tích số là khó, Shor đã biến điện toán lượng tử từ một thứ tò mò thành một chủ đề mà các chính phủ và tổ chức tiêu chuẩn phải lập kế hoạch ứng phó. Bài này lần theo bước quy từ phân tích số về tìm chu kỳ, và trung thực về việc phần cứng ngày nay làm được và không làm được gì.</p>
+
+<h2>Bước quy then chốt: phân tích số trở thành tìm chu kỳ</h2>
+
+<p>Ta muốn phân tích một hợp số \(N\). Chọn ngẫu nhiên một số nguyên \(a\) với \(1 < a < N\). Trước hết tính \(\gcd(a, N)\) theo lối cổ điển (nhanh, bằng thuật toán Euclid). Nếu nó khác \(1\), ta đã tìm được một thừa số một cách may mắn - xong. Ngược lại \(a\) nguyên tố cùng nhau với \(N\), và ta nghiên cứu hàm</p>
+
+\[ f(x) = a^x \bmod N. \]
+
+<p>Hàm này <strong>tuần hoàn</strong>: có một số nguyên dương nhỏ nhất \(r\), gọi là <em>bậc</em> của \(a\), với \(a^r \equiv 1 \pmod N\), nên \(f(x+r) = f(x)\). Tìm \(r\) là toàn bộ cuộc chơi. Cho một \(r\) chẵn với \(a^{r/2} \not\equiv -1 \pmod N\), ta có</p>
+
+\[ a^r - 1 \equiv 0 \;\Rightarrow\; (a^{r/2}-1)(a^{r/2}+1) \equiv 0 \pmod N, \]
+
+<p>nên \(\gcd(a^{r/2}-1,\,N)\) và \(\gcd(a^{r/2}+1,\,N)\) (với xác suất tốt) là các thừa số không tầm thường của \(N\). Cả hai gcd đều là cổ điển. Bước khó <em>duy nhất</em> là tìm chu kỳ \(r\).</p>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Shor không phân tích trực tiếp. Nó quy phân tích số về tìm chu kỳ của \(a^x \bmod N\), rồi giải bài toán tìm chu kỳ đó nhanh theo hàm mũ so với mọi phương pháp cổ điển đã biết - dùng ước lượng pha lượng tử và Biến đổi Fourier lượng tử.</p>
+</div>
+
+<h2>Phần lượng tử: tìm chu kỳ qua ước lượng pha và QFT</h2>
+
+<p>Về mặt cổ điển, tìm \(r\) khó ngang với chính việc phân tích số - bạn về cơ bản phải tính \(f\) cho tới khi nó lặp lại. Về mặt lượng tử ta khai thác giao thoa. Chuẩn bị một chồng chập trên nhiều đầu vào \(x\), tính \(a^x \bmod N\) vào một thanh ghi thứ hai, và thanh ghi đầu vào còn lại ở một trạng thái có biên độ tuần hoàn với chu kỳ \(r\). Áp dụng <strong>Biến đổi Fourier lượng tử</strong> sau đó dồn biên độ về các giá trị liên quan tới \(1/r\):</p>
+
+\[ \text{QFT}:\quad |x\rangle \longmapsto \frac{1}{\sqrt{M}}\sum_{y=0}^{M-1} e^{2\pi i\,xy/M}\,|y\rangle. \]
+
+<p>QFT chính là công cụ biến một mẫu tuần hoàn thành các đỉnh nhọn - phiên bản lượng tử của việc đọc ra một tần số. Đây cũng chính là bộ máy của <strong>ước lượng pha lượng tử</strong> áp dụng cho toán tử "nhân với \(a\) mod \(N\)": các pha riêng của nó mã hoá \(r\). Đo thanh ghi đã biến đổi cho ra một giá trị \(y\) gần một bội của \(M/r\).</p>
+
+<h2>Quay lại cổ điển: liên phân số</h2>
+
+<p>Giá trị \(y\) đo được cho một xấp xỉ \(y/M \approx k/r\) với một số nguyên chưa biết \(k\). Để rút \(r\) từ tỉ số này ta chạy thuật toán <strong>liên phân số</strong> theo lối cổ điển, nó khôi phục phân số \(k/r\) ở dạng tối giản và do đó một ứng viên \(r\). Ta kiểm tra xem \(a^r \equiv 1\) hay không; nếu không (hoặc nếu \(r\) lẻ, hoặc \(a^{r/2}\equiv -1\)), ta thử lại với một \(a\) ngẫu nhiên mới. Vài lần lặp là thành công với xác suất cao.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải (nhỏ)</span>
+  <p>Phân tích \(N = 15\) với \(a = 7\). Tính các luỹ thừa mod 15: \(7^1=7,\ 7^2=49\equiv 4,\ 7^3\equiv 13,\ 7^4\equiv 1\). Chu kỳ là \(r = 4\) (chẵn). Khi đó</p>
+  \[ a^{r/2} = 7^2 = 49 \equiv 4 \pmod{15}, \]
+  \[ \gcd(4-1,15)=\gcd(3,15)=3, \qquad \gcd(4+1,15)=\gcd(5,15)=5. \]
+  <p>Vậy \(15 = 3 \times 5\). Mọi thứ ở đây trừ việc tìm chu kỳ đều là số học cổ điển sơ cấp; nhiệm vụ duy nhất của máy lượng tử là trao cho ta \(r = 4\).</p>
+</div>
+
+<h2>Vì sao điều này quan trọng: RSA và mật mã hậu lượng tử</h2>
+
+<p>Mã hoá RSA an toàn chính vì phân tích một \(N\) lớn (tích của hai số nguyên tố lớn) được tin là khó về mặt cổ điển - thuật toán cổ điển tốt nhất đã biết, sàng trường số tổng quát, chạy trong thời gian <em>dưới-hàm-mũ</em> nhưng siêu đa thức. Phân tích thời gian đa thức của Shor sẽ bẻ gãy hoàn toàn RSA, và một họ hàng gần bẻ gãy mật mã đường cong elliptic (ECC) qua bài toán logarit rời rạc. Đây là lý do các tổ chức tiêu chuẩn (như NIST) đã và đang chọn lựa <strong>mật mã hậu lượng tử</strong> - các thuật toán cổ điển dựa trên những bài toán (như lưới - lattice) chưa có tăng tốc lượng tử nào được biết.</p>
+
+<div class="callout warn">
+  <span class="callout-label">Kiểm tra thực tế</span>
+  <p>Thuật toán Shor đã được chứng minh đúng, nhưng chạy nó trên một khoá <em>liên quan tới mật mã</em> còn xa vượt quá phần cứng ngày nay. Bẻ RSA 2048-bit ước tính cần cỡ hàng triệu qubit vật lý kèm sửa lỗi đầy đủ; thiết bị hiện nay nhiều nhất có vài trăm tới vài nghìn qubit nhiễu, và các minh hoạ công khai chỉ phân tích các số rất nhỏ như 15 hay 21. Mối đe doạ này là lý do "thu thập bây giờ, giải mã sau" được xem xét nghiêm túc - nhưng chưa khoá thật nào bị bẻ.</p>
+</div>
+
+<div class="callout history">
+  <span class="callout-label">Lịch sử</span>
+  <p>Peter Shor công bố thuật toán năm 1994 tại AT&amp;T Bell Labs. Đó là ví dụ thuyết phục đầu tiên về một lợi thế lượng tử hàm mũ cho một bài toán người ta thực sự quan tâm sâu sắc, và một mình nó đã biến điện toán lượng tử thành một lĩnh vực nghiêm túc, được tài trợ dồi dào.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Shor quy phân tích \(N\) về tìm chu kỳ \(r\) của \(a^x \bmod N\); gcd và liên phân số là chất kết dính cổ điển.</li>
+    <li>Lõi lượng tử là tìm chu kỳ qua ước lượng pha và Biến đổi Fourier lượng tử - một tăng tốc <strong>hàm mũ</strong> so với phân tích cổ điển tốt nhất đã biết.</li>
+    <li>Cho một chu kỳ chẵn với \(a^{r/2}\not\equiv -1\), các thừa số là \(\gcd(a^{r/2}\pm 1,\,N)\).</li>
+    <li>Shor đe doạ RSA và ECC, thúc đẩy mật mã hậu lượng tử - nhưng phần cứng hiện nay chưa thể phân tích khoá thật.</li>
+  </ul>
+</div>

@@ -1,0 +1,58 @@
+<p>Trạng thái là vector; mảnh cuối của nền tảng là thứ <em>làm thay đổi</em> một trạng thái. Trong điện toán lượng tử, mọi phép toán lên một qubit - mọi "cổng" (gate) - là một <strong>ma trận</strong> tác động lên vector trạng thái. Bài này chỉ ra cách một ma trận \(2\times 2\) biến đổi một qubit, làm phép nhân bằng tay, và giải thích tính chất duy nhất mà các ma trận ấy phải có: chúng là <strong>unitary</strong> (đơn nhất).</p>
+
+<h2>Một ma trận tác động lên một trạng thái</h2>
+
+<p>Một phép toán trên một qubit là một ma trận \(2\times 2\) \(U\). Áp dụng nó lên trạng thái \(|\psi\rangle\) nghĩa là phép nhân ma trận-vector thông thường, tạo ra một trạng thái mới \(U|\psi\rangle\). Nhớ lại quy tắc: mỗi phần tử của đầu ra là một hàng của \(U\) nhân vô hướng với cột đầu vào.</p>
+
+\[ U = \begin{pmatrix} a & b \\ c & d \end{pmatrix}, \qquad U\begin{pmatrix}\alpha\\\beta\end{pmatrix} = \begin{pmatrix} a\alpha + b\beta \\ c\alpha + d\beta \end{pmatrix}. \]
+
+<p>Vì một trạng thái là vector cột, một cổng chỉ là một công thức tuyến tính tạo biên độ mới từ biên độ cũ. "Tuyến tính" nghĩa là \(U(x|\psi\rangle + y|\phi\rangle) = xU|\psi\rangle + yU|\phi\rangle\): ánh xạ tôn trọng chồng chập, và đó là lý do cả khung này gọi là đại số tuyến tính.</p>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Cổng <strong>NOT</strong> lượng tử là \(X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\). Áp dụng nó lên \(|0\rangle = \begin{pmatrix}1\\0\end{pmatrix}\):</p>
+  \[ X|0\rangle = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix}1\\0\end{pmatrix} = \begin{pmatrix} 0\cdot 1 + 1\cdot 0 \\ 1\cdot 1 + 0\cdot 0 \end{pmatrix} = \begin{pmatrix}0\\1\end{pmatrix} = |1\rangle. \]
+  <p>Bằng cùng phép tính, \(X|1\rangle = |0\rangle\). Vậy \(X\) hoán đổi \(|0\rangle\) và \(|1\rangle\) - đúng là tương tự lượng tử của cổng NOT cổ điển, nay biểu diễn dưới dạng ma trận.</p>
+</div>
+
+<h2>"Unitary" nghĩa là gì</h2>
+
+<p>Không phải ma trận \(2\times 2\) nào cũng là một phép toán lượng tử hợp lệ. Một cổng vật lý phải giữ một trạng thái hợp lệ vẫn hợp lệ: nếu \(|\psi\rangle\) có độ dài đơn vị thì \(U|\psi\rangle\) cũng phải vậy. Các ma trận làm được điều này chính là các ma trận <strong>unitary</strong>. Viết \(U^\dagger\) cho chuyển vị liên hợp của \(U\) (chuyển vị, rồi liên hợp từng phần tử), \(U\) là unitary khi</p>
+
+\[ U^\dagger U = U U^\dagger = I, \]
+
+<p>trong đó \(I = \begin{pmatrix}1&0\\0&1\end{pmatrix}\) là ma trận đơn vị. Tương đương, nghịch đảo của \(U\) chính là chuyển vị liên hợp của nó, \(U^{-1} = U^\dagger\). Hai hệ quả theo ngay lập tức, và cả hai đều là yêu cầu vật lý, không phải ngẫu nhiên.</p>
+
+<ul>
+  <li><strong>Chuẩn hoá được bảo toàn.</strong> Ánh xạ unitary giữ tích trong cố định: \(\langle U\psi | U\psi\rangle = \langle\psi|U^\dagger U|\psi\rangle = \langle\psi|\psi\rangle\). Nên một vector đơn vị vẫn là vector đơn vị, và tổng xác suất vẫn bằng \(1\). Một ma trận không-unitary có thể kéo giãn hoặc co trạng thái, làm tổng xác suất khác một - vô nghĩa về vật lý.</li>
+  <li><strong>Tính đảo ngược.</strong> Vì \(U^{-1} = U^\dagger\) luôn tồn tại, mọi cổng đều hoàn tác được. Điều này khớp với một sự thật sâu xa: tiến hoá lượng tử (mọi thứ trừ phép đo) là đảo ngược được. Không thông tin nào bị một cổng phá huỷ.</li>
+</ul>
+
+<div class="callout warn">
+  <span class="callout-label">Bẫy thường gặp</span>
+  <p>Unitary <em>không</em> giống "các phần tử đều thực" hay "đối xứng". \(X\) ở trên là thực, đối xứng, và tình cờ là unitary, nhưng nhiều cổng có phần tử phức. Phép thử duy nhất quan trọng là \(U^\dagger U = I\).</p>
+</div>
+
+<h2>Kiểm tra nhanh tính unitary</h2>
+
+<div class="example">
+  <span class="example-label">Ví dụ có lời giải</span>
+  <p>Kiểm tra \(X\) là unitary. Ở đây \(X\) có các phần tử thực và bằng chính chuyển vị của nó, nên \(X^\dagger = X\). Khi đó</p>
+  \[ X^\dagger X = X X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I. \ \checkmark \]
+  <p>Vậy \(X\) là unitary - như mọi cổng hợp lệ phải thế. Chú ý nó cũng là nghịch đảo của chính nó: áp dụng NOT hai lần trả về trạng thái ban đầu, nhất quán với \(X^{-1} = X^\dagger = X\).</p>
+</div>
+
+<div class="callout key">
+  <span class="callout-label">Ý tưởng cốt lõi</span>
+  <p>Mọi phép toán một-qubit là một ma trận \(2\times 2\) tác động lên vector trạng thái, và nó phải là unitary (\(U^\dagger U = I\)). Tính unitary chính là thứ bảo toàn chuẩn hoá và bảo đảm đảo ngược được - nên cổng lượng tử là các ánh xạ đảo ngược được, bảo toàn độ dài của \(\mathbb{C}^2\).</p>
+</div>
+
+<div class="takeaways">
+  <h3>Ý chính cần nhớ</h3>
+  <ul>
+    <li>Một cổng một-qubit là một ma trận \(2\times 2\); áp dụng nó là phép nhân ma trận-vector \(U|\psi\rangle\).</li>
+    <li>Cổng NOT \(X = \big(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\big)\) hoán đổi \(|0\rangle\) và \(|1\rangle\).</li>
+    <li>Một cổng hợp lệ là unitary: \(U^\dagger U = I\), nên \(U^{-1} = U^\dagger\).</li>
+    <li>Tính unitary bảo toàn chuẩn hoá (tổng xác suất 1) và làm mọi phép toán đảo ngược được - mở đường cho các cổng ở module sau.</li>
+  </ul>
+</div>

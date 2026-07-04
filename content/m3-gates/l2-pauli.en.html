@@ -1,0 +1,66 @@
+<p>The three <strong>Pauli gates</strong> - named after physicist Wolfgang Pauli - are the most fundamental single-qubit gates. Every other single-qubit gate can be built from them, and they are the natural "unit moves" on the Bloch sphere. There are three: \(X\), \(Y\), and \(Z\).</p>
+
+<h2>The three matrices</h2>
+
+\[ X = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \qquad Y = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \qquad Z = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}. \]
+
+<p>Each is unitary (you can check \(X^{\dagger}X = I\) and likewise for \(Y,Z\)), so each is a legal gate. Let us see what each one does.</p>
+
+<h2>X: the bit flip (quantum NOT)</h2>
+
+<p>The \(X\) gate swaps the two amplitudes, so it exchanges \(|0\rangle\) and \(|1\rangle\):</p>
+
+\[ X|0\rangle = |1\rangle, \qquad X|1\rangle = |0\rangle. \]
+
+<p>This is the direct quantum analogue of the classical <code>NOT</code> gate, which is why \(X\) is often just called <strong>NOT</strong>. On a superposition it swaps the roles of the two amplitudes: \(X(\alpha|0\rangle + \beta|1\rangle) = \beta|0\rangle + \alpha|1\rangle\).</p>
+
+<h2>Z: the phase flip</h2>
+
+<p>The \(Z\) gate leaves \(|0\rangle\) untouched but multiplies \(|1\rangle\) by \(-1\):</p>
+
+\[ Z|0\rangle = |0\rangle, \qquad Z|1\rangle = -|1\rangle. \]
+
+<p>This does nothing visible to a pure \(|0\rangle\) or \(|1\rangle\) under measurement, but it is far from trivial: it flips the <em>relative phase</em>. Applied to the equatorial states, \(Z|+\rangle = |-\rangle\) and \(Z|-\rangle = |+\rangle\). Where \(X\) flips bits, \(Z\) flips phases - a duality you will meet again and again.</p>
+
+<div class="example">
+  <span class="example-label">Worked example</span>
+  <p>Apply \(Z\) to \(|+\rangle = \tfrac{1}{\sqrt2}(|0\rangle + |1\rangle) = \tfrac{1}{\sqrt2}\begin{pmatrix}1\\1\end{pmatrix}\):</p>
+  \[ Z|+\rangle = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}\frac{1}{\sqrt2}\begin{pmatrix} 1 \\ 1 \end{pmatrix} = \frac{1}{\sqrt2}\begin{pmatrix} 1 \\ -1 \end{pmatrix} = \frac{1}{\sqrt2}(|0\rangle - |1\rangle) = |-\rangle. \]
+  <p>The measurement statistics in the standard basis are unchanged (still 50/50), yet the state genuinely moved from \(|+\rangle\) to \(|-\rangle\). The relative sign is real physics.</p>
+</div>
+
+<h2>Y: both at once</h2>
+
+<p>The \(Y\) gate combines a bit flip and a phase flip. Working out its action on the basis states:</p>
+
+\[ Y|0\rangle = i|1\rangle, \qquad Y|1\rangle = -i|0\rangle. \]
+
+<p>So \(Y\) sends \(|0\rangle\) to \(|1\rangle\) (a bit flip) but attaches a factor of \(i\), and sends \(|1\rangle\) to \(|0\rangle\) with a factor \(-i\). In fact \(Y = iXZ\): it is a flip and a phase-flip rolled together, with an overall \(i\).</p>
+
+<h2>Each Pauli is its own inverse</h2>
+
+<p>A striking property: squaring any Pauli gives the identity,</p>
+
+\[ X^2 = Y^2 = Z^2 = I. \]
+
+<p>For \(X\) this just says flipping a bit twice restores it. For \(Z\), flipping the phase of \(|1\rangle\) twice gives \((-1)^2 = 1\). Geometrically, each Pauli is a <strong>180° rotation of the Bloch sphere</strong> about one axis: \(X\) about the x-axis, \(Y\) about the y-axis, \(Z\) about the z-axis. Doing a half-turn twice is a full turn - back to the start.</p>
+
+<div class="callout key">
+  <span class="callout-label">Key idea</span>
+  <p>\(X\) = bit flip (quantum NOT). \(Z\) = phase flip. \(Y\) = both together (up to \(i\)). Each is a 180° rotation about its axis, and each is self-inverse: \(X^2 = Y^2 = Z^2 = I\).</p>
+</div>
+
+<div class="callout history">
+  <span class="callout-label">History</span>
+  <p>The matrices were introduced by Wolfgang Pauli in 1927 to describe the spin of an electron - long before quantum computing existed. The same three matrices that once modelled a spinning electron now serve as the basic gates of a quantum computer.</p>
+</div>
+
+<div class="takeaways">
+  <h3>Key takeaways</h3>
+  <ul>
+    <li>\(X = \bigl(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\bigr)\) is the bit flip: \(X|0\rangle=|1\rangle\), \(X|1\rangle=|0\rangle\) - the quantum NOT.</li>
+    <li>\(Z = \bigl(\begin{smallmatrix}1&0\\0&-1\end{smallmatrix}\bigr)\) is the phase flip: \(Z|1\rangle=-|1\rangle\), so \(Z|+\rangle=|-\rangle\).</li>
+    <li>\(Y = \bigl(\begin{smallmatrix}0&-i\\i&0\end{smallmatrix}\bigr)\) does both: \(Y|0\rangle=i|1\rangle\), \(Y|1\rangle=-i|0\rangle\).</li>
+    <li>\(X^2 = Y^2 = Z^2 = I\): each Pauli is a 180° rotation of the Bloch sphere and its own inverse.</li>
+  </ul>
+</div>
