@@ -34,7 +34,8 @@
     if (!s || typeof s !== "object") s = {};
     s.completed = Array.isArray(s.completed) ? s.completed : [];
     s.lang = (s.lang === "vi" || s.lang === "en") ? s.lang : (navigator.language && navigator.language.slice(0, 2) === "vi" ? "vi" : "en");
-    s.theme = (s.theme === "dark" || s.theme === "light") ? s.theme : null;
+    // Default to the dark theme (preferred look); the toggle still lets users switch to light.
+    s.theme = (s.theme === "dark" || s.theme === "light") ? s.theme : "dark";
     s.streak = s.streak || 0;
     // streak bookkeeping
     var t = todayStr();
