@@ -9,6 +9,17 @@
 (function () {
   "use strict";
 
+  // KaTeX logs a benign warning when it lacks font metrics for composed Vietnamese
+  // glyphs (ổ, ế, ...) used inside \text{}. They render correctly via the body-font
+  // CSS fallback (.katex .text). Filter only those two specific KaTeX messages.
+  (function () {
+    var ow = console.warn;
+    console.warn = function (m) {
+      if (typeof m === "string" && (/No character metrics/.test(m) || /LaTeX-incompatible input/.test(m))) return;
+      return ow.apply(console, arguments);
+    };
+  })();
+
   var STORE_KEY = "qp.v2";
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -138,7 +149,8 @@
             { left: "\\(", right: "\\)", display: false },
             { left: "$", right: "$", display: false }
           ],
-          throwOnError: false
+          throwOnError: false,
+          strict: "ignore"
         });
       } catch (e) {}
     }

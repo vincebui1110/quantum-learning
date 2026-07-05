@@ -295,6 +295,8 @@ h1, h2, h3, h4 { font-family: var(--font-display); text-wrap: balance; margin: 0
 /* math display spacing (KaTeX) */
 .lesson-body .katex-display { margin: 1.3rem 0; overflow-x: auto; overflow-y: hidden; padding-bottom: 0.2rem; }
 .katex { font-size: 1.05em; }
+/* Vietnamese words inside \text{} need the body font - KaTeX's math fonts lack composed diacritic glyphs (ổ, ế, ...) */
+.katex .text { font-family: var(--font-body); }
 
 /* data tables in lessons */
 .lesson-body .table-scroll { overflow-x: auto; margin: 0 0 1.4rem; }
